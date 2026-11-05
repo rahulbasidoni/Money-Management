@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#080d19"><meta name="description" content="Track your every expense at any time with Money Management.">
+  <title>Overview · Money Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="overview">
+  <div class="wallpaper" aria-hidden="true"><div class="glow glow-one"></div><div class="glow glow-two"></div><div class="stars"></div></div><div class="loading-screen" aria-hidden="true"><span class="brand-mark">M</span><span class="loading-word">Money Management</span><span class="loader"></span></div>
+  <div class="app-shell"><aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span><span>Money Management<small>Track your every expense at any time</small></span></a><div class="nav-label">WORKSPACE</div>
+    <nav class="side-nav" aria-label="Main navigation"><a class="nav-link" data-nav="overview" href="index.html"><span class="nav-icon">⌂</span>Overview</a><a class="nav-link" data-nav="compare" href="compare.html"><span class="nav-icon">▥</span>Compare</a><a class="nav-link" data-nav="expenses" href="expenses.html"><span class="nav-icon">↕</span>Money Used</a><a class="nav-link" data-nav="add" href="add.html"><span class="nav-icon">＋</span>Add transaction</a><button type="button" class="nav-link tour-nav-button" data-start-tour title="Take a Tour"><span class="nav-icon">✦</span><span data-tour-replay-label>Take a Tour</span></button></nav>
+    <div class="sidebar-bottom"><div class="sidebar-user"><span class="avatar" id="sidebar-profile-avatar">M</span><span><strong id="sidebar-profile-name">My wallet</strong><small>Personal account</small></span><button class="sidebar-logout" type="button" data-logout aria-label="Sign out" title="Sign out">↗</button></div></div>
+  </aside><main class="main-content">
+    <header class="topbar"><button class="mobile-menu" aria-label="Toggle navigation">☰</button><div class="topbar-title"><span class="eyebrow">YOUR FINANCIAL SPACE</span><strong id="welcome-message">Welcome back</strong></div><div class="topbar-actions"><span class="today-date" id="current-date"></span><label class="currency-control"><span>Display</span><select data-preferred-currency aria-label="Dashboard display currency"></select></label><button class="icon-button theme-toggle" aria-label="Toggle light theme" title="Toggle theme">☼</button><button class="avatar avatar-button" aria-label="Profile">F</button><button class="icon-button mobile-logout" type="button" data-logout aria-label="Sign out" title="Sign out">↗</button></div></header>
+    <section class="page-content">
+      <div class="page-heading"><div><span class="eyebrow">OVERVIEW</span><h1 id="personalized-greeting" class="greeting-heading">Welcome<span class="heading-dot">.</span></h1><div class="inspirational-quote"><span class="quote-mark" aria-hidden="true">“</span><p id="daily-quote" aria-live="polite"></p></div><p class="overview-subtitle">Your money at a glance.</p><span class="overview-date-mobile" id="overview-date-mobile"></span></div><a class="button button-primary" href="add.html"><span>＋</span> Add transaction</a></div>
+      <div class="dashboard-grid">
+        <article class="balance-card panel"><div class="balance-top"><span class="metric-label">TOTAL AVAILABLE BALANCE</span><span class="live-pill"><i></i> LIVE OVERVIEW</span></div><div class="balance-amount" id="balance-total">—</div><div class="balance-foot"><span id="balance-caption">Loading your wallet…</span><span class="sparkline">↗</span></div><div class="balance-decoration"></div></article>
+        <article class="metric-card panel income-card"><div class="metric-heading"><span class="metric-icon income-icon">↙</span><span class="metric-label">TOTAL INCOME</span></div><strong class="metric-value" id="income-total">—</strong><span class="metric-foot"><i class="status-dot green"></i> Money received</span></article>
+        <article class="metric-card panel expense-card"><div class="metric-heading"><span class="metric-icon expense-icon">↗</span><span class="metric-label">TOTAL EXPENSES</span></div><strong class="metric-value" id="expense-total">—</strong><span class="metric-foot"><i class="status-dot coral"></i> Money spent</span></article>
+        <article class="metric-card panel transaction-card"><div class="metric-heading"><span class="metric-icon transaction-icon">≋</span><span class="metric-label">TRANSACTIONS</span></div><strong class="metric-value" id="transaction-count">0</strong><span class="metric-foot">Across all your currencies</span></article>
+      </div>
+      <div class="content-grid overview-lower">
+        <section class="panel section-panel recent-panel"><div class="section-heading"><div><span class="eyebrow">YOUR ACTIVITY</span><h2>Recent transactions</h2></div><a class="text-link" href="expenses.html">View all <span>→</span></a></div><div id="recent-transactions" class="transaction-list"></div></section>
+        <section class="panel section-panel summary-panel"><div class="section-heading"><div><span class="eyebrow">THIS MONTH</span><h2>Monthly summary</h2></div><span class="period-tag" id="summary-month"></span></div><div class="summary-numbers"><div><span>Income</span><strong class="positive-text" id="month-income">—</strong></div><div><span>Expenses</span><strong class="negative-text" id="month-expenses">—</strong></div></div><div class="chart-wrap summary-chart"><canvas id="overview-chart" aria-label="Monthly income and expense chart"></canvas></div><div class="summary-bottom"><span>Monthly net</span><strong id="month-net">—</strong></div><div class="conversion-note" id="overview-conversion-note"></div></section>
+      </div>
+      <section class="panel wallet-panel" aria-labelledby="wallet-title">
+        <div class="wallet-panel-copy"><span class="eyebrow">YOUR PERSONAL WALLET</span><h2 id="wallet-title">Available wallet balance</h2><p>Balances stay separate by currency. Add money here, then track income and expenses in your ledger.</p><div class="wallet-balance-list" id="wallet-balance-list"></div></div>
+        <button class="button button-primary" type="button" id="open-wallet-topup"><span>＋</span> Add Money</button>
+      </section>
+      <div class="wallet-dialog-backdrop" id="wallet-topup-dialog" aria-hidden="true">
+        <form class="panel wallet-dialog" id="wallet-topup-form" novalidate>
+          <div class="section-heading"><div><span class="eyebrow">PERSONAL WALLET</span><h2>Add Money</h2></div><button type="button" class="icon-button" id="close-wallet-topup" aria-label="Close">×</button></div>
+          <label class="field"><span class="field-label">Amount</span><input id="wallet-topup-amount" type="number" min="0.01" step="any" inputmode="decimal" placeholder="0.00" required></label>
+          <label class="field"><span class="field-label">Currency</span><select id="wallet-topup-currency" required></select></label>
+          <label class="field"><span class="field-label">Note <span class="optional">(optional)</span></span><input id="wallet-topup-note" type="text" maxlength="120" placeholder="e.g. Cash added to wallet"></label>
+          <p class="field-hint">Wallet top-ups are tracked separately and are not counted as income.</p>
+          <div class="form-actions"><button type="button" class="button button-quiet" id="cancel-wallet-topup">Cancel</button><button type="submit" class="button button-primary" id="save-wallet-topup">Confirm top-up</button></div>
+        </form>
+      </div>
+    </section>
+    <footer class="footer"><span>Money Management</span><span>Synced securely with your account</span></footer>
+  </main></div><div class="toast-region" aria-live="polite"></div><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/app.js"></script><script src="js/dashboard.js"></script><script src="js/tour.js"></script>
+</body></html>

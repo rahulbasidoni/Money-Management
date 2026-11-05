@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#080d19">
+  <title>Compare · Money Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="compare">
+  <div class="wallpaper" aria-hidden="true"><div class="glow glow-one"></div><div class="glow glow-two"></div><div class="stars"></div></div><div class="loading-screen" aria-hidden="true"><span class="brand-mark">M</span><span class="loading-word">Money Management</span><span class="loader"></span></div>
+  <div class="app-shell"><aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span><span>Money Management<small>Track your every expense at any time</small></span></a><div class="nav-label">WORKSPACE</div>
+    <nav class="side-nav" aria-label="Main navigation"><a class="nav-link" data-nav="overview" href="index.html"><span class="nav-icon">⌂</span>Overview</a><a class="nav-link" data-nav="compare" href="compare.html"><span class="nav-icon">▥</span>Compare</a><a class="nav-link" data-nav="expenses" href="expenses.html"><span class="nav-icon">↕</span>Money Used</a><a class="nav-link" data-nav="add" href="add.html"><span class="nav-icon">＋</span>Add transaction</a><button type="button" class="nav-link tour-nav-button" data-start-tour title="Take a Tour"><span class="nav-icon">✦</span><span data-tour-replay-label>Take a Tour</span></button></nav>
+    <div class="sidebar-bottom"><div class="sidebar-user"><span class="avatar" id="sidebar-profile-avatar">M</span><span><strong id="sidebar-profile-name">My wallet</strong><small>Personal account</small></span><button class="sidebar-logout" type="button" data-logout aria-label="Sign out" title="Sign out">↗</button></div></div>
+  </aside><main class="main-content">
+    <header class="topbar"><button class="mobile-menu" aria-label="Toggle navigation">☰</button><div class="topbar-title"><span class="eyebrow">YOUR FINANCIAL SPACE</span><strong id="welcome-message">Welcome back</strong></div><div class="topbar-actions"><span class="today-date" id="current-date"></span><label class="currency-control"><span>Display</span><select data-preferred-currency aria-label="Dashboard display currency"></select></label><button class="icon-button theme-toggle" aria-label="Toggle light theme" title="Toggle theme">☼</button><button class="avatar avatar-button" aria-label="Profile">F</button><button class="icon-button mobile-logout" type="button" data-logout aria-label="Sign out" title="Sign out">↗</button></div></header>
+    <section class="page-content"><div class="page-heading"><div><span class="eyebrow">FINANCIAL ANALYTICS</span><h1>See the bigger picture<span class="heading-dot">.</span></h1><p>Understand your habits and how they change over time.</p></div><span class="analytics-chip"><span class="analytics-pulse"></span> DATA FROM YOUR WALLET</span></div>
+      <div class="analytics-toolbar">
+        <div class="chart-mode-switch" role="group" aria-label="Choose chart visualization">
+          <button type="button" class="chart-mode-button active" data-chart-mode="circular" aria-pressed="true" title="Doughnut chart"><span>◉</span> Circular chart</button>
+          <button type="button" class="chart-mode-button" data-chart-mode="normal" aria-pressed="false" title="Vertical bar chart"><span>▥</span> Normal chart</button>
+        </div>
+        <div class="month-navigator" aria-label="Choose comparison month">
+          <button type="button" class="month-step" id="previous-month" aria-label="Previous month">‹</button>
+          <select id="comparison-month" aria-label="Selected month"></select>
+          <button type="button" class="month-step" id="next-month" aria-label="Next month">›</button>
+        </div>
+      </div>
+      <div class="insight-grid">
+        <article class="panel insight-card"><span class="metric-label" id="comparison-heading">THIS MONTH VS LAST</span><div class="insight-main"><strong id="month-change">—</strong><span id="month-change-caption">Expense comparison</span></div><div class="insight-track"><i id="month-progress"></i></div><div class="insight-sub" id="month-compare-detail">Based on saved transactions</div></article>
+        <article class="panel insight-card"><span class="metric-label">AVERAGE DAILY SPEND</span><div class="insight-main"><strong id="daily-average">—</strong><span id="average-period">this month</span></div><div class="insight-sub">Expense average across calendar days</div></article>
+        <article class="panel insight-card"><span class="metric-label">TOP SPENDING CATEGORY</span><div class="insight-main"><strong class="category-feature" id="top-category">—</strong><span id="top-category-amount">No spending yet</span></div><div class="insight-sub" id="top-category-caption">Your highest expense category this month</div></article>
+      </div>
+      <section class="panel section-panel primary-chart-panel">
+        <div class="section-heading primary-chart-heading"><div><span class="eyebrow" id="primary-chart-eyebrow">SPENDING MIX</span><h2 id="primary-chart-title">Where your money went</h2><p id="primary-chart-subtitle">A closer look at expenses by category.</p></div><div class="chart-month-badges" id="chart-month-badges"></div></div>
+        <div class="chart-comparison-legend" id="chart-comparison-legend" hidden><span><i class="current-dot"></i><b id="current-month-legend">Selected month</b></span><span><i class="previous-dot"></i><b id="previous-month-legend">Previous month</b></span></div>
+        <div class="primary-chart-stage" id="primary-chart-stage"><div class="primary-chart-canvas-wrap" id="primary-chart-canvas-wrap"></div><div class="chart-center-label" id="chart-center-label"><span>MONTHLY EXPENSES</span><strong id="chart-center-total">—</strong><small id="chart-center-caption"></small></div><div class="chart-hover-tooltip" id="chart-hover-tooltip" role="status" aria-live="polite"></div></div>
+        <div id="primary-chart-legend" class="premium-chart-legend"></div>
+      </section>
+      <div class="charts-grid secondary-charts">
+        <section class="panel section-panel chart-panel"><div class="section-heading"><div><span class="eyebrow">WEEKLY PULSE</span><h2 id="weekly-title">Spending by week</h2></div><span class="period-tag" id="weekly-period">Selected month</span></div><div class="chart-wrap chart-medium" id="weekly-chart-container"></div></section>
+        <section class="panel section-panel chart-panel"><div class="section-heading"><div><span class="eyebrow">MONTH BY MONTH</span><h2>Income vs expenses</h2></div><span class="period-tag" id="monthly-period">Selected + 5 months</span></div><div class="chart-wrap chart-medium" id="monthly-chart-container"></div></section>
+      </div><div class="conversion-note analytics-note" id="compare-conversion-note"></div>
+    </section><footer class="footer"><span>Money Management</span><span>Synced securely with your account</span></footer>
+  </main></div><div class="toast-region" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/app.js"></script><script src="js/compare.js"></script><script src="js/tour.js"></script>
+</body></html>

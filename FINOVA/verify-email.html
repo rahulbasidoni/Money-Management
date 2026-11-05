@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#080d19">
+  <title>Verify your email · FINOVA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="verification">
+  <div class="wallpaper" aria-hidden="true"><div class="glow glow-one"></div><div class="glow glow-two"></div><div class="stars"></div></div>
+  <div class="loading-screen" aria-hidden="true"><span class="brand-mark">M</span><span class="loading-word">Money Management</span><span class="loader"></span></div>
+  <main class="auth-shell verification-shell">
+    <a class="brand auth-brand" href="login.html"><span class="brand-mark">M</span><span>Money Management<small>Track your every expense at any time</small></span></a>
+    <section class="panel verification-card" aria-live="polite">
+      <div class="verification-illustration" id="verification-illustration" aria-hidden="true">
+        <span class="verification-orbit"></span><span class="verification-envelope"><i></i><b></b></span><span class="verification-spark spark-one">✦</span><span class="verification-spark spark-two">✧</span>
+      </div>
+      <span class="eyebrow" id="verification-eyebrow">ONE LAST STEP</span>
+      <h1 id="verification-title">Check your inbox.</h1>
+      <p class="verification-message" id="verification-message">We've sent a verification link to your email.</p>
+      <strong class="verification-email" id="verification-email"></strong>
+      <p class="verification-detail" id="verification-detail">Open the link in your email to securely verify your FINOVA account.</p>
+      <div class="verification-actions" id="verification-actions">
+        <button type="button" class="button button-primary" id="verification-resend">Resend verification email</button>
+        <a class="button button-secondary" href="login.html">Return to login</a>
+      </div>
+      <a class="button button-primary hidden" id="verification-dashboard" href="index.html">Continue to FINOVA <span>→</span></a>
+      <p class="verification-status auth-error" id="verification-status" role="status"></p>
+    </section>
+    <footer class="auth-footer"><span>Money Management · Track your every expense at any time.</span><span>Your financial data is stored in your Supabase account.</span></footer>
+  </main>
+  <div class="toast-region" aria-live="polite"></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/supabase.js"></script><script src="js/app.js"></script><script src="js/email-verification.js"></script><script src="js/verification.js"></script>
+</body></html>
