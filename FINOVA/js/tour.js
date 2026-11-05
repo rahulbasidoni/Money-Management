@@ -181,7 +181,8 @@
   let activeTargets = [];
 
   function accountKey(key) {
-    return `${key}.${encodeURIComponent(Finova.getCurrentUsername())}`;
+    const user = Finova.getCurrentUsername() || "default";
+    return `${key}.${encodeURIComponent(user)}`;
   }
 
   function readState() {
@@ -189,7 +190,8 @@
       const saved = sessionStorage.getItem(STATE_KEY);
       if (!saved) return null;
       const parsed = JSON.parse(saved);
-      return parsed && parsed.username === Finova.getCurrentUsername() &&
+      const username = Finova.getCurrentUsername() || "default";
+      return parsed && (!parsed.username || parsed.username === username) &&
         Number.isInteger(parsed.step) && parsed.step >= 0 && parsed.step < STEPS.length
         ? parsed
         : null;
@@ -431,21 +433,26 @@
 
   function startTour() {
     if (overlay) return;
-    state = { username: Finova.getCurrentUsername(), step: 0 };
+    const username = Finova.getCurrentUsername() || "default";
+    state = { username, step: 0 };
     saveState();
     goToStep(0);
     window.addEventListener("resize", reposition);
     window.addEventListener("scroll", reposition, true);
   }
 
-  function initialize() {
+  function bindTourTriggers() {
     updateReplayLabels();
-    window.addEventListener("finova:language-changed", handleLanguageChange);
     document.querySelectorAll("[data-start-tour]").forEach((button) => {
+      button.removeEventListener("click", startTour);
       button.addEventListener("click", startTour);
     });
-    const username = Finova.getCurrentUsername();
-    if (!username) return;
+  }
+
+  function initialize() {
+    bindTourTriggers();
+    window.addEventListener("finova:language-changed", handleLanguageChange);
+    const username = Finova.getCurrentUsername() || "default";
     state = readState();
     if (!state) {
       try {
@@ -465,6 +472,12 @@
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
-    if (await Finova.ready) initialize();
+    bindTourTriggers();
+    try {
+      if (await Finova.ready) initialize();
+      else bindTourTriggers();
+    } catch {
+      bindTourTriggers();
+    }
   });
 })();

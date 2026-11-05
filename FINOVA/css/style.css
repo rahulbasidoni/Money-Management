@@ -578,7 +578,7 @@ body.light-theme .quote-highlight { background-image: linear-gradient(95deg,#715
 .language-native { font-size: 11px; font-weight: 600; }
 .language-english { color: #8593ab; font-size: 9px; }
 .language-option[hidden] { display: none; }
-.auth-language { width: max-content; margin: 0 0 17px auto; }
+.auth-language { display: flex; align-items: center; justify-content: flex-end; gap: 8px; width: max-content; margin: 0 0 17px auto; }
 .auth-language .language-trigger { width: 151px; }
 body.light-theme .language-trigger { color: #24314b; background: linear-gradient(135deg,rgba(255,255,255,.94),rgba(243,246,255,.88)); }
 body.light-theme .language-current { color: #293752; }
@@ -695,7 +695,7 @@ html[dir="rtl"] .main-content { margin-right: 252px; margin-left: 0; }
 .tour-shade path { fill: rgba(3, 5, 15, .76); }
 .tour-spotlights { position: fixed; inset: 0; pointer-events: none; }
 .tour-spotlight { position: fixed; display: block; border: 1px solid rgba(111, 209, 255, .9); border-radius: 13px; background: rgba(91, 126, 255, .045); box-shadow: 0 0 0 1px rgba(153, 118, 255, .34), 0 0 28px rgba(86, 145, 255, .34), inset 0 0 25px rgba(89, 209, 239, .08); transition: left .24s ease, top .24s ease, width .24s ease, height .24s ease; }
-.tour-card { position: fixed; z-index: 102; right: 24px; bottom: 24px; left: auto; top: auto; width: min(420px, calc(100vw - 32px)); max-height: min(70vh, 500px); padding: 25px 25px 20px; overflow: auto; border: 1px solid rgba(171, 190, 255, .3); border-radius: 19px; color: #eef3ff; background: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; pointer-events: auto; animation: tour-card-in .28s cubic-bezier(.2,.8,.2,1) both; }
+.tour-card { position: fixed; z-index: 102; right: 24px; bottom: 24px; left: auto; top: auto; width: min(420px, calc(100vw - 32px)); max-height: min(70vh, 500px); padding: 25px 25px 20px; overflow: auto; border: 1px solid rgba(171, 190, 255, .3); border-radius: 19px; color: #eef3ff; background: linear-gradient(145deg, rgba(16, 25, 45, .96), rgba(11, 17, 32, .96)); box-shadow: 0 24px 64px rgba(0, 0, 0, .45), 0 0 28px rgba(96, 126, 255, .15), inset 0 1px rgba(255, 255, 255, .1); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); pointer-events: auto; animation: tour-card-in .28s cubic-bezier(.2,.8,.2,1) both; }
 .tour-card::before { position: absolute; top: -85px; right: -52px; width: 190px; height: 160px; border-radius: 50%; background: rgba(83, 106, 255, .21); filter: blur(48px); content: ""; pointer-events: none; }
 .tour-orb { position: absolute; top: 24px; right: 24px; width: 9px; height: 9px; border-radius: 50%; background: #64d9ed; box-shadow: 0 0 15px #57d5ef, 0 0 30px rgba(104, 119, 255, .7); }
 .tour-eyebrow { position: relative; display: block; margin-bottom: 12px; color: #9cafff; font-size: 9px; font-weight: 700; letter-spacing: 1.65px; }
@@ -736,3 +736,17 @@ html[dir="rtl"] .main-content { margin-right: 252px; margin-left: 0; }
 @media (prefers-reduced-motion: reduce) {
   .tour-card, .tour-spotlight { animation: none; transition: none; }
 }
+
+body.light-theme .tour-card { background: linear-gradient(145deg, rgba(255, 255, 255, .98), rgba(242, 246, 255, .98)); border-color: rgba(96, 126, 255, .25); color: #17233a; box-shadow: 0 24px 64px rgba(48, 64, 105, .2); }
+body.light-theme .tour-title { color: #17233a; }
+body.light-theme .tour-message { color: #52617b; }
+body.light-theme .tour-back { color: #43516a; }
+body.light-theme .tour-skip { color: #65728a; }
+body.light-theme .tour-progress { color: #65728a; }
+body.light-theme .tour-shade path { fill: rgba(15, 23, 42, .5); }
+body.light-theme .auth-story h1, body.light-theme .auth-card-heading h2, body.light-theme .verification-card h1 { color: #17233a; }
+body.light-theme .auth-story p, body.light-theme .auth-card-heading p, body.light-theme .verification-message { color: #4e5d78; }
+body.light-theme .auth-feature strong { color: #17233a; }
+body.light-theme .auth-feature small { color: #63738f; }
+body.light-theme .auth-tab { color: #63738f; }
+body.light-theme .auth-tab.active { color: #17233a; border-color: rgba(83,113,211,.25); background: rgba(89,119,234,.12); }

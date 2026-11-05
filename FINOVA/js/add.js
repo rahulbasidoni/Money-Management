@@ -127,6 +127,11 @@
     }
     Finova.applyTranslations();
   });
+  window.addEventListener("finova:currency-changed", () => {
+    if (!editingId && !amountInput.value) {
+      Finova.fillCurrencySelect(currencyInput, Finova.getPreferredCurrency());
+    }
+  });
   window.addEventListener("finova:language-changed", () => {
     setType(typeInput.value, categorySelect.value);
     Finova.applyTranslations();

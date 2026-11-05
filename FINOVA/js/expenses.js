@@ -154,6 +154,7 @@
   });
   document.querySelector(".data-tools").appendChild(backupButton);
   window.addEventListener("finova:data-changed", render);
+  window.addEventListener("finova:currency-changed", render);
   window.addEventListener("finova:language-changed", render);
   document.addEventListener("DOMContentLoaded", async () => {
     if (await Finova.ready) render();

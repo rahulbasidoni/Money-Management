@@ -583,8 +583,9 @@
 
   function getPreferences() {
     const username = getCurrentUsername();
-    const prefs = readJSON(username ? scopedKey(PREFERENCES_KEY) : PREFERENCES_KEY, {});
-    return prefs && typeof prefs === "object" ? prefs : {};
+    const scoped = username ? readJSON(scopedKey(PREFERENCES_KEY), null) : null;
+    const globalPrefs = readJSON(PREFERENCES_KEY, {});
+    return { ...globalPrefs, ...(scoped || {}) };
   }
 
   function getProfile() {
@@ -874,9 +875,13 @@
   }
 
   function setPreference(name, value) {
+    const username = getCurrentUsername();
     const prefs = getPreferences();
     prefs[name] = value;
-    return writeJSON(scopedKey(PREFERENCES_KEY), prefs);
+    if (username) writeJSON(scopedKey(PREFERENCES_KEY), prefs);
+    writeJSON(PREFERENCES_KEY, prefs);
+    window.dispatchEvent(new CustomEvent("finova:preferences-changed", { detail: { name, value } }));
+    return true;
   }
 
   function setLanguage(code) {
@@ -898,30 +903,205 @@
     return LANGUAGES.find((language) => language.code === getLanguage())?.locale || "en";
   }
 
+  const EXTRA_TRANSLATIONS = {
+    hi: {
+      "Total income": "कुल आय", "Total expenses": "कुल खर्च", "Transactions": "लेन-देन",
+      "Workspace": "कार्यस्थान", "Your financial space": "आपका वित्तीय स्थान", "Display": "प्रदर्शन",
+      "Take a Tour": "टूर देखें", "Live overview": "लाइव अवलोकन", "Money received": "प्राप्त राशि",
+      "Money spent": "खर्च की गई राशि", "Across all your currencies": "आपकी सभी मुद्राओं में",
+      "View all": "सभी देखें", "This month": "इस महीने", "Monthly net": "मासिक शुद्ध",
+      "Your personal wallet": "आपका व्यक्तिगत वॉलेट", "Confirm top-up": "टॉप-अप की पुष्टि करें",
+      "Amount": "राशि", "Currency": "मुद्रा", "Note": "टिप्पणी", "Date": "तारीख",
+      "Payment method": "भुगतान विधि", "Choose a payment method": "भुगतान विधि चुनें",
+      "How much?": "कितनी राशि?", "Give it a name": "नाम दें", "Category": "श्रेणी",
+      "Where did you spend it?": "आपने कहाँ खर्च किया?", "Where did you receive it?": "आपको कहाँ से मिला?",
+      "Add a note": "नोट जोड़ें", "Financial analytics": "वित्तीय विश्लेषण", "See the bigger picture": "बड़ी तस्वीर देखें",
+      "Circular chart": "वृत्ताकार चार्ट", "Normal chart": "सामान्य चार्ट", "This month vs last": "इस महीने बनाम पिछला",
+      "Average daily spend": "औसत दैनिक खर्च", "Top spending category": "शीर्ष खर्च श्रेणी",
+      "Spending mix": "खर्च का विवरण", "Where your money went": "आपका पैसा कहाँ गया",
+      "Spending by week": "साप्ताहिक खर्च", "Month by month": "महीने दर महीने",
+      "Income vs expenses": "आय बनाम खर्च", "Money in motion": "पैसे की गतिविधि",
+      "All transactions": "सभी लेन-देन", "Income entries": "आय प्रविष्टियाँ", "Expense entries": "खर्च प्रविष्टियाँ",
+      "Ledger": "खाता-बही", "Personal account": "व्यक्तिगत खाता", "Good morning": "शुभ प्रभात",
+      "Good afternoon": "नमस्कार", "Good evening": "शुभ संध्या", "Welcome back": "वापसी पर स्वागत है",
+      "Password strength": "पासवर्ड की मजबूती", "Weak": "कमजोर", "Medium": "मध्यम", "Strong": "मजबूत"
+    },
+    es: {
+      "Total income": "Ingresos totales", "Total expenses": "Gastos totales", "Transactions": "Transacciones",
+      "Workspace": "Espacio de trabajo", "Your financial space": "Tu espacio financiero", "Display": "Mostrar",
+      "Take a Tour": "Ver tour", "Live overview": "Resumen en vivo", "Money received": "Dinero recibido",
+      "Money spent": "Dinero gastado", "Across all your currencies": "En todas tus monedas",
+      "View all": "Ver todo", "This month": "Este mes", "Monthly net": "Neto mensual",
+      "Your personal wallet": "Tu cartera personal", "Confirm top-up": "Confirmar recarga",
+      "Amount": "Importe", "Currency": "Moneda", "Note": "Nota", "Date": "Fecha",
+      "Payment method": "Método de pago", "Choose a payment method": "Elige un método de pago",
+      "How much?": "¿Cuánto?", "Give it a name": "Ponle un nombre", "Category": "Categoría",
+      "Where did you spend it?": "¿Dónde lo gastaste?", "Where did you receive it?": "¿Dónde lo recibiste?",
+      "Add a note": "Añadir una nota", "Financial analytics": "Análisis financiero", "See the bigger picture": "Ve el panorama completo",
+      "Circular chart": "Gráfico circular", "Normal chart": "Gráfico normal", "This month vs last": "Este mes vs anterior",
+      "Average daily spend": "Gasto diario promedio", "Top spending category": "Categoría principal de gasto",
+      "Spending mix": "Distribución del gasto", "Where your money went": "Adónde fue tu dinero",
+      "Spending by week": "Gasto por semana", "Month by month": "Mes a mes",
+      "Income vs expenses": "Ingresos vs gastos", "Money in motion": "Dinero en movimiento",
+      "All transactions": "Todas las transacciones", "Income entries": "Entradas de ingresos", "Expense entries": "Entradas de gastos",
+      "Ledger": "Libro de registro", "Personal account": "Cuenta personal", "Good morning": "Buenos días",
+      "Good afternoon": "Buenas tardes", "Good evening": "Buenas noches", "Welcome back": "Te damos la bienvenida",
+      "Password strength": "Seguridad de la contraseña", "Weak": "Débil", "Medium": "Media", "Strong": "Fuerte"
+    },
+    fr: {
+      "Total income": "Revenus totaux", "Total expenses": "Dépenses totales", "Transactions": "Transactions",
+      "Workspace": "Espace de travail", "Your financial space": "Votre espace financier", "Display": "Affichage",
+      "Take a Tour": "Visite guidée", "Live overview": "Aperçu en direct", "Money received": "Argent reçu",
+      "Money spent": "Argent dépensé", "Across all your currencies": "Toutes devises confondues",
+      "View all": "Voir tout", "This month": "Ce mois-ci", "Monthly net": "Solde net mensuel",
+      "Your personal wallet": "Votre portefeuille personnel", "Confirm top-up": "Confirmer le rechargement",
+      "Amount": "Montant", "Currency": "Devise", "Note": "Note", "Date": "Date",
+      "Payment method": "Moyen de paiement", "Choose a payment method": "Choisir un moyen de paiement",
+      "How much?": "Combien ?", "Give it a name": "Donnez-lui un nom", "Category": "Catégorie",
+      "Where did you spend it?": "Où l'avez-vous dépensé ?", "Where did you receive it?": "D'où provient ce montant ?",
+      "Add a note": "Ajouter une note", "Financial analytics": "Analyses financières", "See the bigger picture": "Voyez les choses en grand",
+      "Circular chart": "Graphique circulaire", "Normal chart": "Graphique standard", "This month vs last": "Ce mois vs dernier",
+      "Average daily spend": "Dépense quotidienne moyenne", "Top spending category": "Catégorie principale de dépenses",
+      "Spending mix": "Répartition des dépenses", "Where your money went": "Où est passé votre argent",
+      "Spending by week": "Dépenses par semaine", "Month by month": "Mois par mois",
+      "Income vs expenses": "Revenus vs dépenses", "Money in motion": "Flux financiers",
+      "All transactions": "Toutes les transactions", "Income entries": "Entrées de revenus", "Expense entries": "Entrées de dépenses",
+      "Ledger": "Grand livre", "Personal account": "Compte personnel", "Good morning": "Bonjour",
+      "Good afternoon": "Bon après-midi", "Good evening": "Bonsoir", "Welcome back": "Bon retour",
+      "Password strength": "Niveau du mot de passe", "Weak": "Faible", "Medium": "Moyen", "Strong": "Fort"
+    },
+    de: {
+      "Total income": "Gesamteinnahmen", "Total expenses": "Gesamtausgaben", "Transactions": "Transaktionen",
+      "Workspace": "Arbeitsbereich", "Your financial space": "Ihr Finanzbereich", "Display": "Anzeige",
+      "Take a Tour": "Tour ansehen", "Live overview": "Live-Übersicht", "Money received": "Erhaltenes Geld",
+      "Money spent": "Ausgegebenes Geld", "Across all your currencies": "Über alle Währungen hinweg",
+      "View all": "Alle anzeigen", "This month": "Diesen Monat", "Monthly net": "Monatssaldo",
+      "Your personal wallet": "Ihre persönliche Geldbörse", "Confirm top-up": "Aufladung bestätigen",
+      "Amount": "Betrag", "Currency": "Währung", "Note": "Notiz", "Date": "Datum",
+      "Payment method": "Zahlungsart", "Choose a payment method": "Zahlungsart wählen",
+      "How much?": "Wie viel?", "Give it a name": "Name vergeben", "Category": "Kategorie",
+      "Where did you spend it?": "Wo ausgegeben?", "Where did you receive it?": "Woher erhalten?",
+      "Add a note": "Notiz hinzufügen", "Financial analytics": "Finanzanalysen", "See the bigger picture": "Das Gesamtbild sehen",
+      "Circular chart": "Kreisdiagramm", "Normal chart": "Balkendiagramm", "This month vs last": "Dieser Monat vs. letzter",
+      "Average daily spend": "Durchschnittl. Tagesausgaben", "Top spending category": "Top-Ausgabenkategorie",
+      "Spending mix": "Ausgabenverteilung", "Where your money went": "Wohin Ihr Geld floss",
+      "Spending by week": "Ausgaben nach Woche", "Month by month": "Monat für Monat",
+      "Income vs expenses": "Einnahmen vs. Ausgaben", "Money in motion": "Finanzen in Bewegung",
+      "All transactions": "Alle Transaktionen", "Income entries": "Einnahmeneinträge", "Expense entries": "Ausgabeneinträge",
+      "Ledger": "Transaktionsbuch", "Personal account": "Persönliches Konto", "Good morning": "Guten Morgen",
+      "Good afternoon": "Guten Tag", "Good evening": "Guten Abend", "Welcome back": "Willkommen zurück",
+      "Password strength": "Passwortstärke", "Weak": "Schwach", "Medium": "Mittel", "Strong": "Stark"
+    },
+    pt: {
+      "Total income": "Rendimento total", "Total expenses": "Despesas totais", "Transactions": "Transações",
+      "Workspace": "Espaço de trabalho", "Your financial space": "Seu espaço financeiro", "Display": "Exibição",
+      "Take a Tour": "Rever tour", "Live overview": "Visão geral ao vivo", "Money received": "Dinheiro recebido",
+      "Money spent": "Dinheiro gasto", "Across all your currencies": "Em todas as suas moedas",
+      "View all": "Ver tudo", "This month": "Este mês", "Monthly net": "Saldo mensal",
+      "Your personal wallet": "Sua carteira pessoal", "Confirm top-up": "Confirmar recarga",
+      "Amount": "Valor", "Currency": "Moeda", "Note": "Nota", "Date": "Data",
+      "Payment method": "Método de pagamento", "Choose a payment method": "Escolha um método de pagamento",
+      "How much?": "Quanto?", "Give it a name": "Dê um nome", "Category": "Categoria",
+      "Where did you spend it?": "Onde gastou?", "Where did you receive it?": "Onde recebeu?",
+      "Add a note": "Adicionar uma nota", "Financial analytics": "Análise financeira", "See the bigger picture": "Veja o quadro geral",
+      "Circular chart": "Gráfico circular", "Normal chart": "Gráfico normal", "This month vs last": "Este mês vs anterior",
+      "Average daily spend": "Gasto diário médio", "Top spending category": "Principal categoria de gastos",
+      "Spending mix": "Distribuição de gastos", "Where your money went": "Para onde foi seu dinheiro",
+      "Spending by week": "Gastos por semana", "Month by month": "Mês a mês",
+      "Income vs expenses": "Receitas vs despesas", "Money in motion": "Dinheiro em movimento",
+      "All transactions": "Todas as transações", "Income entries": "Entradas de receita", "Expense entries": "Entradas de despesa",
+      "Ledger": "Livro de registros", "Personal account": "Conta pessoal", "Good morning": "Bom dia",
+      "Good afternoon": "Boa tarde", "Good evening": "Boa noite", "Welcome back": "Bem-vindo de volta",
+      "Password strength": "Força da senha", "Weak": "Fraca", "Medium": "Média", "Strong": "Forte"
+    },
+    ar: {
+      "Total income": "إجمالي الدخل", "Total expenses": "إجمالي المصروفات", "Transactions": "المعاملات",
+      "Workspace": "مساحة العمل", "Your financial space": "مساحتك المالية", "Display": "العرض",
+      "Take a Tour": "مشاهدة الجولة", "Live overview": "نظرة عامة مباشرة", "Money received": "الأموال المستلمة",
+      "Money spent": "الأموال المصروفة", "Across all your currencies": "عبر جميع عملاتك",
+      "View all": "عرض الكل", "This month": "هذا الشهر", "Monthly net": "صافي الشهر",
+      "Your personal wallet": "محفظتك الشخصية", "Confirm top-up": "تأكيد الإيداع",
+      "Amount": "المبلغ", "Currency": "العملة", "Note": "ملاحظة", "Date": "التاريخ",
+      "Payment method": "طريقة الدفع", "Choose a payment method": "اختر طريقة الدفع",
+      "How much?": "كم المبلغ؟", "Give it a name": "أدخل الاسم", "Category": "الفئة",
+      "Where did you spend it?": "أين أنفقتها؟", "Where did you receive it?": "من أين استلمتها؟",
+      "Add a note": "إضافة ملاحظة", "Financial analytics": "التحليلات المالية", "See the bigger picture": "شاهد الصورة الشاملة",
+      "Circular chart": "مخطط دائري", "Normal chart": "مخطط عادي", "This month vs last": "هذا الشهر مقابل السابق",
+      "Average daily spend": "متوسط الإنفاق اليومي", "Top spending category": "أعلى فئة إنفاق",
+      "Spending mix": "توزيع الإنفاق", "Where your money went": "أين ذهبت أموالك",
+      "Spending by week": "الإنفاق أسبوعياً", "Month by month": "شهراً بشهر",
+      "Income vs expenses": "الدخل مقابل المصروفات", "Money in motion": "الأموال قيد الحركة",
+      "All transactions": "جميع المعاملات", "Income entries": "سجلات الدخل", "Expense entries": "سجلات المصروفات",
+      "Ledger": "دفتر الحسابات", "Personal account": "حساب شخصي", "Good morning": "صباح الخير",
+      "Good afternoon": "مساء الخير", "Good evening": "مساء الخير", "Welcome back": "مرحباً بعودتك",
+      "Password strength": "قوة كلمة المرور", "Weak": "ضعيفة", "Medium": "متوسطة", "Strong": "قوية"
+    },
+    zh: {
+      "Total income": "总收入", "Total expenses": "总支出", "Transactions": "交易记录",
+      "Workspace": "工作区", "Your financial space": "个人财务空间", "Display": "显示",
+      "Take a Tour": "查看导览", "Live overview": "实时概览", "Money received": "已收款项",
+      "Money spent": "已支出款项", "Across all your currencies": "涵盖所有货币",
+      "View all": "查看全部", "This month": "本月", "Monthly net": "本月净额",
+      "Your personal wallet": "个人钱包", "Confirm top-up": "确认充值",
+      "Amount": "金额", "Currency": "货币", "Note": "备注", "Date": "日期",
+      "Payment method": "支付方式", "Choose a payment method": "选择支付方式",
+      "How much?": "金额多少？", "Give it a name": "填写名称", "Category": "分类",
+      "Where did you spend it?": "支出去向？", "Where did you receive it?": "款项来源？",
+      "Add a note": "添加备注", "Financial analytics": "财务分析", "See the bigger picture": "掌控全局财务",
+      "Circular chart": "环形图", "Normal chart": "柱状图", "This month vs last": "本月与上月对比",
+      "Average daily spend": "日均支出", "Top spending category": "支出最高分类",
+      "Spending mix": "支出构成", "Where your money went": "钱花在何处",
+      "Spending by week": "每周支出", "Month by month": "月度趋势",
+      "Income vs expenses": "收入与支出", "Money in motion": "资金动态",
+      "All transactions": "全部交易", "Income entries": "收入记录", "Expense entries": "支出记录",
+      "Ledger": "账本", "Personal account": "个人账户", "Good morning": "早上好",
+      "Good afternoon": "下午好", "Good evening": "晚上好", "Welcome back": "欢迎回来",
+      "Password strength": "密码强度", "Weak": "弱", "Medium": "中等", "Strong": "强"
+    }
+  };
+
+  function getDictionary(language) {
+    const lang = language || getLanguage();
+    const base = lang.split("-")[0];
+    const main = TRANSLATIONS[lang] || TRANSLATIONS[base] || (lang.startsWith("zh-") ? TRANSLATIONS.zh : null) || {};
+    const extra = EXTRA_TRANSLATIONS[lang] || EXTRA_TRANSLATIONS[base] || (lang.startsWith("zh-") ? EXTRA_TRANSLATIONS.zh : null) || {};
+    const auth = AUTH_TRANSLATIONS[lang] || AUTH_TRANSLATIONS[base] || (lang.startsWith("zh-") ? AUTH_TRANSLATIONS.zh : null) || {};
+    const greet = GREETING_TRANSLATIONS[lang] || GREETING_TRANSLATIONS[base] || {};
+    return { ...main, ...extra, ...auth, ...greet };
+  }
+
   function translate(text) {
+    if (!text || typeof text !== "string") return text;
     const language = getLanguage();
-    const dictionary = TRANSLATIONS[language] || TRANSLATIONS[language.split("-")[0]] || (language.startsWith("zh-") ? TRANSLATIONS.zh : null);
-    const authDictionary = AUTH_TRANSLATIONS[language] || AUTH_TRANSLATIONS[language.split("-")[0]] || (language.startsWith("zh-") ? AUTH_TRANSLATIONS.zh : null);
-    return authDictionary?.[text] || GREETING_TRANSLATIONS[language]?.[text] || dictionary?.[text] || text;
+    if (language === "en") return text;
+    const dict = getDictionary(language);
+    if (dict[text]) return dict[text];
+    const trimmed = text.trim();
+    if (dict[trimmed]) return dict[trimmed];
+    const lower = trimmed.toLowerCase();
+    const foundKey = Object.keys(dict).find((k) => k.trim().toLowerCase() === lower);
+    if (foundKey) return dict[foundKey];
+    return text;
   }
 
   function applyTranslations() {
     const language = getLanguage();
     document.documentElement.lang = language;
     document.documentElement.dir = ["ar", "ur"].includes(language) ? "rtl" : "ltr";
-    const dictionary = {
-      ...(TRANSLATIONS[language] || TRANSLATIONS[language.split("-")[0]] || (language.startsWith("zh-") ? TRANSLATIONS.zh : null)),
-      ...(AUTH_TRANSLATIONS[language] || AUTH_TRANSLATIONS[language.split("-")[0]] || (language.startsWith("zh-") ? AUTH_TRANSLATIONS.zh : null)),
-      ...(GREETING_TRANSLATIONS[language] || {})
-    };
+    const dict = getDictionary(language);
+    const lowerKeys = new Set(Object.keys(dict).map((k) => k.trim().toLowerCase()));
+
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
       acceptNode(node) {
+        if (!node.parentElement || node.parentElement.closest("script,style,textarea,input,.language-picker,.currency-picker")) {
+          return NodeFilter.FILTER_REJECT;
+        }
         const currentText = node.nodeValue.trim();
+        if (!currentText) return NodeFilter.FILTER_REJECT;
         const record = translationOriginals.get(node);
-        const source = record && currentText === record.translated ? record.source : currentText;
-        return node.parentElement && !node.parentElement.closest("script,style,textarea,input") &&
-          !node.parentElement.closest(".language-picker") &&
-          (record || dictionary[source]) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        const source = record ? record.source : currentText;
+        const sourceLower = source.toLowerCase();
+        return (record || dict[source] || lowerKeys.has(sourceLower)) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
       }
     });
     const nodes = [];
@@ -1346,20 +1526,61 @@
     });
   }
 
+  function applyTheme() {
+    const isLight = getPreferences().theme === "light";
+    document.body.classList.toggle("light-theme", isLight);
+    document.querySelectorAll(".theme-toggle").forEach((button) => {
+      button.setAttribute("aria-label", isLight ? "Toggle dark theme" : "Toggle light theme");
+      button.title = isLight ? "Switch to dark mode" : "Switch to light mode";
+      button.textContent = isLight ? "☾" : "☼";
+    });
+  }
+
+  function bindThemeToggles() {
+    document.querySelectorAll(".theme-toggle").forEach((button) => {
+      button.removeEventListener("click", handleThemeToggle);
+      button.addEventListener("click", handleThemeToggle);
+    });
+  }
+
+  function handleThemeToggle() {
+    const next = !document.body.classList.contains("light-theme");
+    document.body.classList.toggle("light-theme", next);
+    setPreference("theme", next ? "light" : "dark");
+    applyTheme();
+  }
+
   async function initShell() {
+    applyTheme();
+    bindThemeToggles();
     const { data, error } = await supabase.auth.getSession();
-    if (error) throw error;
-    currentUser = data.session?.user || null;
+    if (error) console.warn("Supabase session check error", error);
+    currentUser = data?.session?.user || null;
+    if (currentUser) {
+      try {
+        const { data: userData } = await supabase.auth.getUser();
+        if (userData?.user) currentUser = userData.user;
+      } catch (e) {
+        console.warn("Could not refresh user from Supabase", e);
+      }
+    }
     if (document.body.dataset.page === "login" || document.body.dataset.page === "verification") {
       applyTranslations();
+      installLanguageSelector(document.querySelector("[data-language-picker]"));
+      bindThemeToggles();
       if (document.body.dataset.page === "login") {
-        installLanguageSelector(document.querySelector("[data-language-picker]"));
         await protectPage();
       }
+      window.setTimeout(() => document.querySelector(".loading-screen")?.remove(), 500);
       return true;
     }
     if (!await protectPage()) return false;
-    await loadCloudData();
+    try {
+      await loadCloudData();
+    } catch (cloudErr) {
+      console.warn("Using local records as cloud sync had an error:", cloudErr);
+    }
+    applyTranslations();
     installLanguageSelector();
     setActiveNavigation();
     fillSidebarProfile();
@@ -1374,22 +1595,17 @@
       });
       initializeCurrencyPicker(select);
     });
-    const theme = getPreferences().theme === "light";
-    document.body.classList.toggle("light-theme", theme);
-    document.querySelectorAll(".theme-toggle").forEach((button) => button.addEventListener("click", () => {
-      const next = !document.body.classList.contains("light-theme");
-      document.body.classList.toggle("light-theme", next);
-      setPreference("theme", next ? "light" : "dark");
-    }));
+    applyTheme();
+    bindThemeToggles();
     window.addEventListener("finova:preferences-changed", () => {
       const restoredCurrency = getPreferredCurrency();
       document.querySelectorAll("[data-preferred-currency]").forEach((select) => { select.value = restoredCurrency; });
-      document.body.classList.toggle("light-theme", getPreferences().theme === "light");
+      applyTheme();
       applyTranslations();
     });
     window.addEventListener("finova:language-changed", updateHeaderLocale);
     document.querySelectorAll(".avatar-button").forEach((button) => button.addEventListener("click", () => notify("Your account and financial data are securely stored with Supabase.")));
-    window.setTimeout(() => document.querySelector(".loading-screen")?.remove(), 900);
+    window.setTimeout(() => document.querySelector(".loading-screen")?.remove(), 500);
     return true;
   }
 
