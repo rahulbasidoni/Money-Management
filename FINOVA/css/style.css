@@ -1037,3 +1037,59 @@ body.light-theme .insight-card:hover {
     transform: none !important;
   }
 }
+
+
+/* Line Graph Legend & Styling */
+.line-graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 12px 6px;
+  border-top: 1px solid rgba(157, 177, 219, .08);
+}
+.line-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.line-legend-badge {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.line-legend-badge.income-badge {
+  background: linear-gradient(135deg, #638cff, #7c65f6);
+  box-shadow: 0 0 10px rgba(124, 101, 246, .45);
+}
+.line-legend-badge.expense-badge {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  box-shadow: 0 0 10px rgba(56, 189, 248, .45);
+}
+.line-legend-badge.net-badge {
+  background: linear-gradient(135deg, #59d6a0, #22c55e);
+  box-shadow: 0 0 10px rgba(89, 214, 160, .45);
+}
+.line-legend-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.line-legend-info small {
+  color: #8593ab;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .8px;
+}
+.line-legend-info strong {
+  font-size: 13px;
+  font-weight: 700;
+  font-family: Manrope, sans-serif;
+  color: #eef3ff;
+}
+body.light-theme .line-legend-info strong {
+  color: #17233a;
+}

@@ -9,7 +9,7 @@
   const tooltip = document.getElementById("chart-hover-tooltip");
   let monthNames = new Intl.DateTimeFormat(Finova.getLocale(), { month: "long", year: "numeric" });
   let selectedMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-  let chartMode = "circular";
+  let chartMode = "trend";
   let renderSequence = 0;
 
   function monthKey(date) {
@@ -129,7 +129,8 @@
     canvasWrap.replaceChildren();
     tooltip.classList.remove("visible");
     const center = document.getElementById("chart-center-label");
-    center.classList.toggle("hidden", mode !== "circular");
+    center.classList.toggle("hidden", mode !== "circular" && mode !== "pie");
+    center.hidden = (mode === "trend" || mode === "line");
     document.getElementById("chart-comparison-legend").hidden = mode !== "normal";
   }
 
@@ -248,78 +249,212 @@
     };
   }
 
-  function drawCircular(categories, converted, targetCurrency, transactions) {
-    prepareChartStage("circular");
-    document.getElementById("primary-chart-eyebrow").textContent = "SPENDING MIX";
-    document.getElementById("primary-chart-title").textContent = "Where your money went";
-    document.getElementById("primary-chart-subtitle").textContent = "Hover a slice for the places, transactions and exact amount.";
-    const currencies = [...new Set(categories.map((item) => item.currency))];
-    const labels = categories.map((item) => `${item.category} · ${item.currency}`);
-    const categoryNames = [...new Set(categories.map((item) => item.category))];
-    const categoryColors = categories.map((item) => palette[categoryIndex(item.category, categoryNames) % palette.length]);
-    const datasets = currencies.map((currency) => {
-      const currencyCategories = categories.filter((item) => item.currency === currency);
-      const denominator = currencyCategories.reduce((sum, item) => sum + item.amount, 0);
-      return {
-        label: currency,
-        currency,
-        data: categories.map((item) => item.currency === currency ? item.amount : 0),
-        backgroundColor: categoryColors,
-        hoverBackgroundColor: categoryColors.map((color) => rgba(color, 1)),
-        hoverOffset: 12,
-        borderColor: "#111a2b",
-        borderWidth: 3,
-        weight: 1,
-        tooltipRows: categories.map((item) => item.currency === currency ? {
-          ...item,
-          percentage: denominator ? item.amount / denominator * 100 : 0,
-          transactions: transactions.filter((transaction) => (converted || transaction.currency === currency) && (transaction.category || "Other") === item.category)
-        } : null)
-      };
+  const lineGlowPlugin = {
+    id: "lineGlow",
+    beforeDatasetDraw(chart, args) {
+      const { ctx } = chart;
+      const meta = args.meta;
+      if (meta.type === "line") {
+        ctx.save();
+        const color = meta.dataset.borderColor;
+        ctx.shadowColor = typeof color === "string" ? color : "rgba(124, 101, 246, 0.45)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 2;
+      }
+    },
+    afterDatasetDraw(chart, args) {
+      if (args.meta.type === "line") {
+        chart.ctx.restore();
+      }
+    }
+  };
+
+  async function drawLineTrend(transactions, targetCurrency, selectedMonthDate) {
+    prepareChartStage("trend");
+    document.getElementById("primary-chart-eyebrow").textContent = "MONTHLY TREND";
+    document.getElementById("primary-chart-title").textContent = "Income vs expenses trend";
+    document.getElementById("primary-chart-subtitle").textContent = "Curved cash flow comparison across the 6-month period.";
+
+    const offsets = [5, 4, 3, 2, 1, 0];
+    const trendMonths = offsets.map((off) => shiftMonth(selectedMonthDate, -off));
+    const labels = trendMonths.map((m) => {
+      const formatted = new Intl.DateTimeFormat(Finova.getLocale(), { month: "short", year: "numeric" }).format(m);
+      return formatted.replace(" ", " '");
     });
-    const canvas = addChartCanvas("primary-chart", "Expense breakdown by category");
+
+    const incomePoints = [];
+    const expensePoints = [];
+    let periodIncomeTotal = 0;
+    let periodExpenseTotal = 0;
+
+    for (const m of trendMonths) {
+      const mTrans = transactions.filter((t) => inMonth(t, m));
+      const incList = mTrans.filter((t) => t.type === "income");
+      const expList = mTrans.filter((t) => t.type === "expense");
+
+      const incConv = await Finova.convertTransactions(incList, targetCurrency);
+      const expConv = await Finova.convertTransactions(expList, targetCurrency);
+
+      const incVal = Number(incConv.value) || 0;
+      const expVal = Number(expConv.value) || 0;
+
+      incomePoints.push(incVal);
+      expensePoints.push(expVal);
+      periodIncomeTotal += incVal;
+      periodExpenseTotal += expVal;
+    }
+
+    const canvas = addChartCanvas("primary-chart", "Monthly income and expenses line graph");
+    const ctx = canvas.getContext("2d");
+
+    // Dynamic gradient fills
+    const incomeGrad = ctx.createLinearGradient(0, 20, 0, 300);
+    incomeGrad.addColorStop(0, "rgba(124, 101, 246, 0.32)");
+    incomeGrad.addColorStop(0.7, "rgba(99, 140, 255, 0.06)");
+    incomeGrad.addColorStop(1, "rgba(99, 140, 255, 0)");
+
+    const expenseGrad = ctx.createLinearGradient(0, 20, 0, 300);
+    expenseGrad.addColorStop(0, "rgba(56, 189, 248, 0.30)");
+    expenseGrad.addColorStop(0.7, "rgba(56, 189, 248, 0.05)");
+    expenseGrad.addColorStop(1, "rgba(56, 189, 248, 0)");
+
     const chart = new Chart(canvas, {
-      type: "doughnut",
-      data: { labels, datasets },
-      options: chartOptions({ tooltipMode: "circular", rows: transactions, currency: targetCurrency, animationDuration: 850 }),
-      plugins: [arcGlowPlugin]
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Income",
+            data: incomePoints,
+            borderColor: "#7c65f6",
+            backgroundColor: incomeGrad,
+            fill: true,
+            tension: 0.38,
+            cubicInterpolationMode: "monotone",
+            borderWidth: 3,
+            pointBackgroundColor: "#eef3ff",
+            pointBorderColor: "#7c65f6",
+            pointBorderWidth: 2.5,
+            pointRadius: 4.5,
+            pointHoverRadius: 7.5,
+            pointHoverBackgroundColor: "#ffffff",
+            pointHoverBorderColor: "#7c65f6",
+            pointHoverBorderWidth: 3
+          },
+          {
+            label: "Expenses",
+            data: expensePoints,
+            borderColor: "#38bdf8",
+            backgroundColor: expenseGrad,
+            fill: true,
+            tension: 0.38,
+            cubicInterpolationMode: "monotone",
+            borderWidth: 3,
+            pointBackgroundColor: "#eef3ff",
+            pointBorderColor: "#38bdf8",
+            pointBorderWidth: 2.5,
+            pointRadius: 4.5,
+            pointHoverRadius: 7.5,
+            pointHoverBackgroundColor: "#ffffff",
+            pointHoverBorderColor: "#38bdf8",
+            pointHoverBorderWidth: 3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutQuart" },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            backgroundColor: "rgba(10, 16, 32, 0.94)",
+            titleColor: "#eef3ff",
+            titleFont: { size: 12, weight: "700", family: "Manrope, sans-serif" },
+            bodyColor: "#dbe4f5",
+            bodyFont: { size: 11, family: "DM Sans, sans-serif" },
+            borderColor: "rgba(143, 168, 255, 0.28)",
+            borderWidth: 1,
+            padding: 12,
+            boxPadding: 6,
+            usePointStyle: true,
+            callbacks: {
+              label: (context) => ` ${context.dataset.label}: ${Finova.formatCurrency(context.raw, targetCurrency)}`,
+              afterBody: (items) => {
+                if (items.length >= 2) {
+                  const inc = items[0].raw || 0;
+                  const exp = items[1].raw || 0;
+                  const diff = inc - exp;
+                  return ` Net cash flow: ${diff >= 0 ? "+" : "−"}${Finova.formatCurrency(Math.abs(diff), targetCurrency)}`;
+                }
+                return "";
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              color: "#8d9ab2",
+              font: { size: 10, family: "DM Sans, sans-serif" }
+            },
+            border: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: "rgba(151, 174, 218, 0.08)" },
+            ticks: {
+              color: "#71809a",
+              font: { size: 9, family: "DM Sans, sans-serif" },
+              maxTicksLimit: 5,
+              callback: (value) => Finova.formatCurrency(value, targetCurrency, { compact: true })
+            },
+            border: { display: false }
+          }
+        }
+      },
+      plugins: [lineGlowPlugin]
     });
+
     chartInstances.set(canvas.id, chart);
 
-    const totals = currencies.map((currency) => ({
-      currency,
-      amount: categories.filter((item) => item.currency === currency).reduce((sum, item) => sum + item.amount, 0)
-    }));
-    const centerTotalEl = document.getElementById("chart-center-total");
-    if (totals.length === 1) {
-      Finova.animateNumber(centerTotalEl, totals[0].amount, totals[0].currency);
-    } else if (totals.length > 1) {
-      centerTotalEl.textContent = totals.map((item) => Finova.formatCurrency(item.amount, item.currency)).join(" · ");
-    } else {
-      Finova.animateNumber(centerTotalEl, 0, targetCurrency);
-    }
-    document.getElementById("chart-center-caption").textContent = converted && categories.length
-      ? `estimated ${targetCurrency} total`
-      : totals.length > 1 ? "separate currency totals" : "selected month";
-    document.getElementById("chart-month-badges").innerHTML = `<span class="period-tag">${escapeText(monthLabel(selectedMonth))}</span>`;
+    const firstMonthStr = monthLabel(trendMonths[0]);
+    const lastMonthStr = monthLabel(trendMonths[trendMonths.length - 1]);
+    document.getElementById("chart-month-badges").innerHTML = `<span class="period-tag">${firstMonthStr} – ${lastMonthStr}</span>`;
 
     const legend = document.getElementById("primary-chart-legend");
-    if (!categories.length) {
-      legend.innerHTML = '<div class="chart-empty">No expense categories for this month yet.</div>';
-      return;
-    }
-    const percentages = new Map();
-    currencies.forEach((currency) => {
-      const total = categories.filter((item) => item.currency === currency).reduce((sum, item) => sum + item.amount, 0);
-      categories.filter((item) => item.currency === currency).forEach((item) => percentages.set(`${item.category}|${item.currency}`, total ? item.amount / total * 100 : 0));
-    });
-    legend.innerHTML = categories.map((item) => {
-      const color = palette[categoryIndex(item.category, categoryNames) % palette.length];
-      const amount = Finova.formatCurrency(item.amount, item.currency);
-      const pct = percentages.get(`${item.category}|${item.currency}`) || 0;
-      return `<div class="premium-legend-item"><i style="--category-color:${color}"></i><span><strong>${escapeText(item.category)}${currencies.length > 1 ? ` · ${escapeText(item.currency)}` : ""}</strong><small>${item.count} transaction${item.count === 1 ? "" : "s"}</small></span><b>${pct.toFixed(1)}%</b><em>${amount}</em></div>`;
-    }).join("");
+    const netTotal = periodIncomeTotal - periodExpenseTotal;
+
+    legend.innerHTML = `
+      <div class="line-graph-legend">
+        <div class="line-legend-item">
+          <span class="line-legend-badge income-badge"></span>
+          <div class="line-legend-info">
+            <small>6-MONTH INCOME</small>
+            <strong class="income-value">${Finova.formatCurrency(periodIncomeTotal, targetCurrency)}</strong>
+          </div>
+        </div>
+        <div class="line-legend-item">
+          <span class="line-legend-badge expense-badge"></span>
+          <div class="line-legend-info">
+            <small>6-MONTH EXPENSES</small>
+            <strong class="expense-value">${Finova.formatCurrency(periodExpenseTotal, targetCurrency)}</strong>
+          </div>
+        </div>
+        <div class="line-legend-item">
+          <span class="line-legend-badge net-badge"></span>
+          <div class="line-legend-info">
+            <small>NET CASH FLOW</small>
+            <strong class="${netTotal >= 0 ? "positive-text" : "negative-text"}">${netTotal >= 0 ? "+" : "−"}${Finova.formatCurrency(Math.abs(netTotal), targetCurrency)}</strong>
+          </div>
+        </div>
+      </div>
+    `;
   }
+
 
   function monthSeries(monthTransactions, categories, displayRows, month) {
     const expenses = monthTransactions.filter((item) => item.type === "expense");
@@ -702,8 +837,8 @@
       }
     }
 
-    if (chartMode === "circular") {
-      drawCircular(categoryRows, Boolean(currentConverted), preferred, currentExpenses);
+    if (chartMode === "trend" || chartMode === "line" || chartMode === "circular") {
+      await drawLineTrend(transactions, preferred, selectedMonth);
     } else {
       drawBarComparison(currentItems, previousItems, currentAllConverted || currentItems, previousAllConverted || previousItems, preferred, Boolean(currentAllConverted && previousAllConverted));
     }
@@ -755,6 +890,8 @@
     monthNames = new Intl.DateTimeFormat(Finova.getLocale(), { month: "long", year: "numeric" });
     renderCompare();
   });
+  window.FinovaCompare = { renderCompare, drawLineTrend };
+
   document.addEventListener("DOMContentLoaded", async () => {
     if (await Finova.ready) await renderCompare();
   });
