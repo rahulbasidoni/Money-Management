@@ -19,26 +19,95 @@
     ? Intl.supportedValuesOf("currency")
     : ["AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF", "CHF", "CLP", "CNY", "COP", "CRC", "CUC", "CUP", "CVE", "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "GBP", "GEL", "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "INR", "IQD", "IRR", "ISK", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KMF", "KPW", "KRW", "KWD", "KYD", "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRU", "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN", "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK", "SGD", "SHP", "SLE", "SLL", "SOS", "SRD", "SSP", "STN", "SVC", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP", "TRY", "TTD", "TWD", "TZS", "UAH", "UGX", "USD", "UYU", "UZS", "VES", "VND", "VUV", "WST", "XAF", "XCD", "XCG", "XDR", "XOF", "XPF", "XSU", "YER", "ZAR", "ZMW", "ZWG", "ZWL"];
   const CURRENCY_NAMES = typeof Intl.DisplayNames === "function" ? new Intl.DisplayNames(["en"], { type: "currency" }) : null;
+  const CURRENCY_FLAGS = {
+    AED: "🇦🇪", AFN: "🇦🇫", ALL: "🇦🇱", AMD: "🇦🇲", ANG: "🇨🇼", AOA: "🇦🇴", ARS: "🇦🇷", AUD: "🇦🇺",
+    AWG: "🇦🇼", AZN: "🇦🇿", BAM: "🇧🇦", BBD: "🇧🇧", BDT: "🇧🇩", BGN: "🇧🇬", BHD: "🇧🇭", BIF: "🇧🇮",
+    BMD: "🇧🇲", BND: "🇧🇳", BOB: "🇧🇴", BRL: "🇧🇷", BSD: "🇧🇸", BTN: "🇧🇹", BWP: "🇧🇼", BYN: "🇧🇾",
+    BZD: "🇧🇿", CAD: "🇨🇦", CDF: "🇨🇩", CHF: "🇨🇭", CLP: "🇨🇱", CNY: "🇨🇳", COP: "🇨🇴", CRC: "🇨🇷",
+    CUC: "🇨🇺", CUP: "🇨🇺", CVE: "🇨🇻", CZK: "🇨🇿", DJF: "🇩🇯", DKK: "🇩🇰", DOP: "🇩🇴", DZD: "🇩🇿",
+    EGP: "🇪🇬", ERN: "🇪🇷", ETB: "🇪🇹", EUR: "🇪🇺", FJD: "🇫🇯", FKP: "🇫🇰", GBP: "🇬🇧", GEL: "🇬🇪",
+    GHS: "🇬🇭", GIP: "🇬🇮", GMD: "🇬🇲", GNF: "🇬🇳", GTQ: "🇬🇹", GYD: "🇬🇾", HKD: "🇭🇰", HNL: "🇭🇳",
+    HRK: "🇭🇷", HTG: "🇭🇹", HUF: "🇭🇺", IDR: "🇮🇩", ILS: "🇮🇱", INR: "🇮🇳", IQD: "🇮🇶", IRR: "🇮🇷",
+    ISK: "🇮🇸", JMD: "🇯🇲", JOD: "🇯🇴", JPY: "🇯🇵", KES: "🇰🇪", KGS: "🇰🇬", KHR: "🇰🇭", KMF: "🇰🇲",
+    KPW: "🇰🇵", KRW: "🇰🇷", KWD: "🇰🇼", KYD: "🇰🇾", KZT: "🇰🇿", LAK: "🇱🇦", LBP: "🇱🇧", LKR: "🇱🇰",
+    LRD: "🇱🇷", LSL: "🇱🇸", LYD: "🇱🇾", MAD: "🇲🇦", MDL: "🇲🇩", MGA: "🇲🇬", MKD: "🇲🇰", MMK: "🇲🇲",
+    MNT: "🇲🇳", MOP: "🇲🇴", MRU: "🇲🇷", MUR: "🇲🇺", MVR: "🇲🇻", MWK: "🇲🇼", MXN: "🇲🇽", MYR: "🇲🇾",
+    MZN: "🇲🇿", NAD: "🇳🇦", NGN: "🇳🇬", NIO: "🇳🇮", NOK: "🇳🇴", NPR: "🇳🇵", NZD: "🇳🇿", OMR: "🇴🇲",
+    PAB: "🇵🇦", PEN: "🇵🇪", PGK: "🇵🇬", PHP: "🇵🇭", PKR: "🇵🇰", PLN: "🇵🇱", PYG: "🇵🇾", QAR: "🇶🇦",
+    RON: "🇷🇴", RSD: "🇷🇸", RUB: "🇷🇺", RWF: "🇷🇼", SAR: "🇸🇦", SBD: "🇸🇧", SCR: "🇸🇨", SDG: "🇸🇩",
+    SEK: "🇸🇪", SGD: "🇸🇬", SHP: "🇸🇭", SLE: "🇸🇱", SLL: "🇸🇱", SOS: "🇸🇴", SRD: "🇸🇷", SSP: "🇸🇸",
+    STN: "🇸🇹", SVC: "🇸🇻", SYP: "🇸🇾", SZL: "🇸🇿", THB: "🇹🇭", TJS: "🇹🇯", TMT: "🇹🇲", TND: "🇹🇳",
+    TOP: "🇹🇴", TRY: "🇹🇷", TTD: "🇹🇹", TWD: "🇹🇼", TZS: "🇹🇿", UAH: "🇺🇦", UGX: "🇺🇬", USD: "🇺🇸",
+    UYU: "🇺🇾", UZS: "🇺🇿", VES: "🇻🇪", VND: "🇻🇳", VUV: "🇻🇺", WST: "🇼🇸", XAF: "🇨🇲", XCD: "🇦🇬",
+    XOF: "🇸🇳", XPF: "🇵🇫", YER: "🇾🇪", ZAR: "🇿🇦", ZMW: "🇿🇲", ZWG: "🇿🇼", ZWL: "🇿🇼"
+  };
+
+  function currencyFlag(code) {
+    if (CURRENCY_FLAGS[code]) return CURRENCY_FLAGS[code];
+    const country = code.slice(0, 2).toUpperCase();
+    if (/^[A-Z]{2}$/.test(country)) {
+      return String.fromCodePoint(...[...country].map((c) => 0x1f1e6 - 65 + c.charCodeAt(0)));
+    }
+    return "🌐";
+  }
+
   const CURRENCY_OVERRIDES = {
     AED: { name: "UAE Dirham", symbol: "د.إ" },
-    AUD: { name: "Australian Dollar", symbol: "A$" },
-    CAD: { name: "Canadian Dollar", symbol: "CA$" },
-    CNY: { name: "Chinese Yuan", symbol: "CN¥" },
+    AUD: { name: "Australian Dollar", symbol: "$" },
+    CAD: { name: "Canadian Dollar", symbol: "$" },
+    CNY: { name: "Chinese Yuan", symbol: "¥" },
     EUR: { name: "Euro", symbol: "€" },
     GBP: { name: "British Pound", symbol: "£" },
     INR: { name: "Indian Rupee", symbol: "₹" },
     JPY: { name: "Japanese Yen", symbol: "¥" },
-    SGD: { name: "Singapore Dollar", symbol: "S$" },
-    USD: { name: "US Dollar", symbol: "$" }
+    SGD: { name: "Singapore Dollar", symbol: "$" },
+    USD: { name: "US Dollar", symbol: "$" },
+    NZD: { name: "New Zealand Dollar", symbol: "$" },
+    CHF: { name: "Swiss Franc", symbol: "CHF" },
+    ZAR: { name: "South African Rand", symbol: "R" },
+    BRL: { name: "Brazilian Real", symbol: "R$" },
+    RUB: { name: "Russian Ruble", symbol: "₽" },
+    KRW: { name: "South Korean Won", symbol: "₩" },
+    SAR: { name: "Saudi Riyal", symbol: "ر.स" },
+    QAR: { name: "Qatari Riyal", symbol: "ر.ق" },
+    KWD: { name: "Kuwaiti Dinar", symbol: "د.ك" },
+    OMR: { name: "Omani Rial", symbol: "ر.ع" },
+    BHD: { name: "Bahraini Dinar", symbol: ".د.ب" },
+    THB: { name: "Thai Baht", symbol: "฿" },
+    MYR: { name: "Malaysian Ringgit", symbol: "RM" },
+    IDR: { name: "Indonesian Rupiah", symbol: "Rp" },
+    PHP: { name: "Philippine Peso", symbol: "₱" },
+    VND: { name: "Vietnamese Dong", symbol: "₫" },
+    TRY: { name: "Turkish Lira", symbol: "₺" },
+    SEK: { name: "Swedish Krona", symbol: "kr" },
+    NOK: { name: "Norwegian Krone", symbol: "kr" },
+    DKK: { name: "Danish Krone", symbol: "kr" },
+    PLN: { name: "Polish Zloty", symbol: "zł" },
+    CZK: { name: "Czech Koruna", symbol: "Kč" },
+    HUF: { name: "Hungarian Forint", symbol: "Ft" },
+    ILS: { name: "Israeli Shekel", symbol: "₪" },
+    EGP: { name: "Egyptian Pound", symbol: "E£" },
+    NGN: { name: "Nigerian Naira", symbol: "₦" },
+    KES: { name: "Kenyan Shilling", symbol: "KSh" },
+    MXN: { name: "Mexican Peso", symbol: "$" },
+    ARS: { name: "Argentine Peso", symbol: "$" },
+    CLP: { name: "Chilean Peso", symbol: "$" },
+    COP: { name: "Colombian Peso", symbol: "$" },
+    PKR: { name: "Pakistani Rupee", symbol: "₨" },
+    BDT: { name: "Bangladeshi Taka", symbol: "৳" },
+    LKR: { name: "Sri Lankan Rupee", symbol: "Rs" },
+    NPR: { name: "Nepalese Rupee", symbol: "रू" }
   };
   const CURRENCIES = [...new Set(["INR", "USD", "EUR", "GBP", "JPY", "AED", "CAD", "AUD", "SGD", "CNY", ...CURRENCY_CODES])]
     .map((code) => {
       const parts = new Intl.NumberFormat("en", { style: "currency", currency: code, currencyDisplay: "narrowSymbol" }).formatToParts(0);
       const details = CURRENCY_OVERRIDES[code] || {};
+      const fallbackSymbol = (parts.find((part) => part.type === "currency") || {}).value || code;
       return {
         code,
         name: details.name || (CURRENCY_NAMES && CURRENCY_NAMES.of(code)) || code,
-        symbol: details.symbol || (parts.find((part) => part.type === "currency") || {}).value || code
+        symbol: details.symbol || fallbackSymbol,
+        flag: currencyFlag(code)
       };
     })
     .sort((left, right) => left.name.localeCompare(right.name));
@@ -1145,9 +1214,9 @@
     const select = picker.querySelector("[data-preferred-currency]");
     const current = CURRENCIES.find((currency) => currency.code === select.value) || CURRENCIES[0];
     const trigger = picker.querySelector("[data-currency-trigger]");
-    trigger.querySelector(".currency-current").textContent = current.code;
-    trigger.setAttribute("aria-label", `Display currency: ${current.code} · ${current.name}`);
-    trigger.title = `${current.name} (${current.symbol})`;
+    trigger.querySelector(".currency-current").textContent = `${current.symbol} ${current.code}`;
+    trigger.setAttribute("aria-label", `Display currency: ${current.code} (${current.symbol}) · ${current.name}`);
+    trigger.title = `${current.flag} ${current.name} (${current.symbol})`;
     picker.querySelectorAll("[data-currency-code]").forEach((option) => {
       const selected = option.dataset.currencyCode === current.code;
       option.setAttribute("aria-selected", String(selected));
@@ -1179,14 +1248,12 @@
     CURRENCIES.forEach((currency) => {
       const option = document.createElement("button");
       option.type = "button";
-      option.className = "language-option";
+      option.className = "language-option currency-option";
       option.setAttribute("role", "option");
-      option.setAttribute("aria-label", `${currency.code}, ${currency.name}`);
+      option.setAttribute("aria-label", `${currency.flag} ${currency.code} – ${currency.name} (${currency.symbol})`);
       option.dataset.currencyCode = currency.code;
-      option.dataset.searchText = `${currency.code} ${currency.name} ${currency.symbol}`.toLocaleLowerCase();
-      option.innerHTML = `<span class="language-native"></span><span class="language-english"></span>`;
-      option.querySelector(".language-native").textContent = currency.code;
-      option.querySelector(".language-english").textContent = currency.name;
+      option.dataset.searchText = `${currency.code} ${currency.name} ${currency.symbol} ${currency.flag}`.toLocaleLowerCase();
+      option.innerHTML = `<span class="currency-option-item"><span class="currency-option-flag">${currency.flag}</span> <strong class="currency-option-code">${currency.code}</strong> <span class="currency-option-sep">–</span> <span class="currency-option-name">${currency.name}</span> <span class="currency-option-sym">(${currency.symbol})</span></span>`;
       options.appendChild(option);
     });
 
@@ -1334,21 +1401,35 @@
   }
 
   function currencyInfo(code) {
-    return CURRENCIES.find((currency) => currency.code === code) || { code: code || "USD", name: code || "Unknown currency", symbol: code || "" };
+    const target = code || getPreferredCurrency();
+    return CURRENCIES.find((currency) => currency.code === target) || {
+      code: target || "USD",
+      name: target || "Unknown currency",
+      symbol: target || "$",
+      flag: currencyFlag(target || "USD")
+    };
   }
 
   function formatCurrency(amount, currency, options) {
-    const info = currencyInfo(currency);
+    const info = currencyInfo(currency || getPreferredCurrency());
+    const num = Number(amount) || 0;
+    const isNegative = num < 0;
+    const absNum = Math.abs(num);
+    const noDecimals = ["JPY", "KRW", "VND", "CLP", "PYG", "UGX", "RWF"].includes(info.code);
     try {
-      return new Intl.NumberFormat(getLocale(), {
-        style: "currency",
-        currency: info.code,
-        maximumFractionDigits: ["JPY"].includes(info.code) ? 0 : 2,
+      const formattedNum = absNum.toLocaleString(getLocale(), {
+        minimumFractionDigits: noDecimals ? 0 : 2,
+        maximumFractionDigits: noDecimals ? 0 : 2,
         ...(options || {})
-      }).format(Number(amount) || 0);
+      });
+      const symbol = info.symbol || info.code;
+      const needsSpace = /[a-zA-Z؀-ۿ]/.test(symbol);
+      const res = needsSpace ? `${symbol} ${formattedNum}` : `${symbol}${formattedNum}`;
+      return isNegative ? `-${res}` : res;
     } catch (error) {
       console.error("FINOVA could not format currency.", error);
-      return `${info.symbol}${(Number(amount) || 0).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+      const symbol = info.symbol || info.code;
+      return `${isNegative ? "-" : ""}${symbol}${absNum.toFixed(noDecimals ? 0 : 2)}`;
     }
   }
 
@@ -1389,7 +1470,7 @@
         list.replaceChildren(...CURRENCIES.map((currency) => {
           const option = document.createElement("option");
           option.value = currency.code;
-          option.label = currency.name;
+          option.label = `${currency.flag} ${currency.code} – ${currency.name} (${currency.symbol})`;
           return option;
         }));
       }
@@ -1399,7 +1480,7 @@
     select.replaceChildren(...CURRENCIES.map((currency) => {
       const option = document.createElement("option");
       option.value = currency.code;
-      option.textContent = `${currency.code} · ${currency.name}`;
+      option.textContent = `${currency.flag} ${currency.code} – ${currency.name} (${currency.symbol})`;
       option.selected = currency.code === selected;
       return option;
     }));
