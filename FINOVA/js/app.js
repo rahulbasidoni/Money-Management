@@ -1577,26 +1577,42 @@
     };
   }
 
-  function formatCurrency(amount, currency, options) {
-    const info = currencyInfo(currency || getPreferredCurrency());
+  function formatCurrency(amount, currency, options = {}) {
+    const code = String(currency || getPreferredCurrency() || "USD").toUpperCase().trim();
     const num = Number(amount) || 0;
-    const isNegative = num < 0;
-    const absNum = Math.abs(num);
-    const noDecimals = ["JPY", "KRW", "VND", "CLP", "PYG", "UGX", "RWF"].includes(info.code);
+    const locale = getLocale() || "en";
+
     try {
-      const formattedNum = absNum.toLocaleString(getLocale(), {
-        minimumFractionDigits: noDecimals ? 0 : 2,
-        maximumFractionDigits: noDecimals ? 0 : 2,
-        ...(options || {})
-      });
-      const symbol = info.symbol || info.code;
-      const needsSpace = /[a-zA-Z؀-ۿ]/.test(symbol);
-      const res = needsSpace ? `${symbol} ${formattedNum}` : `${symbol}${formattedNum}`;
-      return isNegative ? `-${res}` : res;
+      const intlOptions = {
+        style: "currency",
+        currency: code
+      };
+      if (options.compact) {
+        intlOptions.notation = "compact";
+        intlOptions.compactDisplay = "short";
+      }
+      if (typeof options.minimumFractionDigits === "number") {
+        intlOptions.minimumFractionDigits = options.minimumFractionDigits;
+      }
+      if (typeof options.maximumFractionDigits === "number") {
+        intlOptions.maximumFractionDigits = options.maximumFractionDigits;
+      }
+      return new Intl.NumberFormat(locale, intlOptions).format(num);
     } catch (error) {
-      console.error("FINOVA could not format currency.", error);
-      const symbol = info.symbol || info.code;
-      return `${isNegative ? "-" : ""}${symbol}${absNum.toFixed(noDecimals ? 0 : 2)}`;
+      const info = currencyInfo(code);
+      const symbol = info.symbol || code;
+      const noDecimals = ["JPY", "KRW", "VND", "CLP", "PYG", "UGX", "RWF", "BIF", "DJF", "GNF", "ISK", "KMF", "MGA", "XAF", "XOF", "XPF"].includes(code);
+      const threeDecimals = ["KWD", "BHD", "OMR", "JOD", "TND", "IQD", "LYD"].includes(code);
+      const dec = noDecimals ? 0 : (threeDecimals ? 3 : 2);
+      const isNegative = num < 0;
+      const absNum = Math.abs(num);
+      const formattedNum = absNum.toLocaleString(locale, {
+        minimumFractionDigits: dec,
+        maximumFractionDigits: dec,
+        ...(options.compact ? { notation: "compact", compactDisplay: "short" } : {})
+      });
+      const res = `${symbol} ${formattedNum}`;
+      return isNegative ? `-${res}` : res;
     }
   }
 
@@ -1668,31 +1684,276 @@
     }));
   }
 
+  const USD_BASELINE_RATES = {
+  "USD": 1,
+  "AED": 3.6725,
+  "AFN": 65.104983,
+  "ALL": 80.985785,
+  "AMD": 360.658965,
+  "ANG": 1.79,
+  "AOA": 927.735116,
+  "ARS": 1545.3974,
+  "AUD": 1.437598,
+  "AWG": 1.79,
+  "AZN": 1.701113,
+  "BAM": 1.741637,
+  "BBD": 2,
+  "BDT": 124.600871,
+  "BGN": 1.741637,
+  "BHD": 0.376,
+  "BIF": 3001.234986,
+  "BMD": 1,
+  "BND": 1.277582,
+  "BOB": 12.102692,
+  "BRL": 5.468173,
+  "BSD": 1,
+  "BTN": 94.536831,
+  "BWP": 14.00648,
+  "BYN": 2.982107,
+  "BZD": 2,
+  "CAD": 1.399114,
+  "CDF": 2264.049059,
+  "CHF": 0.816184,
+  "CLF": 0.024441,
+  "CLP": 966.048728,
+  "CNH": 6.666088,
+  "CNY": 6.682525,
+  "COP": 3236.818587,
+  "CRC": 454.182782,
+  "CUP": 24,
+  "CVE": 98.189313,
+  "CZK": 21.660507,
+  "DJF": 177.721,
+  "DKK": 6.657875,
+  "DOP": 60.387541,
+  "DZD": 136.111321,
+  "EGP": 53.900714,
+  "ERN": 15,
+  "ETB": 161.693929,
+  "EUR": 0.89048,
+  "FJD": 2.245791,
+  "FKP": 0.74291,
+  "FOK": 6.657873,
+  "GBP": 0.742915,
+  "GEL": 2.595712,
+  "GGP": 0.74291,
+  "GHS": 11.698248,
+  "GIP": 0.74291,
+  "GMD": 74.745934,
+  "GNF": 8846.457211,
+  "GTQ": 7.649523,
+  "GYD": 209.871544,
+  "HKD": 7.842769,
+  "HNL": 26.899723,
+  "HRK": 6.709358,
+  "HTG": 131.137778,
+  "HUF": 324.135864,
+  "IDR": 18079.994377,
+  "ILS": 3.194459,
+  "IMP": 0.74291,
+  "INR": 94.537031,
+  "IQD": 1518.715744,
+  "IRR": 1798420.925916,
+  "ISK": 121.753434,
+  "JEP": 0.74291,
+  "JMD": 158.666858,
+  "JOD": 0.709,
+  "JPY": 157.835475,
+  "KES": 129.951649,
+  "KGS": 87.533534,
+  "KHR": 4093.575816,
+  "KID": 1.435897,
+  "KMF": 438.089834,
+  "KRW": 1347.694961,
+  "KWD": 0.310274,
+  "KYD": 0.833333,
+  "KZT": 450.599552,
+  "LAK": 22401.013801,
+  "LBP": 89500,
+  "LKR": 332.385045,
+  "LRD": 170.189718,
+  "LSL": 16.455799,
+  "LYD": 6.419713,
+  "MAD": 9.753394,
+  "MDL": 17.902611,
+  "MGA": 4570.318991,
+  "MKD": 54.928103,
+  "MMK": 2100.039258,
+  "MNT": 3582.481562,
+  "MOP": 8.078158,
+  "MRU": 40.441544,
+  "MUR": 46.817766,
+  "MVR": 15.453436,
+  "MWK": 1742.322897,
+  "MXN": 18.71808,
+  "MYR": 4.045814,
+  "MZN": 63.780977,
+  "NAD": 16.455799,
+  "NGN": 1348.023447,
+  "NIO": 36.82551,
+  "NOK": 9.298256,
+  "NPR": 151.258929,
+  "NZD": 1.783506,
+  "OMR": 0.384497,
+  "PAB": 1,
+  "PEN": 3.449259,
+  "PGK": 4.507713,
+  "PHP": 63.021034,
+  "PKR": 276.629026,
+  "PLN": 3.917899,
+  "PYG": 6093.64809,
+  "QAR": 3.64,
+  "RON": 4.755053,
+  "RSD": 104.661154,
+  "RUB": 81.613047,
+  "RWF": 1480.411642,
+  "SAR": 3.75,
+  "SBD": 7.961537,
+  "SCR": 14.043334,
+  "SDG": 512.66921,
+  "SEK": 9.796399,
+  "SGD": 1.277583,
+  "SHP": 0.74291,
+  "SLE": 23.035655,
+  "SLL": 23035.654542,
+  "SOS": 572.161101,
+  "SRD": 37.655925,
+  "SSP": 6001.922777,
+  "STN": 21.816879,
+  "SYP": 121.889467,
+  "SZL": 16.455799,
+  "THB": 33.441574,
+  "TJS": 9.213281,
+  "TMT": 3.50287,
+  "TND": 3.000745,
+  "TOP": 2.388318,
+  "TRY": 50.076241,
+  "TTD": 6.762288,
+  "TVD": 1.435897,
+  "TWD": 33.051901,
+  "TZS": 2645.324154,
+  "UAH": 45.499477,
+  "UGX": 4008.137307,
+  "UYU": 40.259265,
+  "UZS": 11943.260568,
+  "VES": 896.1225,
+  "VND": 25692.443974,
+  "VUV": 119.999248,
+  "WST": 2.7456,
+  "XAF": 584.119779,
+  "XCD": 2.7,
+  "XCG": 1.79,
+  "XDR": 0.738041,
+  "XOF": 584.119779,
+  "XPF": 106.26334,
+  "YER": 236.371885,
+  "ZAR": 16.452865,
+  "ZMW": 20.315677,
+  "ZWG": 26.5365,
+  "ZWL": 26.5365,
+  "CUC": 1.0,
+  "KPW": 900.0,
+  "SVC": 8.75,
+  "XSU": 1.0
+};
+
+  let latestRatesPromise = null;
+
+  async function fetchLatestRates() {
+    if (latestRatesPromise) return latestRatesPromise;
+
+    latestRatesPromise = (async () => {
+      const cache = getRateCache();
+      if (cache._usdRates && cache._savedAt && (Date.now() - cache._savedAt < 24 * 60 * 60 * 1000)) {
+        return { rates: cache._usdRates, date: cache._ratesDate || todayISO() };
+      }
+
+      const endpoints = [
+        "https://open.er-api.com/v6/latest/USD",
+        "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+      ];
+
+      for (const url of endpoints) {
+        try {
+          const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+          if (!res.ok) continue;
+          const data = await res.json();
+          let rates = null;
+          let date = todayISO();
+
+          if (data && data.rates && typeof data.rates === "object") {
+            rates = data.rates;
+            date = data.time_last_update_utc ? new Date(data.time_last_update_utc).toISOString().slice(0, 10) : todayISO();
+          } else if (data && data.usd && typeof data.usd === "object") {
+            rates = {};
+            for (const [k, v] of Object.entries(data.usd)) {
+              rates[k.toUpperCase()] = Number(v);
+            }
+            date = data.date || todayISO();
+          }
+
+          if (rates && Object.keys(rates).length > 50) {
+            const merged = { ...USD_BASELINE_RATES, ...rates };
+            cache._usdRates = merged;
+            cache._ratesDate = date;
+            cache._savedAt = Date.now();
+            writeJSON(RATES_KEY, cache);
+            return { rates: merged, date };
+          }
+        } catch (e) {
+          // Continue to next endpoint or baseline
+        }
+      }
+
+      return { rates: USD_BASELINE_RATES, date: todayISO() };
+    })().finally(() => {
+      latestRatesPromise = null;
+    });
+
+    return latestRatesPromise;
+  }
+
   function getRateCache() {
     const cache = readJSON(RATES_KEY, {});
     return cache && typeof cache === "object" ? cache : {};
   }
 
   async function getExchangeRate(from, to) {
-    if (from === to) return { rate: 1, date: todayISO() };
+    const f = String(from || "USD").toUpperCase().trim();
+    const t = String(to || "USD").toUpperCase().trim();
+    if (f === t) return { rate: 1, date: todayISO() };
+
     const cache = getRateCache();
-    const key = `${from}_${to}`;
+    const key = `${f}_${t}`;
     const cached = cache[key];
-    if (cached && cached.rate > 0 && Date.now() - cached.savedAt < 24 * 60 * 60 * 1000) {
-      return { rate: cached.rate, date: cached.date };
+    if (cached && typeof cached.rate === "number" && cached.rate > 0 && (Date.now() - (cached.savedAt || 0) < 24 * 60 * 60 * 1000)) {
+      return { rate: cached.rate, date: cached.date || todayISO() };
     }
+
     if (pendingRates.has(key)) return pendingRates.get(key);
+
     const request = (async () => {
-      const url = `https://api.frankfurter.dev/v1/latest?base=${encodeURIComponent(from)}&symbols=${encodeURIComponent(to)}`;
-      const response = await fetch(url, { signal: AbortSignal.timeout(7000) });
-      if (!response.ok) throw new Error(`Exchange-rate service returned ${response.status}.`);
-      const result = await response.json();
-      const rate = Number(result.rates && result.rates[to]);
-      if (!Number.isFinite(rate) || rate <= 0) throw new Error(`No exchange rate is available for ${from} to ${to}.`);
-      cache[key] = { rate, date: result.date || todayISO(), savedAt: Date.now() };
-      writeJSON(RATES_KEY, cache);
-      return { rate, date: cache[key].date };
+      try {
+        const { rates, date } = await fetchLatestRates();
+        const rateFrom = Number(rates[f]) || Number(USD_BASELINE_RATES[f]) || 1;
+        const rateTo = Number(rates[t]) || Number(USD_BASELINE_RATES[t]) || 1;
+        const calculatedRate = rateTo / rateFrom;
+
+        if (Number.isFinite(calculatedRate) && calculatedRate > 0) {
+          cache[key] = { rate: calculatedRate, date: date || todayISO(), savedAt: Date.now() };
+          writeJSON(RATES_KEY, cache);
+          return { rate: calculatedRate, date: cache[key].date };
+        }
+      } catch (err) {
+        console.warn(`FINOVA could not retrieve live exchange rate for ${f} -> ${t}. Falling back to baseline.`, err);
+      }
+
+      const baseFrom = Number(USD_BASELINE_RATES[f]) || 1;
+      const baseTo = Number(USD_BASELINE_RATES[t]) || 1;
+      const fallbackRate = baseTo / baseFrom;
+      return { rate: fallbackRate, date: todayISO() };
     })();
+
     pendingRates.set(key, request);
     try {
       return await request;
@@ -1722,24 +1983,34 @@
   }
 
   async function convertTransactions(transactions, targetCurrency, amountSelector) {
+    if (!Array.isArray(transactions) || transactions.length === 0) {
+      return { converted: true, value: 0, ratesDate: todayISO(), groups: {} };
+    }
+    const target = String(targetCurrency || getPreferredCurrency() || "USD").toUpperCase().trim();
     const amounts = new Map();
-    const codes = [...new Set(transactions.map((transaction) => transaction.currency))];
+    const codes = [...new Set(transactions.map((transaction) => String(transaction.currency || target).toUpperCase().trim()))];
     let newestRateDate = "";
+
     try {
-      const rates = await Promise.all(codes.map(async (code) => [code, await getExchangeRate(code, targetCurrency)]));
+      const rates = await Promise.all(codes.map(async (code) => [code, await getExchangeRate(code, target)]));
       rates.forEach(([code, value]) => {
-        amounts.set(code, value.rate);
-        if (value.date > newestRateDate) newestRateDate = value.date;
+        amounts.set(code, Number(value?.rate) || 1);
+        if (value?.date && value.date > newestRateDate) newestRateDate = value.date;
       });
     } catch (error) {
       console.warn("FINOVA currency conversion is unavailable; totals remain separated by currency.", error);
       return { converted: false, value: null, ratesDate: "", groups: groupAmounts(transactions), error };
     }
+
     const value = transactions.reduce((sum, transaction) => {
-      const amount = amountSelector ? amountSelector(transaction) : Number(transaction.amount);
-      return sum + amount * (amounts.get(transaction.currency) || 1);
+      const rawAmt = amountSelector ? amountSelector(transaction) : transaction.amount;
+      const amount = Number(rawAmt) || 0;
+      const code = String(transaction.currency || target).toUpperCase().trim();
+      const rate = amounts.get(code) || 1;
+      return sum + (amount * rate);
     }, 0);
-    return { converted: true, value, ratesDate: newestRateDate, groups: groupAmounts(transactions) };
+
+    return { converted: true, value, ratesDate: newestRateDate || todayISO(), groups: groupAmounts(transactions) };
   }
 
   function netByCurrency(transactions) {

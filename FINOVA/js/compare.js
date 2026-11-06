@@ -79,24 +79,31 @@
   }
 
   async function convertedRows(transactions, targetCurrency) {
-    const currencies = [...new Set(transactions.map((item) => item.currency))];
+    if (!Array.isArray(transactions) || transactions.length === 0) return [];
+    const target = String(targetCurrency || Finova.getPreferredCurrency() || "USD").toUpperCase().trim();
+    const currencies = [...new Set(transactions.map((item) => String(item.currency || target).toUpperCase().trim()))];
     const rates = new Map();
     let ratesDate = "";
     try {
       await Promise.all(currencies.map(async (currency) => {
-        const result = await Finova.getExchangeRate(currency, targetCurrency);
+        const result = await Finova.getExchangeRate(currency, target);
         rates.set(currency, result);
-        if (result.date > ratesDate) ratesDate = result.date;
+        if (result && result.date && result.date > ratesDate) ratesDate = result.date;
       }));
     } catch (error) {
       console.warn("FINOVA could not convert chart values; displaying currency-separated data.", error);
       return null;
     }
-    const rows = transactions.map((item) => ({
-      ...item,
-      displayAmount: Number(item.amount) * rates.get(item.currency).rate,
-      displayCurrency: targetCurrency
-    }));
+    const rows = transactions.map((item) => {
+      const code = String(item.currency || target).toUpperCase().trim();
+      const rateInfo = rates.get(code) || { rate: 1, date: ratesDate };
+      const origAmount = Number(item.amount) || 0;
+      return {
+        ...item,
+        displayAmount: origAmount * (Number(rateInfo.rate) || 1),
+        displayCurrency: target
+      };
+    });
     rows.ratesDate = ratesDate;
     return rows;
   }
@@ -593,7 +600,7 @@
         animationDuration: 700,
         scales: {
           x: { grid: { display: false }, ticks: { color: "#a6b3ca", font: { size: 9 }, maxRotation: 0, autoSkip: false }, border: { display: false } },
-          y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#7888a1", font: { size: 8 }, maxTicksLimit: 5, callback: (value) => Finova.formatCurrency(value, currency) }, border: { display: false } }
+          y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#7888a1", font: { size: 8 }, maxTicksLimit: 5, callback: (value) => Finova.formatCurrency(value, currency, { compact: true }) }, border: { display: false } }
         }
       }),
       plugins: [barGlowPlugin]
@@ -637,7 +644,7 @@
       const chart = new Chart(weeklyCanvas, {
         type: "bar",
         data: { labels: weekLabels, datasets: [{ label: targetCurrency, currency: targetCurrency, data: weeklyAmounts, tooltipRows: weeklyPoints, backgroundColor: "#638cff", borderRadius: 5, maxBarThickness: 32 }] },
-        options: chartOptions({ tooltipMode: "bar", currency: targetCurrency, scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, callback: (value) => Finova.formatCurrency(value, targetCurrency) }, border: { display: false } } } })
+        options: chartOptions({ tooltipMode: "bar", currency: targetCurrency, scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, maxTicksLimit: 5, callback: (value) => Finova.formatCurrency(value, targetCurrency, { compact: true }) }, border: { display: false } } } })
       });
       chartInstances.set(weeklyCanvas.id, chart);
     } else {
@@ -666,7 +673,7 @@
         const chart = new Chart(canvas, {
           type: "bar",
           data: { labels: weekLabels, datasets: [dataset] },
-          options: chartOptions({ tooltipMode: "bar", currency, scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, callback: (value) => Finova.formatCurrency(value, currency) }, border: { display: false } } } })
+          options: chartOptions({ tooltipMode: "bar", currency, scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, maxTicksLimit: 5, callback: (value) => Finova.formatCurrency(value, currency, { compact: true }) }, border: { display: false } } } })
         });
         chartInstances.set(canvas.id, chart);
       });
@@ -716,7 +723,7 @@
         const currencyChart = new Chart(canvas, {
           type: "bar",
           data: { labels: trendLabels, datasets },
-          options: chartOptions({ tooltipMode: "bar", scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, callback: (value) => Finova.formatCurrency(value, currency) }, border: { display: false } } } })
+          options: chartOptions({ tooltipMode: "bar", scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, maxTicksLimit: 5, callback: (value) => Finova.formatCurrency(value, currency, { compact: true }) }, border: { display: false } } } })
         });
         chartInstances.set(canvas.id, currencyChart);
       });
@@ -726,7 +733,7 @@
       const monthlyChart = new Chart(monthlyCanvas, {
         type: "bar",
         data: trendData,
-        options: chartOptions({ tooltipMode: "bar", scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, callback: (value) => Finova.formatCurrency(value, targetCurrency) }, border: { display: false } } } })
+        options: chartOptions({ tooltipMode: "bar", scales: { x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } }, y: { beginAtZero: true, grid: { color: "rgba(151,174,218,.08)" }, ticks: { color: "#71809a", font: { size: 8 }, maxTicksLimit: 5, callback: (value) => Finova.formatCurrency(value, targetCurrency, { compact: true }) }, border: { display: false } } } })
       });
       chartInstances.set(monthlyCanvas.id, monthlyChart);
     }
