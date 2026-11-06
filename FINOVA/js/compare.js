@@ -290,9 +290,14 @@
       currency,
       amount: categories.filter((item) => item.currency === currency).reduce((sum, item) => sum + item.amount, 0)
     }));
-    document.getElementById("chart-center-total").textContent = totals.length
-      ? totals.length === 1 ? Finova.formatCurrency(totals[0].amount, totals[0].currency) : totals.map((item) => Finova.formatCurrency(item.amount, item.currency)).join(" · ")
-      : Finova.formatCurrency(0, targetCurrency);
+    const centerTotalEl = document.getElementById("chart-center-total");
+    if (totals.length === 1) {
+      Finova.animateNumber(centerTotalEl, totals[0].amount, totals[0].currency);
+    } else if (totals.length > 1) {
+      centerTotalEl.textContent = totals.map((item) => Finova.formatCurrency(item.amount, item.currency)).join(" · ");
+    } else {
+      Finova.animateNumber(centerTotalEl, 0, targetCurrency);
+    }
     document.getElementById("chart-center-caption").textContent = converted && categories.length
       ? `estimated ${targetCurrency} total`
       : totals.length > 1 ? "separate currency totals" : "selected month";
@@ -680,15 +685,21 @@
     if (comparable) {
       const byName = [...categoryTotals.entries()].sort((a, b) => b[1] - a[1]);
       document.getElementById("top-category").textContent = byName[0]?.[0] || "—";
-      document.getElementById("top-category-amount").textContent = byName[0]
-        ? Finova.formatCurrency(byName[0][1], preferred)
-        : "No spending yet";
+      const topAmountEl = document.getElementById("top-category-amount");
+      if (byName[0]) {
+        Finova.animateNumber(topAmountEl, byName[0][1], preferred);
+      } else {
+        topAmountEl.textContent = "No spending yet";
+      }
     } else {
       const sameCurrency = new Set(categoryRows.map((item) => item.currency)).size <= 1;
       document.getElementById("top-category").textContent = sameCurrency ? topCategory?.category || "—" : "Multiple currencies";
-      document.getElementById("top-category-amount").textContent = sameCurrency && topCategory
-        ? Finova.formatCurrency(topCategory.amount, topCategory.currency)
-        : categoryRows.length ? "No cross-currency ranking" : "No spending yet";
+      const topAmountEl = document.getElementById("top-category-amount");
+      if (sameCurrency && topCategory) {
+        Finova.animateNumber(topAmountEl, topCategory.amount, topCategory.currency);
+      } else {
+        topAmountEl.textContent = categoryRows.length ? "No cross-currency ranking" : "No spending yet";
+      }
     }
 
     if (chartMode === "circular") {

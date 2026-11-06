@@ -938,6 +938,87 @@ body.light-theme .transaction-row:hover {
   background: rgba(65, 91, 157, .04);
 }
 
+
+/* Wallet & Insight Cards Glassmorphism & Hover Lift */
+.wallet-currency-balance {
+  transition: transform .24s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .24s ease, border-color .24s ease;
+}
+.wallet-currency-balance:hover {
+  transform: translateY(-2px);
+  border-color: rgba(140, 168, 255, .32);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .24), 0 0 16px rgba(106, 140, 255, .1);
+}
+.insight-card {
+  transition: transform .28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .28s cubic-bezier(0.2, 0.8, 0.2, 1), border-color .28s ease;
+}
+.insight-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(140, 168, 255, .3);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, .28), 0 0 20px rgba(106, 140, 255, .08);
+}
+
+/* Auth Cards & Features */
+.auth-card {
+  transition: box-shadow .3s ease, border-color .3s ease;
+}
+.auth-card:hover {
+  border-color: rgba(140, 168, 255, .28);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35), 0 0 24px rgba(106, 140, 255, .08);
+}
+.auth-feature {
+  transition: background .2s ease, transform .2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.auth-feature:hover {
+  transform: translateX(3px);
+}
+
+/* Enhanced Focus Ambient Glow */
+input:focus, select:focus, textarea:focus,
+.search-field:focus-within, .amount-input:focus-within, .language-search-wrap:focus-within {
+  border-color: rgba(125, 155, 255, .65) !important;
+  box-shadow: 0 0 0 3px rgba(106, 140, 255, .15), 0 0 14px rgba(162, 119, 255, .1) !important;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+/* Interactive Navigation & Controls */
+.chart-mode-button:active,
+.month-step:active:not(:disabled) {
+  transform: scale(.95);
+}
+.theme-toggle,
+.avatar-button,
+.mobile-menu {
+  transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1), background .2s ease, box-shadow .2s ease;
+}
+.theme-toggle:hover,
+.avatar-button:hover,
+.mobile-menu:hover {
+  transform: scale(1.05);
+}
+.theme-toggle:active,
+.avatar-button:active,
+.mobile-menu:active {
+  transform: scale(.95);
+}
+
+/* Dialog Enter Animations */
+.wallet-dialog-backdrop.visible {
+  transition: opacity .22s ease, visibility .22s;
+}
+.wallet-dialog-backdrop.visible .wallet-dialog {
+  animation: menu-pop .24s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Light Theme Enhancements */
+body.light-theme .wallet-currency-balance:hover {
+  border-color: rgba(83, 113, 211, .32);
+  box-shadow: 0 8px 20px rgba(48, 64, 105, .1), 0 0 14px rgba(89, 119, 234, .08);
+}
+body.light-theme .insight-card:hover {
+  border-color: rgba(83, 113, 211, .32);
+  box-shadow: 0 16px 36px rgba(48, 64, 105, .12), 0 0 16px rgba(89, 119, 234, .08);
+}
+
 /* Accessibility: Full reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
