@@ -1,6 +1,7 @@
 /* ========================================================
    FINOVA AGENT – Intelligent Financial Assistant Engine
    Natural Conversation · Friendly Personality · Personal Finance Scope
+   Fully Synchronized with FINOVA Application Language
    ======================================================== */
 (function () {
   "use strict";
@@ -17,6 +18,35 @@
   let lastContext = null;
   let chartCounter = 0;
 
+  // --- Language Management ---
+  function getCurrentLang() {
+    return (window.Finova && typeof Finova.getLanguage === "function"
+      ? Finova.getLanguage()
+      : localStorage.getItem("finova.language.v1") || "en");
+  }
+
+  function t(key, vars = {}) {
+    if (window.FinovaAgentI18n && typeof FinovaAgentI18n.t === "function") {
+      return FinovaAgentI18n.t(key, vars, getCurrentLang());
+    }
+    return key;
+  }
+
+  function getPrompt(promptKey, vars = {}) {
+    if (window.FinovaAgentI18n && typeof FinovaAgentI18n.getPrompt === "function") {
+      return FinovaAgentI18n.getPrompt(promptKey, vars, getCurrentLang());
+    }
+    return promptKey;
+  }
+
+  function getSystemInstruction() {
+    if (window.FinovaAgentI18n && typeof FinovaAgentI18n.getSystemInstruction === "function") {
+      return FinovaAgentI18n.getSystemInstruction(getCurrentLang());
+    }
+    const currentLang = getCurrentLang();
+    return `Always respond in the user's currently selected FINOVA application language: ${currentLang}. This instruction applies to every response, including greetings, casual conversations, financial analysis, recommendations, follow-up questions, and error messages. Do not switch to English unless English is the selected language or the user explicitly requests another language.`;
+  }
+
   function getUserKey() {
     const username = Finova.getCurrentUsername ? Finova.getCurrentUsername() : "guest";
     return `${STORAGE_KEY_PREFIX}${username}`;
@@ -28,7 +58,6 @@
       if (saved) {
         conversationHistory = JSON.parse(saved);
         if (Array.isArray(conversationHistory) && conversationHistory.length > 0) {
-          // Restore last financial context from history if available
           restoreContextFromHistory();
           renderAllMessages();
           return;
@@ -66,7 +95,8 @@
 
   function formatTime(timestamp) {
     const d = timestamp ? new Date(timestamp) : new Date();
-    return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const locale = (window.Finova && typeof Finova.getLocale === "function") ? Finova.getLocale() : "en";
+    return d.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
   }
 
   // --- Financial Calculation Helpers (CALLED STRICTLY ON FINANCIAL INTENTS ONLY) ---
@@ -89,7 +119,6 @@
 
     const sum = (arr) => arr.reduce((acc, t) => acc + (Number(t.amount) || 0), 0);
 
-    // Current month category breakdown (fallback to all if current month has none)
     const categoryTotals = {};
     const relevantExpenses = currentMonthExpenses.length > 0 ? currentMonthExpenses : expensesAll;
     relevantExpenses.forEach((t) => {
@@ -104,7 +133,6 @@
     const totalExpenseAmount = sum(relevantExpenses);
     const topCategory = sortedCategories[0] || null;
 
-    // Income breakdown
     const incomeTotals = {};
     const relevantIncome = currentMonthIncome.length > 0 ? currentMonthIncome : incomeAll;
     relevantIncome.forEach((t) => {
@@ -144,24 +172,30 @@
     };
   }
 
-  // --- Intent Classification Engine ---
+  // --- Multilingual Intent Classification Engine ---
   function classifyIntent(queryText) {
     const raw = (queryText || "").trim();
     const q = raw.toLowerCase();
-    // Normalize contractions and strip punctuation
     const clean = q.replace(/['’]/g, "").replace(/[?!.,;:()"„“”`]/g, " ").replace(/\s+/g, " ").trim();
     const words = clean.split(" ").filter(Boolean);
 
-    // 1. GREETINGS
+    // 1. GREETINGS (English & Multilingual)
     const greetings = [
       "hi", "hello", "hey", "heyy", "heya", "howdy", "hola", "yo", "greetings", "hiya",
-      "good morning", "good afternoon", "good evening", "good day", "morning", "evening"
+      "good morning", "good afternoon", "good evening", "good day", "morning", "evening",
+      "नमस्ते", "नमस्कार", "सुप्रभात", "शुभ संध्या",
+      "ನಮಸ್ಕಾರ", "ಶುಭೋದಯ", "ಶುಭ ಸಂಜೆ",
+      "నమస్కారం", "నమస్తే", "శుభోదయం", "శుభ సాయంత్రం",
+      "வணக்கம்", "காலை வணக்கம்", "மாலை வணக்கம்",
+      "ഹലോ", "നമസ്കാരം", "സുപ്രഭാതം",
+      "bonjour", "salut", "buenos dias", "buenas tardes", "buenas noches", "ciao",
+      "hallo", "guten morgen", "guten tag", "olá", "bom dia", "привет", "здравствуйте",
+      "你好", "早上好", "下午好", "晚上好", "こんにちは", "おはよう", "안녕하세요",
+      "مرحبا", "صباح الخير", "مساء الخير"
     ];
-    const isGreeting = greetings.some(
-      (g) => clean === g || clean.startsWith(g + " ")
-    );
+    const isGreeting = greetings.some((g) => clean === g || clean.startsWith(g + " "));
 
-    // Financial keywords
+    // Financial keywords (English & Indic/Global)
     const financeKeywords = [
       "spend", "spent", "spending", "expense", "expenses", "cost", "costs", "paid", "payment", "payments",
       "income", "salary", "earning", "earnings", "earned", "revenue", "deposit",
@@ -169,16 +203,29 @@
       "wallet", "balance", "balances", "transaction", "transactions", "record", "records",
       "category", "categories", "groceries", "food", "dining", "transport", "entertainment",
       "bills", "utilities", "rent", "shopping", "money", "cash", "surplus",
-      "report", "summary", "compare", "comparison"
+      "report", "summary", "compare", "comparison",
+      // Hindi
+      "खर्च", "खर्चे", "आय", "कमाई", "वेतन", "बचत", "बचाना", "बजट", "पैसा", "पैसे", "लेन-देन", "श्रेणी", "रिपोर्ट", "तुलना", "वॉलेट",
+      // Kannada
+      "ಖರ್ಚು", "ವೆಚ್ಚ", "ಆದಾಯ", "ಗಳಿಕೆ", "ಉಳಿತಾಯ", "ಬಜೆಟ್", "ಹಣ", "ವಹಿವಾಟು", "ವರ್ಗ", "ವರದಿ", "ಹೋಲಿಕೆ", "ವಾಲೆಟ್",
+      // Telugu
+      "ఖర్చు", "ఖర్చులు", "ఆదాయం", "సంపాదన", "పొదుపు", "బడ్జెట్", "డబ్బు", "లావాదేవీ", "విభాగం", "నివేదిక", "పోలిక", "వాలెట్",
+      // Tamil
+      "செலவு", "செலவுகள்", "வருமானம்", "சேமிப்பு", "பட்ஜெட்", "பணம்", "பரிவர்த்தனை", "பிரிவு", "அறிக்கை", "ஒப்பீடு", "வாலட்",
+      // Malayalam
+      "ചെലവ്", "വരുമാനം", "സമ്പാദ്യം", "പണം", "ഇടപാട്", "റിപ്പോർട്ട്",
+      // Spanish/French/German/Chinese
+      "gasto", "gastos", "ingreso", "ahorro", "dinero",
+      "dépense", "dépenses", "revenu", "épargne", "argent",
+      "ausgaben", "einnahmen", "sparen", "geld",
+      "支出", "开销", "收入", "储蓄", "存钱", "理财",
+      "支出", "収入", "貯蓄", "お金",
+      "지출", "수입", "저축", "돈"
     ];
-    const hasFinanceKeyword = financeKeywords.some((k) => {
-      const regex = new RegExp(`\\b${k}\\b`, "i");
-      return regex.test(clean);
-    });
-
+    const hasFinanceKeyword = financeKeywords.some((k) => clean.includes(k));
     const hasMoneyAmount = /(?:₹|\$|€|£|rs|inr)\s*\d+|\d+\s*(?:dollars|rupees|bucks|inr|usd)/i.test(q);
 
-    if (isGreeting && !hasFinanceKeyword && !hasMoneyAmount && words.length <= 5) {
+    if (isGreeting && !hasFinanceKeyword && !hasMoneyAmount && words.length <= 6) {
       return "GREETING";
     }
 
@@ -190,12 +237,18 @@
       "great", "awesome", "perfect", "fine",
       "can you help me", "i need help", "could you help me", "could you help", "what can you do", "help me",
       "who are you", "what is your name", "whats your name", "what are you",
-      "bye", "goodbye", "see you", "cya", "have a good day"
+      "bye", "goodbye", "see you", "cya", "have a good day",
+      // Indic
+      "धन्यवाद", "शुक्रिया", "आप कैसे हैं", "क्या आप मदद कर सकते हैं", "तुम कौन हो", "आप कौन हैं", "अलविदा", "ठीक है",
+      "ಧನ್ಯವಾದಗಳು", "ನೀವು ಹೇಗಿದ್ದೀರಿ", "ಸಹಾಯ ಮಾಡಬಹುದೇ", "ನೀವು ಯಾರು", "ಶುಭ ದಿನ", "ಸರಿ",
+      "ధన్యవాదాలు", "మీరు ఎలా ఉన్నారు", "సహాయం చేయగలరా", "మీరు ఎవరు", "సరే",
+      "நன்றி", "நீங்கள் எப்படி இருக்கிறீர்கள்", "உதவ முடியுமா", "நீங்கள் யார்", "சரி",
+      // Global
+      "merci", "gracias", "danke", "grazie", "obrigado", "спасибо", "谢谢", "ありがとう", "감사합니다", "شكرا"
     ];
     const isCasual = casualPhrases.some((cp) => {
-      if (words.length <= 6 && (clean === cp || clean.startsWith(cp + " "))) return true;
-      const regex = new RegExp(`\\b${cp.replace(/\s+/g, "\\s+")}\\b`, "i");
-      return regex.test(clean);
+      if (clean === cp || clean.startsWith(cp + " ")) return true;
+      return clean.includes(cp);
     });
 
     if (isCasual && !hasFinanceKeyword && !hasMoneyAmount && words.length <= 8) {
@@ -216,7 +269,16 @@
       /break\s+it\s+down/i,
       /tell\s+me\s+more\s+about\s+(it|that)/i,
       /why\s+is\s+(it|that)\s+so\s+high/i,
-      /what\s+about\s+that/i
+      /what\s+about\s+that/i,
+      // Indic contextual follow-ups
+      /इसे\s*कैसे\s*कम\s*कर/i,
+      /किस\s*श्रेणी\s*में\s*सबसे\s*ज्यादा/i,
+      /ಅದನ್ನು\s*ಹೇಗೆ\s*ಕಡಿಮೆ\s*ಮಾಡ/i,
+      /ಯಾವ\s*ವರ್ಗದಲ್ಲಿ\s*ಹೆಚ್ಚು/i,
+      /దీన్ని\s*ఎలా\s*తగ్గించ/i,
+      /ఏ\s*విభాగంలో\s*అత్యధిక/i,
+      /அதை\s*எப்படி\s*குறைக்க/i,
+      /எந்தப்\s*பிரிவில்\s*அதிக/i
     ];
     if (contextPhrases.some((p) => p.test(q))) {
       return "FINANCIAL_CONTEXT";
@@ -242,42 +304,21 @@
     // A. GREETINGS (NO FINANCIAL DATA FETCHED)
     // ========================================================
     if (intent === "GREETING") {
-      if (clean.includes("morning")) {
-        return {
-          text: "Good morning! ☀️ Hope your day is off to a great start. What can I help you with today?",
-          followUps: [
-            "How much did I spend this month?",
-            "Where does most of my money go?",
-            "How can I save more?"
-          ]
-        };
+      let greetKey = "greeting_default";
+      if (clean.includes("morning") || clean.includes("प्रभात") || clean.includes("ಶುಭೋದಯ") || clean.includes("శుభోదయం") || clean.includes("காலை")) {
+        greetKey = "greeting_morning";
+      } else if (clean.includes("evening") || clean.includes("संध्या") || clean.includes("ಸಂಜೆ") || clean.includes("సాయంత్రం") || clean.includes("மாலை")) {
+        greetKey = "greeting_evening";
+      } else if (clean.includes("afternoon")) {
+        greetKey = "greeting_afternoon";
       }
-      if (clean.includes("evening")) {
-        return {
-          text: "Good evening! 🌙 How was your day? Let me know what you'd like to check today.",
-          followUps: [
-            "How much did I spend this month?",
-            "Where does most of my money go?",
-            "How can I save more?"
-          ]
-        };
-      }
-      if (clean.includes("afternoon")) {
-        return {
-          text: "Good afternoon! ☀️ How's your day going? What can I help you with?",
-          followUps: [
-            "How much did I spend this month?",
-            "Where does most of my money go?",
-            "How can I save more?"
-          ]
-        };
-      }
+
       return {
-        text: "Hey! 👋 How's your day going? What can I help you with?",
+        text: t(greetKey),
         followUps: [
-          "How much did I spend this month?",
-          "Where does most of my money go?",
-          "How can I save more?"
+          getPrompt("spend_month"),
+          getPrompt("where_money"),
+          getPrompt("save_more")
         ]
       };
     }
@@ -287,76 +328,76 @@
     // ========================================================
     if (intent === "CASUAL") {
       // "How are you?"
-      if (/how\s*(?:are|r)\s*(?:you|u)|hows\s*it\s*going/i.test(clean)) {
+      if (/how\s*(?:are|r)\s*(?:you|u)|hows\s*it\s*going|कैसे\s*हैं|ಹೇಗಿದ್ದೀರಿ|ఎలా\s*ఉన్నారు|எப்படி\s*இருக்கிறீர்கள்/i.test(clean)) {
         return {
-          text: "Doing well, thanks for asking! 😊 How about you? What would you like help with today?",
+          text: t("casual_how_are_you"),
           followUps: [
-            "How much did I spend this month?",
-            "Where does most of my money go?",
-            "How can I save more?"
+            getPrompt("spend_month"),
+            getPrompt("where_money"),
+            getPrompt("save_more")
           ]
         };
       }
 
       // "Thank you"
-      if (/thank\s*(?:you|u)|thanks|thx|appreciate/i.test(clean)) {
+      if (/thank|thanks|thx|धन्यवाद|ಧನ್ಯವಾದ|ధన్యవాదాలు|நன்றி|merci|gracias|danke/i.test(clean)) {
         return {
-          text: "You're welcome! 😊 Let me know if you need any other help with your finances.",
+          text: t("casual_thank_you"),
           followUps: [
-            "Where does most of my money go?",
-            "How can I save more?"
+            getPrompt("where_money"),
+            getPrompt("save_more")
           ]
         };
       }
 
       // "Okay", "That's good", "Cool", "Nice"
-      if (/^(?:ok|okay|alright|cool|nice|got\s*it|sounds\s*good|thats\s*good|great|awesome|perfect|fine)$/i.test(clean)) {
+      if (/^(?:ok|okay|alright|cool|nice|got\s*it|sounds\s*good|thats\s*good|great|awesome|perfect|fine|ठीक\s*है|ಸರಿ|సరే|சரி)$/i.test(clean)) {
         return {
-          text: "Glad to hear! 😊 Feel free to ask whenever you'd like to check your spending or savings.",
+          text: t("casual_ack"),
           followUps: [
-            "Compare this month and last month.",
-            "Create a savings plan."
+            getPrompt("compare_months"),
+            getPrompt("savings_plan")
           ]
         };
       }
 
       // "Can you help me?"
-      if (/can\s*you\s*help|need\s*help|what\s*can\s*you\s*do|help\s*me/i.test(clean)) {
+      if (/can\s*you\s*help|need\s*help|what\s*can\s*you\s*do|help\s*me|मदद|ಸಹಾಯ|సహాయం|உதவ/i.test(clean)) {
         return {
-          text: "Of course! 😊 I can help you track your spending, check wallet balances, compare months, and build savings plans. What would you like to explore?",
+          text: t("casual_help"),
           followUps: [
-            "How much did I spend this month?",
-            "Where does most of my money go?",
-            "How can I save more?"
+            getPrompt("spend_month"),
+            getPrompt("where_money"),
+            getPrompt("save_more")
           ]
         };
       }
 
       // "Who are you?"
-      if (/who\s*are\s*you|what\s*is\s*your\s*name|whats\s*your\s*name|what\s*are\s*you/i.test(clean)) {
+      if (/who\s*are\s*you|what\s*is\s*your\s*name|whats\s*your\s*name|what\s*are\s*you|तुम\s*कौन\s*हो|ನೀವು\s*ಯಾರು|మీరు\s*ఎవరు|நீங்கள்\s*யார்/i.test(clean)) {
         return {
-          text: "I'm **Agent**, your personal finance companion in FINOVA! I help you keep track of your income, expenses, and savings goals.",
+          text: t("casual_who"),
           followUps: [
-            "How much did I spend this month?",
-            "Where does most of my money go?",
-            "Create a savings plan."
+            getPrompt("spend_month"),
+            getPrompt("where_money"),
+            getPrompt("savings_plan")
           ]
         };
       }
 
       // "Goodbye"
-      if (/bye|goodbye|see\s*you|cya/i.test(clean)) {
+      if (/bye|goodbye|see\s*you|cya|अलविदा/i.test(clean)) {
         return {
-          text: "Have a great day ahead! 👋 I'm always here whenever you want to check your finances."
+          text: t("casual_bye")
         };
       }
 
       return {
-        text: "I'm here to help! 😊 Feel free to ask anything about your spending, income, or savings goals.",
+        text: t("casual_fallback"),
         followUps: [
-          "How much did I spend this month?",
-          "Where does most of my money go?",
-          "How can I save more?"
+          getPrompt("spend_month"),
+          getPrompt("where_money"),
+          getPrompt("save_more")
         ]
       };
     }
@@ -366,11 +407,11 @@
     // ========================================================
     if (intent === "UNRELATED") {
       return {
-        text: "Sorry! 😊 I'm your personal finance Agent. I can help you understand your income, expenses, savings, and manage your money, but I can't help with that topic.",
+        text: t("unrelated_scope"),
         followUps: [
-          "How much did I spend this month?",
-          "Where does most of my money go?",
-          "How can I save more?"
+          getPrompt("spend_month"),
+          getPrompt("where_money"),
+          getPrompt("save_more")
         ]
       };
     }
@@ -389,6 +430,10 @@
       /my\s*spending\s*this\s*month/i.test(clean) ||
       /spent\s*this\s*month/i.test(clean) ||
       /spending\s*this\s*month/i.test(clean) ||
+      /इस\s*महीने\s*मैंने\s*कितना\s*खर्च/i.test(clean) ||
+      /ಈ\s*ತಿಂಗಳು\s*ನಾನು\s*ಎಷ್ಟು\s*ಖರ್ಚು/i.test(clean) ||
+      /ఈ\s*నెల\s*నేను\s*ఎంత\s*ఖర్చు/i.test(clean) ||
+      /இந்த\s*மாதம்\s*நான்\s*எவ்வளவு\s*செலவு/i.test(clean) ||
       (clean.includes("spend") && clean.includes("month") && !clean.includes("compare") && !clean.includes("last"))
     ) {
       const curExp = data.curMonthExpenseTotal;
@@ -397,8 +442,8 @@
 
       if (curExp === 0) {
         return {
-          text: "You haven't recorded any expenses for this month yet. Once you add transactions on the **Add transaction** page, I'll keep track of your spending here! 😊",
-          followUps: ["Analyze my income.", "Create a savings plan."]
+          text: t("spending_zero"),
+          followUps: [getPrompt("analyze_income"), getPrompt("savings_plan")]
         };
       }
 
@@ -411,24 +456,21 @@
         count
       };
 
-      let resp = `You spent **${fmt(curExp)}** this month`;
-      if (count > 0) {
-        resp += ` across **${count} transaction${count === 1 ? "" : "s"}**`;
-      }
-      resp += `.\n\n`;
-
-      if (top) {
-        resp += `Most of it went toward **${top.category}** (${fmt(top.amount)}).\n\n`;
-      }
-      resp += `Would you like to see which category was highest, or how you can reduce it?`;
+      const resp = t("spending_month", {
+        amount: fmt(curExp),
+        count,
+        s: count === 1 ? "" : "s",
+        topCategory: top ? top.category : "Expenses",
+        topAmount: top ? fmt(top.amount) : fmt(0)
+      });
 
       return {
         text: resp,
         savedContext: { ...lastContext },
         followUps: [
-          "Which category was highest?",
-          "How can I reduce it?",
-          "Compare this month and last month."
+          getPrompt("cat_highest"),
+          getPrompt("reduce_it"),
+          getPrompt("compare_months")
         ]
       };
     }
@@ -439,12 +481,16 @@
       /which\s*category\s*(?:did\s*i\s*spend\s*the\s*most|was\s*highest|was\s*the\s*highest)/i.test(clean) ||
       /highest\s*(?:category|spending|expense)/i.test(clean) ||
       /what\s*was\s*(?:the\s*)?highest/i.test(clean) ||
+      /पैसा\s*कहाँ\s*जाता\s*है|किस\s*श्रेणी\s*में\s*सबसे\s*ज्यादा/i.test(clean) ||
+      /ಹಣ\s*ಎಲ್ಲಿಗೆ\s*ಹೋಗುತ್ತದೆ|ಯಾವ\s*ವರ್ಗದಲ್ಲಿ\s*ಹೆಚ್ಚು/i.test(clean) ||
+      /డబ్బు\s*ఎక్కువగా\s*దేనికి|ఏ\s*విభాగంలో\s*అత్యధిక/i.test(clean) ||
+      /பணம்\s*பெரும்பாலும்\s*எங்கே|எந்தப்\s*பிரிவில்\s*அதிக/i.test(clean) ||
       clean === "where does most of my money go"
     ) {
       if (data.totalExpenseAmount === 0) {
         return {
-          text: "You don't have any recorded expenses yet in your FINOVA account. Add a transaction to see your spending categories!",
-          followUps: ["Analyze my income.", "Add transaction"]
+          text: t("spending_zero"),
+          followUps: [getPrompt("analyze_income"), getPrompt("savings_plan")]
         };
       }
 
@@ -460,22 +506,28 @@
         totalExpenses: data.totalExpenseAmount
       };
 
-      let resp = `Most of your spending ${periodLabel} was on **${top.category}**, totaling **${fmt(top.amount)}** (about **${topPct}%** of your total spending).\n\n`;
-
+      let secondText = "";
       if (data.sortedCategories.length > 1) {
         const second = data.sortedCategories[1];
         const secondPct = ((second.amount / data.totalExpenseAmount) * 100).toFixed(1);
-        resp += `Your next biggest expense was **${second.category}** at **${fmt(second.amount)}** (${secondPct}%).\n\n`;
+        secondText = t("second_highest", { category: second.category, amount: fmt(second.amount), pct: secondPct });
       }
-      resp += `Would you like some practical tips to cut down on **${top.category}**?`;
+
+      const resp = t("where_money_goes", {
+        period: periodLabel,
+        topCategory: top.category,
+        topAmount: fmt(top.amount),
+        topPct,
+        secondText
+      });
 
       return {
         text: resp,
         savedContext: { ...lastContext },
         followUps: [
-          "How can I reduce it?",
-          "How can I save more?",
-          "Compare this month and last month."
+          getPrompt("reduce_it"),
+          getPrompt("save_more"),
+          getPrompt("compare_months")
         ]
       };
     }
@@ -484,12 +536,13 @@
     if (
       /analyze\s*my\s*spending/i.test(clean) ||
       /analyse\s*my\s*spending/i.test(clean) ||
-      /spending\s*breakdown/i.test(clean)
+      /spending\s*breakdown/i.test(clean) ||
+      /खर्च\s*का\s*विश्लेषण|ಖರ್ಚನ್ನು\s*ವಿಶ್ಲೇಷಿಸಿ|ఖర్చును\s*విశ్లేషించండి|செலவுகளை\s*பகுப்பாய்வு/i.test(clean)
     ) {
       if (data.totalExpenseAmount === 0) {
         return {
-          text: "You haven't recorded any expenses yet in FINOVA. Add a transaction to start analyzing your spending trends!",
-          followUps: ["Analyze my income.", "Add transaction"]
+          text: t("spending_zero"),
+          followUps: [getPrompt("analyze_income"), getPrompt("savings_plan")]
         };
       }
 
@@ -505,15 +558,20 @@
         totalExpenses: data.totalExpenseAmount
       };
 
-      let analysis = `Here is your spending breakdown ${periodLabel}:\n\n`;
-      analysis += `Total spending is **${fmt(data.totalExpenseAmount)}** across **${data.sortedCategories.length} categories**.\n\n`;
-      analysis += `🏷️ **Highest expense**: **${top.category}** at **${fmt(top.amount)}** (${topPct}%).\n\n`;
-
+      let secondText = "";
       if (data.sortedCategories.length > 1) {
         const second = data.sortedCategories[1];
         const secondPct = ((second.amount / data.totalExpenseAmount) * 100).toFixed(1);
-        analysis += `Second highest is **${second.category}** at **${fmt(second.amount)}** (${secondPct}%).`;
+        secondText = t("second_highest", { category: second.category, amount: fmt(second.amount), pct: secondPct });
       }
+
+      const analysis = t("where_money_goes", {
+        period: periodLabel,
+        topCategory: top.category,
+        topAmount: fmt(top.amount),
+        topPct,
+        secondText
+      });
 
       return {
         text: analysis,
@@ -525,9 +583,9 @@
         },
         savedContext: { ...lastContext },
         followUps: [
-          `How can I reduce spending on ${top.category}?`,
-          "Compare this month and last month.",
-          "How can I save more?"
+          getPrompt("reduce_cat", { category: top.category }),
+          getPrompt("compare_months"),
+          getPrompt("save_more")
         ]
       };
     }
@@ -540,38 +598,40 @@
       /reduce\s*expenses/i.test(clean) ||
       /cut\s*expenses/i.test(clean) ||
       /how\s*to\s*cut\s*down/i.test(clean) ||
+      /कम\s*कर|ಕಡಿಮೆ\s*ಮಾಡ|తగ్గించ|குறைக்க/i.test(clean) ||
       clean === "help me reduce expenses"
     ) {
       const targetCat = (lastContext && lastContext.topCategory) || (data.topCategory && data.topCategory.category) || "Bills";
       const targetAmt = (lastContext && lastContext.topAmount) || (data.topCategory && data.topCategory.amount) || 1000;
 
       const cut10 = targetAmt * 0.10;
-      const cut20 = targetAmt * 0.20;
-
-      let tips = "";
       const catLower = targetCat.toLowerCase();
+      let tips = "";
       if (catLower.includes("food") || catLower.includes("grocer") || catLower.includes("dining")) {
-        tips = `• **Plan weekly meals**: Batch cooking and grocery lists typically lower unplanned food bills by 10–15%.\n• **Audit dining out**: Set a dedicated weekly eating-out limit so impulse meals don't sneak up.\n• **Buy staples in bulk**: Stock up on long-lasting essentials when on discount.`;
+        tips = t("tips_food");
       } else if (catLower.includes("bill") || catLower.includes("utilit")) {
-        tips = `• **Audit recurring subscriptions**: Cancel streaming, gym, or digital services you haven't used in 30 days.\n• **Check provider rates**: Calling your broadband or mobile provider can often lower plans to newer promotional rates.\n• **Energy conservation**: Turn off idle electronics and adjust heating/cooling during peak hours.`;
+        tips = t("tips_bills");
       } else if (catLower.includes("shop") || catLower.includes("entertain")) {
-        tips = `• **The 48-Hour Rule**: Wait 48 hours before purchasing non-essential items to avoid impulse buying.\n• **Unlink one-click checkout**: Remove saved cards from online stores to add positive friction.\n• **Set a fun-money envelope**: Decide an exact budget for leisure each month and stick to it.`;
+        tips = t("tips_shopping");
       } else {
-        tips = `• **Set a category limit**: Give yourself a clear weekly ceiling for ${targetCat}.\n• **Track smaller purchases**: Daily micro-transactions often add up to half of the total.\n• **Automate savings first**: Transfer savings right when you get paid before spending on ${targetCat}.`;
+        tips = t("tips_general", { category: targetCat });
       }
 
-      let response = `To cut down on **${targetCat}** (currently **${fmt(targetAmt)}**), here are practical steps you can take:\n\n`;
-      response += `${tips}\n\n`;
-      response += `💡 If you trim just 10%, you'll save **${fmt(cut10)}/month** (${fmt(cut10 * 12)} a year)!\n\n`;
-      response += `Would you like to build a savings plan around this?`;
+      const response = t("reduce_intro", {
+        category: targetCat,
+        amount: fmt(targetAmt),
+        tips,
+        cut10: fmt(cut10),
+        cut10Year: fmt(cut10 * 12)
+      });
 
       return {
         text: response,
         savedContext: { ...lastContext },
         followUps: [
-          "Create a savings plan.",
-          "How much can I save?",
-          "Compare this month and last month."
+          getPrompt("savings_plan"),
+          getPrompt("where_money"),
+          getPrompt("compare_months")
         ]
       };
     }
@@ -583,6 +643,7 @@
       /savings\s*plan/i.test(clean) ||
       /create\s*a\s*savings/i.test(clean) ||
       /how\s*to\s*save/i.test(clean) ||
+      /बचत\s*योजना|ಉಳಿತಾಯ\s*ಯೋಜನೆ|పొదుపు\s*ప్రణాళిక|சேமிப்புத்\s*திட்டம்/i.test(clean) ||
       clean === "create a savings plan"
     ) {
       const income = data.curMonthIncomeTotal > 0 ? data.curMonthIncomeTotal : data.totalIncomeAmount;
@@ -591,8 +652,8 @@
 
       if (surplus <= 0 && income === 0) {
         return {
-          text: `You haven't recorded your income yet. Once you add your salary or earnings on the **Add transaction** page, I can calculate your exact monthly surplus and build a custom savings plan for you! 😊`,
-          followUps: ["Analyze my spending.", "Add transaction"]
+          text: t("savings_zero_income"),
+          followUps: [getPrompt("analyze_spending"), getPrompt("spend_month")]
         };
       }
 
@@ -600,10 +661,13 @@
         const topCat = data.topCategory?.category || "Expenses";
         const topAmt = data.topCategory?.amount || expenses;
         return {
-          text: `Right now, your monthly expenses (**${fmt(expenses)}**) match or exceed your income (**${fmt(income)}**).\n\n` +
-            `The quickest win is trimming 10% from your highest expense (**${topCat}**), which would put **${fmt(topAmt * 0.1)}/month** straight into savings.\n\n` +
-            `Would you like some ideas to trim spending on **${topCat}**?`,
-          followUps: ["Help me reduce expenses.", "Where does most of my money go?"]
+          text: t("savings_deficit", {
+            expenses: fmt(expenses),
+            income: fmt(income),
+            topCategory: topCat,
+            cut10: fmt(topAmt * 0.1)
+          }),
+          followUps: [getPrompt("reduce_it"), getPrompt("where_money")]
         };
       }
 
@@ -611,31 +675,37 @@
       const p40 = surplus * 0.40;
       const p60 = surplus * 0.60;
 
-      let plan = `Based on your current monthly surplus of **${fmt(surplus)}** (Income: ${fmt(income)} − Expenses: ${fmt(expenses)}), here is a realistic savings roadmap:\n\n`;
-      plan += `• **Comfortable Plan (20%)**: Save **${fmt(p20)}/month** → **${fmt(p20 * 12)}/year**\n`;
-      plan += `• **Balanced Plan (Recommended · 40%)**: Save **${fmt(p40)}/month** → **${fmt(p40 * 12)}/year**\n`;
-      plan += `• **Accelerated Plan (60%)**: Save **${fmt(p60)}/month** → **${fmt(p60 * 12)}/year**\n\n`;
-      plan += `You can also tell me a specific goal (e.g. *"I want to save $500"*), and I'll calculate how quickly you can hit it!`;
+      const plan = t("savings_plan_intro", {
+        surplus: fmt(surplus),
+        income: fmt(income),
+        expenses: fmt(expenses),
+        p20: fmt(p20),
+        p20Year: fmt(p20 * 12),
+        p40: fmt(p40),
+        p40Year: fmt(p40 * 12),
+        p60: fmt(p60),
+        p60Year: fmt(p60 * 12)
+      });
 
       return {
         text: plan,
         chartType: "savings_projection",
         chartData: {
           monthlySavings: [p20, p40, p60],
-          labels: ["Comfortable (20%)", "Balanced (40%)", "Accelerated (60%)"],
+          labels: ["20%", "40%", "60%"],
           currency: cur
         },
         savedContext: { topic: "savings_plan", surplus, income, expenses },
         followUps: [
           `I want to save ${fmt(50000)}`,
-          "Help me reduce expenses.",
-          "Compare this month and last month."
+          getPrompt("reduce_it"),
+          getPrompt("compare_months")
         ]
       };
     }
 
     // 6. Custom Goal Target (e.g. "I want to save 500 dollars")
-    const goalMatch = q.match(/(?:save|goal|target)\s*(?:of)?\s*(?:rs|inr|\$|€|£|₹)?\s*([0-9,]+)/i);
+    const goalMatch = q.match(/(?:save|goal|target|बचाना|ಉಳಿತಾಯ|పొదుపు|சேமிக்க)\s*(?:of)?\s*(?:rs|inr|\$|€|£|₹)?\s*([0-9,]+)/i);
     if (goalMatch) {
       const targetGoal = Number(goalMatch[1].replace(/,/g, ""));
       if (Number.isFinite(targetGoal) && targetGoal > 0) {
@@ -646,15 +716,17 @@
         const balancedMonthly = surplus * 0.40;
         const monthsNeeded = Math.ceil(targetGoal / Math.max(balancedMonthly, 500));
 
-        let res = `🎯 **Savings Roadmap for ${fmt(targetGoal)}**:\n\n`;
-        res += `• Target Goal: **${fmt(targetGoal)}**\n`;
-        res += `• Current Monthly Surplus: **${fmt(surplus)}**\n`;
-        res += `• Suggested Contribution: **${fmt(balancedMonthly)}/month** (40% of surplus)\n\n`;
-        res += `At this pace, you'll reach your goal in about **${monthsNeeded} month${monthsNeeded === 1 ? "" : "s"}**! Trimming discretionary spending could get you there even faster.`;
+        const res = t("custom_goal", {
+          targetGoal: fmt(targetGoal),
+          surplus: fmt(surplus),
+          contribution: fmt(balancedMonthly),
+          months: monthsNeeded,
+          s: monthsNeeded === 1 ? "" : "s"
+        });
 
         return {
           text: res,
-          followUps: ["Help me reduce expenses.", "Where does most of my money go?"]
+          followUps: [getPrompt("reduce_it"), getPrompt("where_money")]
         };
       }
     }
@@ -664,6 +736,7 @@
       /compare\s*this\s*month\s*and\s*last\s*month/i.test(clean) ||
       /compare\s*month/i.test(clean) ||
       /monthly\s*comparison/i.test(clean) ||
+      /तुलना\s*करें|ಹೋಲಿಸಿ|పోల్చండి|ஒப்பிடுக/i.test(clean) ||
       (clean.includes("last month") && clean.includes("this month"))
     ) {
       const curExp = data.curMonthExpenseTotal;
@@ -672,26 +745,27 @@
       const prevInc = data.prevMonthIncomeTotal;
 
       const expDiff = curExp - prevExp;
-      const expPct = prevExp > 0 ? ((expDiff / prevExp) * 100).toFixed(1) : (curExp > 0 ? "100" : "0");
+      const expPct = prevExp > 0 ? ((Math.abs(expDiff) / prevExp) * 100).toFixed(1) : (curExp > 0 ? "100" : "0");
 
       const incDiff = curInc - prevInc;
-      const incPct = prevInc > 0 ? ((incDiff / prevInc) * 100).toFixed(1) : (curInc > 0 ? "100" : "0");
+      const incPct = prevInc > 0 ? ((Math.abs(incDiff) / prevInc) * 100).toFixed(1) : (curInc > 0 ? "100" : "0");
 
       const curNet = curInc - curExp;
       const prevNet = prevInc - prevExp;
 
-      let msg = `Here is your month-over-month comparison:\n\n`;
-      msg += `📉 **Expenses**: ${fmt(prevExp)} ➔ **${fmt(curExp)}** `;
-      if (expDiff > 0) msg += `(🔺 Increased by ${fmt(expDiff)} or +${expPct}%)\n`;
-      else if (expDiff < 0) msg += `(🟢 Decreased by ${fmt(Math.abs(expDiff))} or ${expPct}%)\n`;
-      else msg += `(Unchanged)\n`;
+      const expDiffText = expDiff > 0 ? t("diff_increased", { diff: fmt(expDiff), pct: expPct })
+        : (expDiff < 0 ? t("diff_decreased", { diff: fmt(Math.abs(expDiff)), pct: expPct }) : t("diff_unchanged"));
 
-      msg += `📈 **Income**: ${fmt(prevInc)} ➔ **${fmt(curInc)}** `;
-      if (incDiff > 0) msg += `(🟢 Increased by ${fmt(incDiff)} or +${incPct}%)\n`;
-      else if (incDiff < 0) msg += `(🔻 Decreased by ${fmt(Math.abs(incDiff))} or ${incPct}%)\n`;
-      else msg += `(Unchanged)\n\n`;
+      const incDiffText = incDiff > 0 ? t("diff_increased", { diff: fmt(incDiff), pct: incPct })
+        : (incDiff < 0 ? t("diff_decreased", { diff: fmt(Math.abs(incDiff)), pct: incPct }) : t("diff_unchanged"));
 
-      msg += `⚖️ **Net Cash Flow**: Last month was **${prevNet >= 0 ? "+" : "−"}${fmt(Math.abs(prevNet))}**, and this month is **${curNet >= 0 ? "+" : "−"}${fmt(Math.abs(curNet))}**.`;
+      const prevNetFormatted = (prevNet >= 0 ? "+" : "−") + fmt(Math.abs(prevNet));
+      const curNetFormatted = (curNet >= 0 ? "+" : "−") + fmt(Math.abs(curNet));
+
+      let msg = t("month_compare_title");
+      msg += t("month_compare_exp", { prevExp: fmt(prevExp), curExp: fmt(curExp), expDiff: expDiffText });
+      msg += t("month_compare_inc", { prevInc: fmt(prevInc), curInc: fmt(curInc), incDiff: incDiffText });
+      msg += t("month_compare_net", { prevNet: prevNetFormatted, curNet: curNetFormatted });
 
       return {
         text: msg,
@@ -703,9 +777,9 @@
           currency: cur
         },
         followUps: [
-          "Where does most of my money go?",
-          "How much can I save?",
-          "Help me reduce expenses."
+          getPrompt("where_money"),
+          getPrompt("save_more"),
+          getPrompt("reduce_it")
         ]
       };
     }
@@ -715,28 +789,34 @@
       /analyze\s*my\s*income/i.test(clean) ||
       /analyse\s*my\s*income/i.test(clean) ||
       /income\s*breakdown/i.test(clean) ||
-      /where\s*did\s*my\s*income\s*come\s*from/i.test(clean)
+      /आय\s*का\s*विश्लेषण|ಆದಾಯವನ್ನು\s*ವಿಶ್ಲೇಷಿಸಿ|ఆదాయాన్ని\s*విశ్లేషించండి|வருமான\s*பகுப்பாய்வு/i.test(clean)
     ) {
       if (data.totalIncomeAmount === 0) {
         return {
-          text: `You have no income entries recorded yet. Once you add your salary or earnings on the **Add transaction** page, I'll analyze your income diversification! 😊`,
-          followUps: ["Analyze my spending.", "Add transaction"]
+          text: t("income_zero"),
+          followUps: [getPrompt("analyze_spending"), getPrompt("spend_month")]
         };
       }
 
-      let res = `💰 **Income Overview**:\n\n`;
-      res += `Total recorded earnings: **${fmt(data.totalIncomeAmount)}** across **${data.sortedIncomeCategories.length} stream${data.sortedIncomeCategories.length === 1 ? "" : "s"}**.\n\n`;
+      let streamsText = "";
       data.sortedIncomeCategories.forEach((item, idx) => {
         const pct = ((item.amount / data.totalIncomeAmount) * 100).toFixed(1);
-        res += `${idx + 1}. **${item.category}**: ${fmt(item.amount)} (${pct}%)\n`;
+        streamsText += `${idx + 1}. **${item.category}**: ${fmt(item.amount)} (${pct}%)\n`;
+      });
+
+      const res = t("income_analysis", {
+        total: fmt(data.totalIncomeAmount),
+        count: data.sortedIncomeCategories.length,
+        s: data.sortedIncomeCategories.length === 1 ? "" : "s",
+        streams: streamsText
       });
 
       return {
         text: res,
         followUps: [
-          "Create a savings plan.",
-          "Compare this month and last month.",
-          "Give me a monthly financial report."
+          getPrompt("savings_plan"),
+          getPrompt("compare_months"),
+          getPrompt("monthly_report")
         ]
       };
     }
@@ -745,27 +825,32 @@
     if (
       /monthly\s*financial\s*report/i.test(clean) ||
       /financial\s*report/i.test(clean) ||
-      /summary\s*report/i.test(clean)
+      /summary\s*report/i.test(clean) ||
+      /वित्तीय\s*रिपोर्ट|ಹಣಕಾಸು\s*ವರದಿ|ఆర్థిక\s*నివేదిక|நிதி\s*அறிக்கை/i.test(clean)
     ) {
       const inc = data.curMonthIncomeTotal;
       const exp = data.curMonthExpenseTotal;
       const net = inc - exp;
       const savingsRate = inc > 0 ? ((Math.max(net, 0) / inc) * 100).toFixed(1) : 0;
 
-      let report = `📋 **Monthly Financial Summary (${data.currentMonthKey})**\n\n`;
-      report += `• **Income Received**: ${fmt(inc)}\n`;
-      report += `• **Expenses Incurred**: ${fmt(exp)}\n`;
-      report += `• **Net Cash Flow**: ${net >= 0 ? "+" : "−"}${fmt(Math.abs(net))}\n`;
-      report += `• **Savings Rate**: **${savingsRate}%**\n`;
-      report += `• **Top Category**: ${data.topCategory ? `${data.topCategory.category} (${fmt(data.topCategory.amount)})` : "None"}\n\n`;
-
+      let healthText = t("health_good");
       if (net > 0 && Number(savingsRate) >= 20) {
-        report += `✨ **Health Rating: Excellent.** You are saving over 20% of your earnings. Keep up the good work!`;
-      } else if (net > 0) {
-        report += `👍 **Health Rating: Good.** You have a positive cash flow. Consider trimming your top category to save even more.`;
-      } else {
-        report += `⚠️ **Health Rating: Needs Attention.** Expenses match or exceed income this month. Reviewing your top category can help balance your cash flow.`;
+        healthText = t("health_excellent");
+      } else if (net <= 0) {
+        healthText = t("health_attention");
       }
+
+      const topCatText = data.topCategory ? `${data.topCategory.category} (${fmt(data.topCategory.amount)})` : "None";
+
+      let report = t("monthly_report_title", { month: data.currentMonthKey });
+      report += t("monthly_report_body", {
+        inc: fmt(inc),
+        exp: fmt(exp),
+        net: (net >= 0 ? "+" : "−") + fmt(Math.abs(net)),
+        savingsRate,
+        topCat: topCatText
+      });
+      report += healthText;
 
       return {
         text: report,
@@ -777,9 +862,9 @@
           currency: cur
         },
         followUps: [
-          "Where does most of my money go?",
-          "How much can I save?",
-          "Help me reduce expenses."
+          getPrompt("where_money"),
+          getPrompt("save_more"),
+          getPrompt("reduce_it")
         ]
       };
     }
@@ -795,42 +880,46 @@
         totalExpenses: data.totalExpenseAmount
       };
       return {
-        text: `You have spent **${fmt(catCheck.amount)}** on **${catCheck.category}**, which is about **${pct}%** of your total spending.`,
+        text: t("category_spent", {
+          category: catCheck.category,
+          amount: fmt(catCheck.amount),
+          pct
+        }),
         savedContext: { ...lastContext },
         followUps: [
-          `How can I reduce spending on ${catCheck.category}?`,
-          "Where does most of my money go?",
-          "Create a savings plan."
+          getPrompt("reduce_cat", { category: catCheck.category }),
+          getPrompt("where_money"),
+          getPrompt("savings_plan")
         ]
       };
     }
 
     // 11. Wallet balance query
-    if (clean.includes("balance") || clean.includes("wallet")) {
+    if (clean.includes("balance") || clean.includes("wallet") || clean.includes("वॉलेट") || clean.includes("ವಾಲೆಟ್") || clean.includes("వాలెట్") || clean.includes("வாலட்")) {
       const entries = Object.entries(data.walletBalances);
       if (entries.length === 0) {
         return {
-          text: `You haven't set up any wallet balances yet. You can manage your wallets from the Overview dashboard!`,
-          followUps: ["Analyze my spending.", "How much can I save?"]
+          text: t("wallet_zero"),
+          followUps: [getPrompt("analyze_spending"), getPrompt("save_more")]
         };
       }
-      let bMsg = `🏦 **Current Wallet Balances**:\n\n`;
+      let bMsg = t("wallet_title");
       entries.forEach(([c, amt]) => {
         bMsg += `• **${c}**: ${fmt(amt, c)}\n`;
       });
       return {
         text: bMsg,
-        followUps: ["How much did I spend this month?", "Create a savings plan."]
+        followUps: [getPrompt("spend_month"), getPrompt("savings_plan")]
       };
     }
 
-    // Fallback for general financial questions: keep it short and friendly
+    // Fallback for general financial questions: keep it short and friendly in current language
     return {
-      text: `I'm ready to help with your personal finances! You can ask me about your spending this month, check where most of your money goes, or ask for savings tips. What would you like to check?`,
+      text: t("financial_fallback"),
       followUps: [
-        "How much did I spend this month?",
-        "Where does most of my money go?",
-        "How can I save more?"
+        getPrompt("spend_month"),
+        getPrompt("where_money"),
+        getPrompt("save_more")
       ]
     };
   }
@@ -844,13 +933,12 @@
     const welcome = {
       sender: "agent",
       timestamp: Date.now(),
-      text: `Hey ${name}! 👋 I'm **Agent**, your personal finance companion.\n\n` +
-        `Ask me anything about your spending, income, or savings goals, or pick one of the quick suggestions below to get started!`,
+      text: t("welcome_msg", { name }),
       followUps: [
-        "How much did I spend this month?",
-        "Where does most of my money go?",
-        "How can I save more?",
-        "Compare this month and last month."
+        getPrompt("spend_month"),
+        getPrompt("where_money"),
+        getPrompt("save_more"),
+        getPrompt("compare_months")
       ]
     };
 
@@ -1096,7 +1184,7 @@
     const delay = 350 + Math.random() * 250;
     await new Promise((r) => setTimeout(r, delay));
 
-    // Calculate response
+    // Calculate response in the currently selected language
     const agentResult = await processAgentQuery(text);
 
     if (typingIndicator) {
@@ -1118,6 +1206,13 @@
     saveHistory();
   }
 
+  function updateLocalizedUI() {
+    const trans = Finova.getTransactions ? Finova.getTransactions() : [];
+    if (recordsCountEl) {
+      recordsCountEl.textContent = t("connected_badge", { count: trans.length });
+    }
+  }
+
   // --- Event Listeners ---
   function initEvents() {
     // Form submit
@@ -1130,7 +1225,6 @@
         handleUserSubmit(text);
       });
 
-      // Enter key submits (unless Shift+Enter)
       userInput.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
@@ -1138,7 +1232,6 @@
         }
       });
 
-      // Auto resize textarea
       userInput.addEventListener("input", () => {
         userInput.style.height = "auto";
         userInput.style.height = Math.min(userInput.scrollHeight, 120) + "px";
@@ -1180,19 +1273,20 @@
       });
     }
 
-    // Currency changed: update messages or reload
+    // Currency changed
     window.addEventListener("finova:currency-changed", () => {
       renderAllMessages();
     });
 
-    // Update records count badge
-    const trans = Finova.getTransactions ? Finova.getTransactions() : [];
-    if (recordsCountEl) {
-      recordsCountEl.textContent = `Connected to your financial records · ${trans.length} transactions`;
-    }
+    // Language changed: immediately update badge without reload
+    window.addEventListener("finova:language-changed", () => {
+      updateLocalizedUI();
+    });
+
+    updateLocalizedUI();
   }
 
-  // Expose Agent API for external/test integration
+  // Expose Agent API for external & test integration
   window.FinovaAgent = {
     processQuery: (query) => processAgentQuery(query),
     classifyIntent: (query) => classifyIntent(query),
@@ -1201,7 +1295,9 @@
     getContext: () => (lastContext ? { ...lastContext } : null),
     setContext: (ctx) => {
       lastContext = ctx ? { ...ctx } : null;
-    }
+    },
+    getSystemInstruction: getSystemInstruction,
+    getCurrentLanguage: getCurrentLang
   };
 
   document.addEventListener("DOMContentLoaded", async () => {
