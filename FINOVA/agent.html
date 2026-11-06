@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#080d19"><meta name="description" content="Agent – Your intelligent personal financial partner in FINOVA Money Management.">
+  <title>Agent · Money Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="agent">
+  <div class="wallpaper" aria-hidden="true"><div class="glow glow-one"></div><div class="glow glow-two"></div><div class="stars"></div></div><div class="loading-screen" aria-hidden="true"><span class="brand-mark">M</span><span class="loading-word">Money Management</span><span class="loader"></span></div>
+  <div class="app-shell"><aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark">M</span><span>Money Management<small>Track your every expense at any time</small></span></a><div class="nav-label">WORKSPACE</div>
+    <nav class="side-nav" aria-label="Main navigation"><a class="nav-link" data-nav="overview" href="index.html"><span class="nav-icon">⌂</span>Overview</a><a class="nav-link" data-nav="compare" href="compare.html"><span class="nav-icon">▥</span>Compare</a><a class="nav-link" data-nav="expenses" href="expenses.html"><span class="nav-icon">↕</span>Money Used</a><a class="nav-link" data-nav="add" href="add.html"><span class="nav-icon">＋</span>Add transaction</a><a class="nav-link active" data-nav="agent" href="agent.html" aria-current="page"><span class="nav-icon">✦</span>Agent</a><button type="button" class="nav-link tour-nav-button" data-start-tour title="Take a Tour"><span class="nav-icon">✦</span><span data-tour-replay-label>Take a Tour</span></button></nav>
+    <div class="sidebar-bottom"><div class="sidebar-user"><span class="avatar" id="sidebar-profile-avatar">M</span><span><strong id="sidebar-profile-name">My wallet</strong><small>Personal account</small></span><button class="sidebar-logout" type="button" data-logout aria-label="Sign out" title="Sign out">↗</button></div></div>
+  </aside><main class="main-content">
+    <header class="topbar"><button class="mobile-menu" aria-label="Toggle navigation">☰</button><div class="topbar-title"><span class="eyebrow">YOUR FINANCIAL SPACE</span><strong id="welcome-message">Welcome back</strong></div><div class="topbar-actions"><span class="today-date" id="current-date"></span><div class="language-control" data-language-picker></div><label class="currency-control"><span>Display</span><select data-preferred-currency aria-label="Dashboard display currency"></select></label><button class="icon-button theme-toggle" aria-label="Toggle light theme" title="Toggle theme">☼</button><button class="avatar avatar-button" aria-label="Profile">F</button><button class="icon-button mobile-logout" type="button" data-logout aria-label="Sign out" title="Sign out">↗</button></div></header>
+    <section class="page-content agent-page-content">
+      <div class="page-heading agent-page-heading">
+        <div class="agent-title-block">
+          <div class="agent-avatar-halo">
+            <span class="agent-avatar-core">✦</span>
+          </div>
+          <div>
+            <span class="eyebrow">FINANCIAL INTELLIGENCE</span>
+            <h1 class="agent-main-title">Agent<span class="heading-dot">.</span></h1>
+            <p class="agent-subtitle">Your intelligent financial partner. Ask questions about your spending, compare trends, or build savings plans based on your live wallet records.</p>
+          </div>
+        </div>
+        <span class="agent-status-badge"><i class="status-pulse"></i> LIVE FINANCIAL INTELLIGENCE</span>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="agent-quick-actions" aria-label="Quick financial questions">
+        <button type="button" class="panel agent-action-card" data-prompt="Analyze my spending.">
+          <span class="agent-action-icon">📊</span>
+          <div class="agent-action-text">
+            <strong>Analyze my spending</strong>
+            <small>Break down where your money went this month</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+        <button type="button" class="panel agent-action-card" data-prompt="Where does most of my money go?">
+          <span class="agent-action-icon">🏷️</span>
+          <div class="agent-action-text">
+            <strong>Where does most of my money go?</strong>
+            <small>Identify highest spending categories</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+        <button type="button" class="panel agent-action-card" data-prompt="Compare this month and last month.">
+          <span class="agent-action-icon">⚖️</span>
+          <div class="agent-action-text">
+            <strong>Compare this month and last month</strong>
+            <small>See income & expense changes</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+        <button type="button" class="panel agent-action-card" data-prompt="Create a savings plan.">
+          <span class="agent-action-icon">🎯</span>
+          <div class="agent-action-text">
+            <strong>Create a savings plan</strong>
+            <small>Set realistic targets from cash flow</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+        <button type="button" class="panel agent-action-card" data-prompt="Help me reduce expenses.">
+          <span class="agent-action-icon">💡</span>
+          <div class="agent-action-text">
+            <strong>Help me reduce expenses</strong>
+            <small>Actionable tips to cut top expenses</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+        <button type="button" class="panel agent-action-card" data-prompt="Analyze my income.">
+          <span class="agent-action-icon">💰</span>
+          <div class="agent-action-text">
+            <strong>Analyze my income</strong>
+            <small>Review earnings sources and stability</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+        <button type="button" class="panel agent-action-card" data-prompt="Give me a monthly financial report.">
+          <span class="agent-action-icon">📋</span>
+          <div class="agent-action-text">
+            <strong>Monthly financial report</strong>
+            <small>Complete balance, income, expenses & net overview</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+        <button type="button" class="panel agent-action-card" data-prompt="How much can I save?">
+          <span class="agent-action-icon">🏦</span>
+          <div class="agent-action-text">
+            <strong>How much can I save?</strong>
+            <small>Recommended savings rate and buffer</small>
+          </div>
+          <span class="agent-action-arrow">→</span>
+        </button>
+      </div>
+
+      <!-- Main Chat Interface -->
+      <section class="panel agent-chat-card" aria-label="Agent conversation">
+        <header class="agent-chat-header">
+          <div class="agent-chat-identity">
+            <span class="agent-chat-status-dot"></span>
+            <div>
+              <strong>Agent</strong>
+              <small id="agent-records-count">Connected to your financial records</small>
+            </div>
+          </div>
+          <div class="agent-chat-controls">
+            <button type="button" class="button button-quiet agent-control-btn" id="agent-clear-chat" title="Clear conversation history">
+              <span>↺</span> Clear chat
+            </button>
+          </div>
+        </header>
+
+        <div class="agent-messages-container" id="agent-messages" role="log" aria-live="polite">
+          <!-- Messages will be rendered dynamically here -->
+        </div>
+
+        <div class="agent-typing-indicator" id="agent-typing-indicator" hidden aria-hidden="true">
+          <div class="typing-avatar">✦</div>
+          <div class="typing-bubble">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-label">Agent is analyzing your records…</span>
+          </div>
+        </div>
+
+        <form class="agent-input-form" id="agent-chat-form">
+          <div class="agent-input-wrapper">
+            <textarea id="agent-user-input" class="agent-textarea" rows="1" placeholder="Ask Agent anything about your finances, spending, or savings…" aria-label="Message to Agent" autocomplete="off" required></textarea>
+            <button type="submit" class="agent-send-button" id="agent-send-btn" aria-label="Send message to Agent">
+              <span class="send-icon">↗</span>
+            </button>
+          </div>
+          <div class="agent-input-footnote">
+            <span>🔒 Agent analyzes records strictly within your local authenticated account. Never shares private financial data.</span>
+          </div>
+        </form>
+      </section>
+    </section>
+    <footer class="footer"><span>Money Management</span><span>Synced securely with your account</span></footer>
+  </main></div>
+  <div class="toast-region" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/agent.js"></script>
+  <script src="js/tour.js"></script>
+</body>
+</html>
