@@ -51,63 +51,203 @@
     return "🌐";
   }
 
-  const CURRENCY_OVERRIDES = {
-    AED: { name: "UAE Dirham", symbol: "د.إ" },
-    AUD: { name: "Australian Dollar", symbol: "$" },
-    CAD: { name: "Canadian Dollar", symbol: "$" },
-    CNY: { name: "Chinese Yuan", symbol: "¥" },
-    EUR: { name: "Euro", symbol: "€" },
-    GBP: { name: "British Pound", symbol: "£" },
-    INR: { name: "Indian Rupee", symbol: "₹" },
-    JPY: { name: "Japanese Yen", symbol: "¥" },
-    SGD: { name: "Singapore Dollar", symbol: "$" },
-    USD: { name: "US Dollar", symbol: "$" },
-    NZD: { name: "New Zealand Dollar", symbol: "$" },
-    CHF: { name: "Swiss Franc", symbol: "CHF" },
-    ZAR: { name: "South African Rand", symbol: "R" },
-    BRL: { name: "Brazilian Real", symbol: "R$" },
-    RUB: { name: "Russian Ruble", symbol: "₽" },
-    KRW: { name: "South Korean Won", symbol: "₩" },
-    SAR: { name: "Saudi Riyal", symbol: "ر.स" },
-    QAR: { name: "Qatari Riyal", symbol: "ر.ق" },
-    KWD: { name: "Kuwaiti Dinar", symbol: "د.ك" },
-    OMR: { name: "Omani Rial", symbol: "ر.ع" },
-    BHD: { name: "Bahraini Dinar", symbol: ".د.ب" },
-    THB: { name: "Thai Baht", symbol: "฿" },
-    MYR: { name: "Malaysian Ringgit", symbol: "RM" },
-    IDR: { name: "Indonesian Rupiah", symbol: "Rp" },
-    PHP: { name: "Philippine Peso", symbol: "₱" },
-    VND: { name: "Vietnamese Dong", symbol: "₫" },
-    TRY: { name: "Turkish Lira", symbol: "₺" },
-    SEK: { name: "Swedish Krona", symbol: "kr" },
-    NOK: { name: "Norwegian Krone", symbol: "kr" },
-    DKK: { name: "Danish Krone", symbol: "kr" },
-    PLN: { name: "Polish Zloty", symbol: "zł" },
-    CZK: { name: "Czech Koruna", symbol: "Kč" },
-    HUF: { name: "Hungarian Forint", symbol: "Ft" },
-    ILS: { name: "Israeli Shekel", symbol: "₪" },
-    EGP: { name: "Egyptian Pound", symbol: "E£" },
-    NGN: { name: "Nigerian Naira", symbol: "₦" },
-    KES: { name: "Kenyan Shilling", symbol: "KSh" },
-    MXN: { name: "Mexican Peso", symbol: "$" },
-    ARS: { name: "Argentine Peso", symbol: "$" },
-    CLP: { name: "Chilean Peso", symbol: "$" },
-    COP: { name: "Colombian Peso", symbol: "$" },
-    PKR: { name: "Pakistani Rupee", symbol: "₨" },
-    BDT: { name: "Bangladeshi Taka", symbol: "৳" },
-    LKR: { name: "Sri Lankan Rupee", symbol: "Rs" },
-    NPR: { name: "Nepalese Rupee", symbol: "रू" }
+  function normalizeSearch(str) {
+    return String(str || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/['’ʻ`]/g, "")
+      .replace(/[^\w\s$€£¥₹₨₽₩₪₺฿₫]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  const CURRENCY_DATA = {
+    AED: { name: "UAE Dirham", symbol: "د.إ", flag: "🇦🇪", aliases: ["United Arab Emirates Dirham", "Emirati Dirham", "Dirham", "Dubai", "Abu Dhabi", "UAE", "United Arab Emirates", "Dhs", "DH"] },
+    AFN: { name: "Afghan Afghani", symbol: "؋", flag: "🇦🇫", aliases: ["Afghani", "Afghanistan"] },
+    ALL: { name: "Albanian Lek", symbol: "L", flag: "🇦🇱", aliases: ["Lek", "Albania"] },
+    AMD: { name: "Armenian Dram", symbol: "֏", flag: "🇦🇲", aliases: ["Dram", "Armenia"] },
+    ANG: { name: "Netherlands Antillean Guilder", symbol: "NAƒ", flag: "🇨🇼", aliases: ["Guilder", "Florin", "Antilles", "Curacao", "Curaçao", "Sint Maarten"] },
+    AOA: { name: "Angolan Kwanza", symbol: "Kz", flag: "🇦🇴", aliases: ["Kwanza", "Angola"] },
+    ARS: { name: "Argentine Peso", symbol: "$", flag: "🇦🇷", aliases: ["Peso", "Argentina"] },
+    AUD: { name: "Australian Dollar", symbol: "$", flag: "🇦🇺", aliases: ["Dollar", "Aussie Dollar", "Australia"] },
+    AWG: { name: "Aruban Florin", symbol: "Afl", flag: "🇦🇼", aliases: ["Florin", "Guilder", "Aruba"] },
+    AZN: { name: "Azerbaijani Manat", symbol: "₼", flag: "🇦🇿", aliases: ["Manat", "Azerbaijan"] },
+    BAM: { name: "Bosnia-Herzegovina Convertible Mark", symbol: "KM", flag: "🇧🇦", aliases: ["Convertible Mark", "Mark", "Bosnia", "Herzegovina"] },
+    BBD: { name: "Barbadian Dollar", symbol: "$", flag: "🇧🇧", aliases: ["Dollar", "Bajan Dollar", "Barbados"] },
+    BDT: { name: "Bangladeshi Taka", symbol: "৳", flag: "🇧🇩", aliases: ["Taka", "Bangladesh"] },
+    BGN: { name: "Bulgarian Lev", symbol: "лв", flag: "🇧🇬", aliases: ["Lev", "Bulgaria"] },
+    BHD: { name: "Bahraini Dinar", symbol: "BD", flag: "🇧🇭", aliases: ["Dinar", "Bahrain"] },
+    BIF: { name: "Burundian Franc", symbol: "FBu", flag: "🇧🇮", aliases: ["Franc", "Burundi"] },
+    BMD: { name: "Bermudian Dollar", symbol: "$", flag: "🇧🇲", aliases: ["Dollar", "Bermuda"] },
+    BND: { name: "Brunei Dollar", symbol: "$", flag: "🇧🇳", aliases: ["Dollar", "Brunei"] },
+    BOB: { name: "Bolivian Boliviano", symbol: "Bs.", flag: "🇧🇴", aliases: ["Boliviano", "Bolivia"] },
+    BRL: { name: "Brazilian Real", symbol: "R$", flag: "🇧🇷", aliases: ["Real", "Reais", "Brazil", "Brasil"] },
+    BSD: { name: "Bahamian Dollar", symbol: "$", flag: "🇧🇸", aliases: ["Dollar", "Bahamas"] },
+    BTN: { name: "Bhutanese Ngultrum", symbol: "Nu.", flag: "🇧🇹", aliases: ["Ngultrum", "Bhutan"] },
+    BWP: { name: "Botswanan Pula", symbol: "P", flag: "🇧🇼", aliases: ["Pula", "Botswana"] },
+    BYN: { name: "Belarusian Ruble", symbol: "Br", flag: "🇧🇾", aliases: ["Ruble", "Rouble", "Belarus"] },
+    BZD: { name: "Belize Dollar", symbol: "$", flag: "🇧🇿", aliases: ["Dollar", "Belize"] },
+    CAD: { name: "Canadian Dollar", symbol: "$", flag: "🇨🇦", aliases: ["Dollar", "Canada", "Loonie"] },
+    CDF: { name: "Congolese Franc", symbol: "FC", flag: "🇨🇩", aliases: ["Franc", "Congo", "DR Congo"] },
+    CHF: { name: "Swiss Franc", symbol: "CHF", flag: "🇨🇭", aliases: ["Franc", "Switzerland", "Swiss", "SFr"] },
+    CLP: { name: "Chilean Peso", symbol: "$", flag: "🇨🇱", aliases: ["Peso", "Chile"] },
+    CNY: { name: "Chinese Yuan", symbol: "¥", flag: "🇨🇳", aliases: ["Yuan", "Renminbi", "RMB", "Kuai", "China"] },
+    COP: { name: "Colombian Peso", symbol: "$", flag: "🇨🇴", aliases: ["Peso", "Colombia"] },
+    CRC: { name: "Costa Rican Colon", symbol: "₡", flag: "🇨🇷", aliases: ["Colon", "Colón", "Costa Rica"] },
+    CUP: { name: "Cuban Peso", symbol: "$", flag: "🇨🇺", aliases: ["Peso", "Cuba"] },
+    CVE: { name: "Cape Verdean Escudo", symbol: "Esc", flag: "🇨🇻", aliases: ["Escudo", "Cape Verde", "Cabo Verde"] },
+    CZK: { name: "Czech Koruna", symbol: "Kč", flag: "🇨🇿", aliases: ["Koruna", "Crown", "Czech Republic", "Czechia"] },
+    DJF: { name: "Djiboutian Franc", symbol: "Fdj", flag: "🇩🇯", aliases: ["Franc", "Djibouti"] },
+    DKK: { name: "Danish Krone", symbol: "kr", flag: "🇩🇰", aliases: ["Krone", "Crown", "Denmark", "Danish"] },
+    DOP: { name: "Dominican Peso", symbol: "$", flag: "🇩🇴", aliases: ["Peso", "Dominican Republic"] },
+    DZD: { name: "Algerian Dinar", symbol: "DA", flag: "🇩🇿", aliases: ["Dinar", "Algeria"] },
+    EGP: { name: "Egyptian Pound", symbol: "E£", flag: "🇪🇬", aliases: ["Pound", "Egypt"] },
+    ERN: { name: "Eritrean Nakfa", symbol: "Nfk", flag: "🇪🇷", aliases: ["Nakfa", "Eritrea"] },
+    ETB: { name: "Ethiopian Birr", symbol: "Br", flag: "🇪🇹", aliases: ["Birr", "Ethiopia"] },
+    EUR: { name: "Euro", symbol: "€", flag: "🇪🇺", aliases: ["Euro", "Europe", "European Union", "Germany", "France", "Italy", "Spain", "Netherlands"] },
+    FJD: { name: "Fijian Dollar", symbol: "$", flag: "🇫🇯", aliases: ["Dollar", "Fiji"] },
+    FKP: { name: "Falkland Islands Pound", symbol: "£", flag: "🇫🇰", aliases: ["Pound", "Falkland Islands"] },
+    GBP: { name: "British Pound", symbol: "£", flag: "🇬🇧", aliases: ["Pound", "Pound Sterling", "Great British Pound", "Sterling", "Quid", "United Kingdom", "UK", "Britain", "England"] },
+    GEL: { name: "Georgian Lari", symbol: "₾", flag: "🇬🇪", aliases: ["Lari", "Georgia"] },
+    GHS: { name: "Ghanaian Cedi", symbol: "GH₵", flag: "🇬🇭", aliases: ["Cedi", "Ghana"] },
+    GIP: { name: "Gibraltar Pound", symbol: "£", flag: "🇬🇮", aliases: ["Pound", "Gibraltar"] },
+    GMD: { name: "Gambian Dalasi", symbol: "D", flag: "🇬🇲", aliases: ["Dalasi", "Gambia"] },
+    GNF: { name: "Guinean Franc", symbol: "FG", flag: "🇬🇳", aliases: ["Franc", "Guinea"] },
+    GTQ: { name: "Guatemalan Quetzal", symbol: "Q", flag: "🇬🇹", aliases: ["Quetzal", "Guatemala"] },
+    GYD: { name: "Guyanese Dollar", symbol: "$", flag: "🇬🇾", aliases: ["Dollar", "Guyana"] },
+    HKD: { name: "Hong Kong Dollar", symbol: "$", flag: "🇭🇰", aliases: ["Dollar", "Hong Kong", "HK$"] },
+    HNL: { name: "Honduran Lempira", symbol: "L", flag: "🇭🇳", aliases: ["Lempira", "Honduras"] },
+    HRK: { name: "Croatian Kuna", symbol: "kn", flag: "🇭🇷", aliases: ["Kuna", "Croatia"] },
+    HTG: { name: "Haitian Gourde", symbol: "G", flag: "🇭🇹", aliases: ["Gourde", "Haiti"] },
+    HUF: { name: "Hungarian Forint", symbol: "Ft", flag: "🇭🇺", aliases: ["Forint", "Hungary"] },
+    IDR: { name: "Indonesian Rupiah", symbol: "Rp", flag: "🇮🇩", aliases: ["Rupiah", "Rupee", "Indonesia"] },
+    ILS: { name: "Israeli Shekel", symbol: "₪", flag: "🇮🇱", aliases: ["Shekel", "Sheqel", "Israeli New Shekel", "Israel"] },
+    INR: { name: "Indian Rupee", symbol: "₹", flag: "🇮🇳", aliases: ["Rupee", "Rupiah", "Rupaye", "India", "Bharat"] },
+    IQD: { name: "Iraqi Dinar", symbol: "ID", flag: "🇮🇶", aliases: ["Dinar", "Iraq"] },
+    IRR: { name: "Iranian Rial", symbol: "IR", flag: "🇮🇷", aliases: ["Rial", "Riyal", "Iran", "Toman"] },
+    ISK: { name: "Icelandic Krona", symbol: "kr", flag: "🇮🇸", aliases: ["Krona", "Crown", "Iceland"] },
+    JMD: { name: "Jamaican Dollar", symbol: "$", flag: "🇯🇲", aliases: ["Dollar", "Jamaica"] },
+    JOD: { name: "Jordanian Dinar", symbol: "JD", flag: "🇯🇴", aliases: ["Dinar", "Jordan"] },
+    JPY: { name: "Japanese Yen", symbol: "¥", flag: "🇯🇵", aliases: ["Yen", "Japan"] },
+    KES: { name: "Kenyan Shilling", symbol: "KSh", flag: "🇰🇪", aliases: ["Shilling", "Kenya"] },
+    KGS: { name: "Kyrgyzstani Som", symbol: "som", flag: "🇰🇬", aliases: ["Som", "Kyrgyzstan"] },
+    KHR: { name: "Cambodian Riel", symbol: "៛", flag: "🇰🇭", aliases: ["Riel", "Cambodia"] },
+    KMF: { name: "Comorian Franc", symbol: "CF", flag: "🇰🇲", aliases: ["Franc", "Comoros"] },
+    KPW: { name: "North Korean Won", symbol: "₩", flag: "🇰🇵", aliases: ["Won", "North Korea"] },
+    KRW: { name: "South Korean Won", symbol: "₩", flag: "🇰🇷", aliases: ["Won", "South Korea", "Korea"] },
+    KWD: { name: "Kuwaiti Dinar", symbol: "KD", flag: "🇰🇼", aliases: ["Dinar", "Kuwait"] },
+    KYD: { name: "Cayman Islands Dollar", symbol: "$", flag: "🇰🇾", aliases: ["Dollar", "Cayman Islands"] },
+    KZT: { name: "Kazakhstani Tenge", symbol: "₸", flag: "🇰🇿", aliases: ["Tenge", "Kazakhstan"] },
+    LAK: { name: "Lao Kip", symbol: "₭", flag: "🇱🇦", aliases: ["Kip", "Laos"] },
+    LBP: { name: "Lebanese Pound", symbol: "L£", flag: "🇱🇧", aliases: ["Pound", "Lebanon"] },
+    LKR: { name: "Sri Lankan Rupee", symbol: "Rs", flag: "🇱🇰", aliases: ["Rupee", "Sri Lanka"] },
+    LRD: { name: "Liberian Dollar", symbol: "$", flag: "🇱🇷", aliases: ["Dollar", "Liberia"] },
+    LSL: { name: "Lesotho Loti", symbol: "L", flag: "🇱🇸", aliases: ["Loti", "Lesotho"] },
+    LYD: { name: "Libyan Dinar", symbol: "LD", flag: "🇱🇾", aliases: ["Dinar", "Libya"] },
+    MAD: { name: "Moroccan Dirham", symbol: "DH", flag: "🇲🇦", aliases: ["Dirham", "Morocco"] },
+    MDL: { name: "Moldovan Leu", symbol: "L", flag: "🇲🇩", aliases: ["Leu", "Moldova"] },
+    MGA: { name: "Malagasy Ariary", symbol: "Ar", flag: "🇲🇬", aliases: ["Ariary", "Madagascar"] },
+    MKD: { name: "Macedonian Denar", symbol: "den", flag: "🇲🇰", aliases: ["Denar", "North Macedonia", "Macedonia"] },
+    MMK: { name: "Myanmar Kyat", symbol: "K", flag: "🇲🇲", aliases: ["Kyat", "Myanmar", "Burma"] },
+    MNT: { name: "Mongolian Tugrik", symbol: "₮", flag: "🇲🇳", aliases: ["Tugrik", "Togrog", "Mongolia"] },
+    MOP: { name: "Macanese Pataca", symbol: "MOP$", flag: "🇲🇴", aliases: ["Pataca", "Macau", "Macao"] },
+    MRU: { name: "Mauritanian Ouguiya", symbol: "UM", flag: "🇲🇷", aliases: ["Ouguiya", "Mauritania"] },
+    MUR: { name: "Mauritian Rupee", symbol: "₨", flag: "🇲🇺", aliases: ["Rupee", "Mauritius"] },
+    MVR: { name: "Maldivian Rufiyaa", symbol: "Rf", flag: "🇲🇻", aliases: ["Rufiyaa", "Maldives"] },
+    MWK: { name: "Malawian Kwacha", symbol: "MK", flag: "🇲🇼", aliases: ["Kwacha", "Malawi"] },
+    MXN: { name: "Mexican Peso", symbol: "$", flag: "🇲🇽", aliases: ["Peso", "Mexico"] },
+    MYR: { name: "Malaysian Ringgit", symbol: "RM", flag: "🇲🇾", aliases: ["Ringgit", "Malaysia"] },
+    MZN: { name: "Mozambican Metical", symbol: "MT", flag: "🇲🇿", aliases: ["Metical", "Mozambique"] },
+    NAD: { name: "Namibian Dollar", symbol: "$", flag: "🇳🇦", aliases: ["Dollar", "Namibia"] },
+    NGN: { name: "Nigerian Naira", symbol: "₦", flag: "🇳🇬", aliases: ["Naira", "Nigeria"] },
+    NIO: { name: "Nicaraguan Cordoba", symbol: "C$", flag: "🇳🇮", aliases: ["Cordoba", "Córdoba", "Nicaragua"] },
+    NOK: { name: "Norwegian Krone", symbol: "kr", flag: "🇳🇴", aliases: ["Krone", "Crown", "Norway", "Norwegian"] },
+    NPR: { name: "Nepalese Rupee", symbol: "रू", flag: "🇳🇵", aliases: ["Rupee", "Nepali Rupee", "Nepal"] },
+    NZD: { name: "New Zealand Dollar", symbol: "$", flag: "🇳🇿", aliases: ["Dollar", "Kiwi Dollar", "New Zealand"] },
+    OMR: { name: "Omani Rial", symbol: "RO", flag: "🇴🇲", aliases: ["Rial", "Riyal", "Oman"] },
+    PAB: { name: "Panamanian Balboa", symbol: "B/.", flag: "🇵🇦", aliases: ["Balboa", "Panama"] },
+    PEN: { name: "Peruvian Sol", symbol: "S/.", flag: "🇵🇪", aliases: ["Sol", "Peru"] },
+    PGK: { name: "Papua New Guinean Kina", symbol: "K", flag: "🇵🇬", aliases: ["Kina", "Papua New Guinea"] },
+    PHP: { name: "Philippine Peso", symbol: "₱", flag: "🇵🇭", aliases: ["Peso", "Piso", "Philippines"] },
+    PKR: { name: "Pakistani Rupee", symbol: "₨", flag: "🇵🇰", aliases: ["Rupee", "Pakistan"] },
+    PLN: { name: "Polish Zloty", symbol: "zł", flag: "🇵🇱", aliases: ["Zloty", "Złoty", "Poland"] },
+    PYG: { name: "Paraguayan Guarani", symbol: "₲", flag: "🇵🇾", aliases: ["Guarani", "Guaraní", "Paraguay"] },
+    QAR: { name: "Qatari Riyal", symbol: "QR", flag: "🇶🇦", aliases: ["Riyal", "Rial", "Qatar"] },
+    RON: { name: "Romanian Leu", symbol: "lei", flag: "🇷🇴", aliases: ["Leu", "Romania"] },
+    RSD: { name: "Serbian Dinar", symbol: "din", flag: "🇷🇸", aliases: ["Dinar", "Serbia"] },
+    RUB: { name: "Russian Ruble", symbol: "₽", flag: "🇷🇺", aliases: ["Ruble", "Rouble", "Russia"] },
+    RWF: { name: "Rwandan Franc", symbol: "RF", flag: "🇷🇼", aliases: ["Franc", "Rwanda"] },
+    SAR: { name: "Saudi Riyal", symbol: "SR", flag: "🇸🇦", aliases: ["Riyal", "Rial", "Saudi Arabia"] },
+    SBD: { name: "Solomon Islands Dollar", symbol: "$", flag: "🇸🇧", aliases: ["Dollar", "Solomon Islands"] },
+    SCR: { name: "Seychellois Rupee", symbol: "₨", flag: "🇸🇨", aliases: ["Rupee", "Seychelles"] },
+    SDG: { name: "Sudanese Pound", symbol: "SD", flag: "🇸🇩", aliases: ["Pound", "Sudan"] },
+    SEK: { name: "Swedish Krona", symbol: "kr", flag: "🇸🇪", aliases: ["Krona", "Crown", "Sweden", "Swedish"] },
+    SGD: { name: "Singapore Dollar", symbol: "$", flag: "🇸🇬", aliases: ["Dollar", "Singapore"] },
+    SHP: { name: "Saint Helena Pound", symbol: "£", flag: "🇸🇭", aliases: ["Pound", "Saint Helena"] },
+    SLE: { name: "Sierra Leonean Leone", symbol: "Le", flag: "🇸🇱", aliases: ["Leone", "Sierra Leone"] },
+    SOS: { name: "Somali Shilling", symbol: "Ssh", flag: "🇸🇴", aliases: ["Shilling", "Somalia"] },
+    SRD: { name: "Surinamese Dollar", symbol: "$", flag: "🇸🇷", aliases: ["Dollar", "Suriname"] },
+    STN: { name: "São Tomé and Príncipe Dobra", symbol: "Db", flag: "🇸🇹", aliases: ["Dobra", "Sao Tome", "São Tomé"] },
+    SVC: { name: "Salvadoran Colon", symbol: "₡", flag: "🇸🇻", aliases: ["Colon", "El Salvador"] },
+    SYP: { name: "Syrian Pound", symbol: "S£", flag: "🇸🇾", aliases: ["Pound", "Syria"] },
+    SZL: { name: "Eswatini Lilangeni", symbol: "L", flag: "🇸🇿", aliases: ["Lilangeni", "Eswatini", "Swaziland"] },
+    THB: { name: "Thai Baht", symbol: "฿", flag: "🇹🇭", aliases: ["Baht", "Thailand"] },
+    TJS: { name: "Tajikistani Somoni", symbol: "SM", flag: "🇹🇯", aliases: ["Somoni", "Tajikistan"] },
+    TMT: { name: "Turkmenistani Manat", symbol: "T", flag: "🇹🇲", aliases: ["Manat", "Turkmenistan"] },
+    TND: { name: "Tunisian Dinar", symbol: "DT", flag: "🇹🇳", aliases: ["Dinar", "Tunisia"] },
+    TOP: { name: "Tongan Paʻanga", symbol: "T$", flag: "🇹🇴", aliases: ["Paanga", "Paʻanga", "Tonga"] },
+    TRY: { name: "Turkish Lira", symbol: "₺", flag: "🇹🇷", aliases: ["Lira", "Turkey", "Türkiye"] },
+    TTD: { name: "Trinidad and Tobago Dollar", symbol: "$", flag: "🇹🇹", aliases: ["Dollar", "Trinidad", "Tobago"] },
+    TWD: { name: "New Taiwan Dollar", symbol: "NT$", flag: "🇹🇼", aliases: ["Taiwan Dollar", "Dollar", "Taiwan"] },
+    TZS: { name: "Tanzanian Shilling", symbol: "TSh", flag: "🇹🇿", aliases: ["Shilling", "Tanzania"] },
+    UAH: { name: "Ukrainian Hryvnia", symbol: "₴", flag: "🇺🇦", aliases: ["Hryvnia", "Ukraine"] },
+    UGX: { name: "Ugandan Shilling", symbol: "USh", flag: "🇺🇬", aliases: ["Shilling", "Uganda"] },
+    USD: { name: "US Dollar", symbol: "$", flag: "🇺🇸", aliases: ["Dollar", "United States Dollar", "American Dollar", "Buck", "Greenback", "USA", "United States", "America"] },
+    UYU: { name: "Uruguayan Peso", symbol: "$", flag: "🇺🇾", aliases: ["Peso", "Uruguay"] },
+    UZS: { name: "Uzbekistani Som", symbol: "soʻm", flag: "🇺🇿", aliases: ["Som", "Uzbekistan"] },
+    VES: { name: "Venezuelan Bolivar", symbol: "Bs.", flag: "🇻🇪", aliases: ["Bolivar", "Bolívar", "Venezuela"] },
+    VND: { name: "Vietnamese Dong", symbol: "₫", flag: "🇻🇳", aliases: ["Dong", "Vietnam"] },
+    VUV: { name: "Vanuatu Vatu", symbol: "VT", flag: "🇻🇺", aliases: ["Vatu", "Vanuatu"] },
+    WST: { name: "Samoan Tala", symbol: "WS$", flag: "🇼🇸", aliases: ["Tala", "Samoa"] },
+    XAF: { name: "Central African CFA Franc", symbol: "FCFA", flag: "🇨🇲", aliases: ["CFA Franc", "Franc", "CFA", "Central Africa", "Cameroon"] },
+    XCD: { name: "East Caribbean Dollar", symbol: "$", flag: "🇦🇬", aliases: ["Dollar", "EC$", "East Caribbean", "Caribbean"] },
+    XOF: { name: "West African CFA Franc", symbol: "CFA", flag: "🇸🇳", aliases: ["CFA Franc", "Franc", "CFA", "West Africa", "Senegal"] },
+    XPF: { name: "CFP Franc", symbol: "F", flag: "🇵🇫", aliases: ["Franc", "CFP", "French Polynesia", "New Caledonia"] },
+    YER: { name: "Yemeni Rial", symbol: "YR", flag: "🇾🇪", aliases: ["Rial", "Riyal", "Yemen"] },
+    ZAR: { name: "South African Rand", symbol: "R", flag: "🇿🇦", aliases: ["Rand", "South Africa"] },
+    ZMW: { name: "Zambian Kwacha", symbol: "ZK", flag: "🇿🇲", aliases: ["Kwacha", "Zambia"] }
   };
+
   const CURRENCIES = [...new Set(["INR", "USD", "EUR", "GBP", "JPY", "AED", "CAD", "AUD", "SGD", "CNY", ...CURRENCY_CODES])]
     .map((code) => {
+      const known = CURRENCY_DATA[code];
       const parts = new Intl.NumberFormat("en", { style: "currency", currency: code, currencyDisplay: "narrowSymbol" }).formatToParts(0);
-      const details = CURRENCY_OVERRIDES[code] || {};
       const fallbackSymbol = (parts.find((part) => part.type === "currency") || {}).value || code;
+      const name = known?.name || (CURRENCY_NAMES && CURRENCY_NAMES.of(code)) || code;
+      const symbol = known?.symbol || fallbackSymbol;
+      const flag = known?.flag || currencyFlag(code);
+      const aliases = known?.aliases || [];
+      const searchTerms = [code, name, symbol, flag, ...aliases].join(" ");
+      let extra = "";
+      const lowerTerms = searchTerms.toLowerCase();
+      if (lowerTerms.includes("riyal")) extra += " rial";
+      if (lowerTerms.includes("rial")) extra += " riyal";
+      if (lowerTerms.includes("rupee")) extra += " rupiah";
+      if (lowerTerms.includes("rupiah")) extra += " rupee";
+      if (lowerTerms.includes("krona")) extra += " krone crown";
+      if (lowerTerms.includes("krone")) extra += " krona crown";
+      if (lowerTerms.includes("ruble")) extra += " rouble rubles";
+      if (lowerTerms.includes("rouble")) extra += " ruble rubles";
+      if (lowerTerms.includes("yuan")) extra += " rmb renminbi";
+      if (lowerTerms.includes("shekel")) extra += " sheqel";
+
       return {
         code,
-        name: details.name || (CURRENCY_NAMES && CURRENCY_NAMES.of(code)) || code,
-        symbol: details.symbol || fallbackSymbol,
-        flag: currencyFlag(code)
+        name,
+        symbol,
+        flag,
+        searchIndex: normalizeSearch(searchTerms + extra)
       };
     })
     .sort((left, right) => left.name.localeCompare(right.name));
@@ -1215,8 +1355,8 @@
     const current = CURRENCIES.find((currency) => currency.code === select.value) || CURRENCIES[0];
     const trigger = picker.querySelector("[data-currency-trigger]");
     trigger.querySelector(".currency-current").textContent = `${current.symbol} ${current.code}`;
-    trigger.setAttribute("aria-label", `Display currency: ${current.code} (${current.symbol}) · ${current.name}`);
-    trigger.title = `${current.flag} ${current.name} (${current.symbol})`;
+    trigger.setAttribute("aria-label", `Display currency: ${current.name} (${current.code} · ${current.symbol})`);
+    trigger.title = `${current.name} (${current.code} · ${current.symbol}) ${current.flag}`;
     picker.querySelectorAll("[data-currency-code]").forEach((option) => {
       const selected = option.dataset.currencyCode === current.code;
       option.setAttribute("aria-selected", String(selected));
@@ -1250,10 +1390,11 @@
       option.type = "button";
       option.className = "language-option currency-option";
       option.setAttribute("role", "option");
-      option.setAttribute("aria-label", `${currency.flag} ${currency.code} – ${currency.name} (${currency.symbol})`);
+      option.setAttribute("aria-label", `${currency.name}, ${currency.code} (${currency.symbol})`);
       option.dataset.currencyCode = currency.code;
-      option.dataset.searchText = `${currency.code} ${currency.name} ${currency.symbol} ${currency.flag}`.toLocaleLowerCase();
-      option.innerHTML = `<span class="currency-option-item"><span class="currency-option-flag">${currency.flag}</span> <strong class="currency-option-code">${currency.code}</strong> <span class="currency-option-sep">–</span> <span class="currency-option-name">${currency.name}</span> <span class="currency-option-sym">(${currency.symbol})</span></span>`;
+      option.dataset.currencyName = currency.name;
+      option.dataset.searchIndex = currency.searchIndex;
+      option.innerHTML = `<div class="currency-option-info"><span class="currency-option-name">${currency.name}</span><span class="currency-option-meta"><strong class="currency-option-code">${currency.code}</strong><span class="currency-option-sep">·</span><span class="currency-option-symbol">${currency.symbol}</span></span></div><span class="currency-option-flag" aria-hidden="true">${currency.flag}</span>`;
       options.appendChild(option);
     });
 
@@ -1274,19 +1415,45 @@
       picker.classList.toggle("open", opening);
       if (opening) {
         search.value = "";
-        picker.querySelectorAll(".language-option").forEach((option) => { option.hidden = false; });
+        picker.querySelectorAll(".currency-option").forEach((option) => {
+          option.hidden = false;
+          option.style.order = "0";
+        });
         noResults.hidden = true;
+        options.scrollTop = 0;
         search.focus();
       }
     });
+
     search.addEventListener("input", () => {
-      const query = search.value.trim().toLocaleLowerCase();
-      const visibleOptions = [...picker.querySelectorAll(".language-option")].filter((option) => {
-        option.hidden = !option.dataset.searchText.includes(query);
-        return !option.hidden;
+      const query = normalizeSearch(search.value);
+      const variants = [query];
+      if (query === "riyal" || query === "rial") variants.push("riyal", "rial");
+      if (query === "yuan" || query === "rmb" || query === "renminbi") variants.push("yuan", "rmb", "renminbi");
+      if (query === "ruble" || query === "rouble") variants.push("ruble", "rouble");
+      if (query === "krona" || query === "krone") variants.push("krona", "krone");
+      if (query === "shekel" || query === "sheqel") variants.push("shekel", "sheqel");
+
+      let visibleCount = 0;
+      picker.querySelectorAll(".currency-option").forEach((option) => {
+        const index = option.dataset.searchIndex || "";
+        const matches = !query || variants.some((term) => index.includes(term));
+        option.hidden = !matches;
+        if (matches) {
+          visibleCount++;
+          if (query) {
+            const nameNorm = normalizeSearch(option.dataset.currencyName || "");
+            const isPrimary = nameNorm.startsWith(query) || nameNorm.includes(" " + query) || option.dataset.currencyCode.toLowerCase() === query;
+            option.style.order = isPrimary ? "-1" : "0";
+          } else {
+            option.style.order = "0";
+          }
+        }
       });
-      noResults.hidden = visibleOptions.length > 0;
+      noResults.hidden = visibleCount > 0;
+      options.scrollTop = 0;
     });
+
     picker.addEventListener("click", (event) => {
       const option = event.target.closest("[data-currency-code]");
       if (!option) return;
@@ -1464,14 +1631,29 @@
 
   function fillCurrencySelect(select, selected) {
     if (!select) return;
-    if (select.tagName === "INPUT") {
-      const list = document.getElementById(select.getAttribute("list"));
+    if (select.tagName === "DATALIST") {
+      select.replaceChildren(...CURRENCIES.flatMap((currency) => {
+        const optCode = document.createElement("option");
+        optCode.value = currency.code;
+        optCode.label = `${currency.name} (${currency.code} · ${currency.symbol}) ${currency.flag}`;
+        const optName = document.createElement("option");
+        optName.value = currency.name;
+        optName.label = `${currency.code} · ${currency.symbol} ${currency.flag}`;
+        return [optCode, optName];
+      }));
+      return;
+    }
+    if (select.tagName !== "SELECT") {
+      const list = select.list || document.getElementById(select.getAttribute("list"));
       if (list) {
-        list.replaceChildren(...CURRENCIES.map((currency) => {
-          const option = document.createElement("option");
-          option.value = currency.code;
-          option.label = `${currency.flag} ${currency.code} – ${currency.name} (${currency.symbol})`;
-          return option;
+        list.replaceChildren(...CURRENCIES.flatMap((currency) => {
+          const optCode = document.createElement("option");
+          optCode.value = currency.code;
+          optCode.label = `${currency.name} (${currency.code} · ${currency.symbol}) ${currency.flag}`;
+          const optName = document.createElement("option");
+          optName.value = currency.name;
+          optName.label = `${currency.code} · ${currency.symbol} ${currency.flag}`;
+          return [optCode, optName];
         }));
       }
       select.value = selected;
@@ -1480,7 +1662,7 @@
     select.replaceChildren(...CURRENCIES.map((currency) => {
       const option = document.createElement("option");
       option.value = currency.code;
-      option.textContent = `${currency.flag} ${currency.code} – ${currency.name} (${currency.symbol})`;
+      option.textContent = `${currency.name} (${currency.code} · ${currency.symbol}) ${currency.flag}`;
       option.selected = currency.code === selected;
       return option;
     }));
@@ -1736,6 +1918,7 @@
     dateFromISO,
     todayISO,
     fillCurrencySelect,
+    initializeCurrencyPicker,
     getPreferredCurrency,
     getExchangeRate,
     convertTransactions,

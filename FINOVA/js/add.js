@@ -69,7 +69,13 @@
     event.preventDefault();
     if (!form.reportValidity()) return;
     const amount = Number(amountInput.value);
-    const currency = currencyInput.value.trim().toUpperCase();
+    const rawCurrency = currencyInput.value.trim();
+    const matchedCurrency = Finova.currencies.find((c) =>
+      c.code.toUpperCase() === rawCurrency.toUpperCase() ||
+      c.name.toLowerCase() === rawCurrency.toLowerCase() ||
+      (rawCurrency.toUpperCase().includes(c.code) && rawCurrency.toLowerCase().includes(c.name.toLowerCase()))
+    );
+    const currency = matchedCurrency ? matchedCurrency.code : rawCurrency.toUpperCase();
     if (!Number.isFinite(amount) || amount <= 0) {
       amountInput.setCustomValidity("Enter an amount greater than zero.");
       amountInput.reportValidity();

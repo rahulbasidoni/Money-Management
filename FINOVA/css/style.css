@@ -751,14 +751,21 @@ body.light-theme .auth-feature small { color: #63738f; }
 body.light-theme .auth-tab { color: #63738f; }
 body.light-theme .auth-tab.active { color: #17233a; border-color: rgba(83,113,211,.25); background: rgba(89,119,234,.12); }
 
-.currency-option { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
-.currency-option-item { display: inline-flex; align-items: center; gap: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
-.currency-option-flag { font-size: 13px; line-height: 1; flex-shrink: 0; }
-.currency-option-code { font-weight: 700; color: #eef3ff; letter-spacing: 0.2px; flex-shrink: 0; }
-.currency-option-sep { color: #5f6e88; flex-shrink: 0; }
-.currency-option-name { color: #b6c4dc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.currency-option-sym { font-weight: 600; color: #51d6ef; margin-left: auto; flex-shrink: 0; font-size: 11px; }
-body.light-theme .currency-option-code { color: #17233a; }
-body.light-theme .currency-option-name { color: #4e5d78; }
-body.light-theme .currency-option-sym { color: #0284c7; }
-body.light-theme .currency-option-sep { color: #8d9ab2; }
+.currency-picker .language-menu { width: min(340px, calc(100vw - 24px)); }
+.currency-picker .language-options { max-height: 320px; }
+
+.currency-option { display: flex !important; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 8px 10px; border-radius: 8px; text-align: start; cursor: pointer; transition: background .16s, border-color .16s; }
+.currency-option[hidden] { display: none !important; }
+.currency-option-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; text-align: start; }
+.currency-option-name { font-size: 12px; font-weight: 600; color: #eef3ff; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.currency-option-meta { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #8593ab; line-height: 1; }
+.currency-option-code { font-weight: 700; color: #9cb1d6; letter-spacing: 0.3px; }
+.currency-option-sep { color: #55657f; font-weight: 700; }
+.currency-option-symbol { font-weight: 600; color: #51d6ef; }
+.currency-option-flag { font-size: 18px; line-height: 1; flex-shrink: 0; opacity: 0.95; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25)); }
+
+body.light-theme .currency-option-name { color: #17233a; }
+body.light-theme .currency-option-meta { color: #63738f; }
+body.light-theme .currency-option-code { color: #2b3a55; }
+body.light-theme .currency-option-sep { color: #94a3b8; }
+body.light-theme .currency-option-symbol { color: #0284c7; }
