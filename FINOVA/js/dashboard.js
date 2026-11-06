@@ -131,7 +131,7 @@
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        animation: { duration: 700 },
+        animation: { duration: 900, easing: "easeOutQuart" },
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => Finova.formatCurrency(context.raw, currency) } } },
         scales: {
           x: { grid: { display: false }, ticks: { color: "#8492aa", font: { size: 9 } }, border: { display: false } },
@@ -149,7 +149,7 @@
     const availableRows = Object.entries(availableByCurrency).map(([currency, amount]) => ({ currency, amount }));
     const availableBalance = await Finova.convertTransactions(availableRows, preferred, (row) => row.amount);
     if (availableBalance.converted) {
-      document.getElementById("balance-total").textContent = Finova.formatCurrency(availableBalance.value, preferred);
+      Finova.animateNumber(document.getElementById("balance-total"), availableBalance.value, preferred);
       balanceNote.textContent = Object.keys(availableByCurrency).length > 1 ||
         Object.keys(availableByCurrency).some((currency) => currency !== preferred)
         ? `Estimated conversion to ${preferred} · rates dated ${availableBalance.ratesDate}`
@@ -180,11 +180,11 @@
     const monthIncome = await Finova.convertTransactions(income, preferred);
     const monthExpenses = await Finova.convertTransactions(expenses, preferred);
     if (monthIncome.converted && monthExpenses.converted) {
-      document.getElementById("month-income").textContent = Finova.formatCurrency(monthIncome.value, preferred);
-      document.getElementById("month-expenses").textContent = Finova.formatCurrency(monthExpenses.value, preferred);
+      Finova.animateNumber(document.getElementById("month-income"), monthIncome.value, preferred);
+      Finova.animateNumber(document.getElementById("month-expenses"), monthExpenses.value, preferred);
       const net = monthIncome.value - monthExpenses.value;
       const netNode = document.getElementById("month-net");
-      netNode.textContent = `${net < 0 ? "−" : "+"}${Finova.formatCurrency(Math.abs(net), preferred)}`;
+      Finova.animateNumber(netNode, Math.abs(net), preferred, { prefix: net < 0 ? "−" : "+" });
       netNode.className = net < 0 ? "negative-text" : "positive-text";
       renderChart(monthIncome.value, monthExpenses.value, preferred);
       document.getElementById("overview-conversion-note").textContent = month.length && (monthIncome.groups && Object.keys(monthIncome.groups).length > 1 || monthExpenses.groups && Object.keys(monthExpenses.groups).length > 1)

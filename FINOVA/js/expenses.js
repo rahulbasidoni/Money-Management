@@ -43,9 +43,26 @@
     populateCategories();
     const all = Finova.getTransactions();
     const filtered = getFilteredTransactions();
-    document.getElementById("all-count").textContent = all.length.toLocaleString();
-    document.getElementById("income-count").textContent = all.filter((item) => item.type === "income").length.toLocaleString();
-    document.getElementById("expense-count").textContent = all.filter((item) => item.type === "expense").length.toLocaleString();
+    function animateBadge(el, target) {
+      if (!el) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        el.textContent = target.toLocaleString();
+        return;
+      }
+      const start = 0;
+      const duration = 600;
+      const startTime = performance.now();
+      function step(now) {
+        const p = Math.min((now - startTime) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(start + (target - start) * ease).toLocaleString();
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    animateBadge(document.getElementById("all-count"), all.length);
+    animateBadge(document.getElementById("income-count"), all.filter((item) => item.type === "income").length);
+    animateBadge(document.getElementById("expense-count"), all.filter((item) => item.type === "expense").length);
     document.getElementById("result-count").textContent = `(${filtered.length})`;
     tableBody.innerHTML = filtered.map((transaction) => {
       const income = transaction.type === "income";

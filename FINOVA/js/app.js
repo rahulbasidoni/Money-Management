@@ -1750,6 +1750,40 @@
     }, {});
   }
 
+    function animateNumber(element, endValue, currency, options = {}) {
+    if (!element) return;
+    const end = Number(endValue);
+    if (!Number.isFinite(end)) {
+      element.textContent = options.fallback || "—";
+      return;
+    }
+    const targetCurrency = currency || getPreferredCurrency();
+    const prefix = options.prefix || "";
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      element.textContent = prefix + formatCurrency(end, targetCurrency);
+      return;
+    }
+    const duration = options.duration || 750;
+    const startTime = performance.now();
+    const startVal = options.startValue !== undefined ? Number(options.startValue) : 0;
+    const animId = Symbol("anim");
+    element._finovaAnim = animId;
+
+    function step(now) {
+      if (element._finovaAnim !== animId) return;
+      const elapsed = Math.min((now - startTime) / duration, 1);
+      const ease = 1 - Math.pow(1 - elapsed, 4);
+      const current = startVal + (end - startVal) * ease;
+      element.textContent = prefix + formatCurrency(current, targetCurrency);
+      if (elapsed < 1) {
+        requestAnimationFrame(step);
+      } else {
+        element.textContent = prefix + formatCurrency(end, targetCurrency);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
   async function displayTotal(element, transactions, targetCurrency, mode, noteElement) {
     if (!element) return null;
     const filtered = mode === "balance"
@@ -1760,7 +1794,7 @@
       const conversionRows = Object.entries(net).map(([currency, amount]) => ({ currency, amount }));
       const result = await convertTransactions(conversionRows, targetCurrency, (row) => row.amount);
       if (result.converted) {
-        element.textContent = formatCurrency(result.value, targetCurrency);
+        animateNumber(element, result.value, targetCurrency);
         if (noteElement) noteElement.textContent = Object.keys(net).length > 1 ? `Estimated conversion to ${targetCurrency} · rates dated ${result.ratesDate}` : "Based on your saved transactions";
       } else {
         element.textContent = groupedText(net, true);
@@ -1770,7 +1804,7 @@
     }
     const result = await convertTransactions(filtered, targetCurrency);
     if (result.converted) {
-      element.textContent = formatCurrency(result.value, targetCurrency);
+      animateNumber(element, result.value, targetCurrency);
       if (noteElement) noteElement.textContent = Object.keys(result.groups).length > 1 ? `Estimated conversion to ${targetCurrency} · rates dated ${result.ratesDate}` : "Based on your saved transactions";
     } else {
       element.textContent = groupedText(result.groups, false);
@@ -1915,6 +1949,7 @@
     requirePasswordConfirmation,
     currencyInfo,
     formatCurrency,
+    animateNumber,
     dateFromISO,
     todayISO,
     fillCurrencySelect,

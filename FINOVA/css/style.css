@@ -28,8 +28,8 @@ button { color: inherit; }
 .wallpaper::before { content: ""; position: absolute; inset: 0; opacity: .14; background-image: radial-gradient(rgba(196, 209, 241, .68) .7px, transparent .8px); background-size: 48px 48px; mask-image: linear-gradient(90deg, transparent, black 50%, transparent); animation: star-drift 70s linear infinite; }
 .wallpaper::after { content: ""; position: absolute; inset: 0; opacity: .12; background: linear-gradient(transparent 97%, rgba(113, 142, 223, .12) 100%); background-size: 100% 4px; }
 .glow { position: absolute; width: 42vw; height: 42vw; min-width: 380px; min-height: 380px; border-radius: 50%; filter: blur(105px); opacity: .13; animation: orb-drift 24s ease-in-out infinite alternate; }
-.glow-one { top: -25%; left: 36%; background: #355cff; }
-.glow-two { right: -15%; bottom: -34%; width: 38vw; height: 38vw; background: #8d40d9; animation-delay: -12s; }
+.glow-one { top: -24%; left: 34%; background: radial-gradient(circle, #355cff 0%, rgba(53,92,255,.35) 65%, transparent 100%); animation: orb-drift 26s ease-in-out infinite alternate, glow-breathe 14s ease-in-out infinite alternate; }
+.glow-two { right: -13%; bottom: -30%; width: 40vw; height: 40vw; background: radial-gradient(circle, #8d40d9 0%, rgba(141,64,217,.3) 65%, transparent 100%); animation: orb-drift 30s ease-in-out infinite alternate-reverse, glow-breathe 18s -6s ease-in-out infinite alternate; }
 .stars { position: absolute; width: 3px; height: 3px; top: 20%; left: 23%; border-radius: 50%; background: #a6c8ff; box-shadow: 28vw 21vh 1px #7f9dff, 62vw -4vh 1px #c0aaff, 78vw 47vh 1px #76dff4, 17vw 64vh 1px #c0aaff, 53vw 75vh 1px #87b0ff, 88vw 13vh 1px #a5baff, 7vw 39vh 1px #8fbbff, 42vw 12vh 1px #a5baff; opacity: .4; animation: twinkle 5s ease-in-out infinite alternate; }
 .stars::before, .stars::after { position: absolute; width: 4px; height: 4px; border-radius: 50%; content: ""; opacity: .42; }
 .stars::before { background: #57d5ef; box-shadow: 18vw 32vh 5px 1px rgba(87,213,239,.28), 45vw -9vh 4px 1px rgba(87,213,239,.24), 66vw 58vh 5px 1px rgba(87,213,239,.2); animation: particle-float 17s ease-in-out infinite alternate; }
@@ -88,10 +88,10 @@ h1 { margin-bottom: 7px; font: 700 clamp(25px, 2.5vw, 34px)/1.2 Manrope, sans-se
 .button-secondary { border-color: var(--border); color: #c3cee2; background: rgba(255,255,255,.035); }
 .button-secondary:hover, .button-quiet:hover { border-color: var(--border-bright); color: white; }
 .button-quiet { border-color: transparent; color: var(--muted); background: transparent; }
-.panel { border: 1px solid var(--border); border-radius: 14px; background: linear-gradient(135deg, rgba(19, 29, 48, .82), rgba(12, 19, 33, .76)); box-shadow: 0 14px 38px rgba(0, 0, 0, .11), inset 0 1px rgba(255,255,255,.025); backdrop-filter: blur(18px); transition: border-color .25s ease, transform .25s ease; }
-.panel:hover { border-color: rgba(143, 166, 227, .2); }
+.panel { border: 1px solid rgba(158, 180, 218, .12); border-radius: 14px; background: linear-gradient(135deg, rgba(20, 31, 52, .78), rgba(12, 19, 33, .74)); box-shadow: 0 16px 40px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .08), inset 0 0 12px rgba(105, 149, 255, .02); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: transform .28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .28s cubic-bezier(0.2, 0.8, 0.2, 1), border-color .28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.panel:hover { transform: translateY(-3px); border-color: rgba(138, 166, 255, .28); box-shadow: 0 22px 50px rgba(0, 0, 0, .32), 0 0 24px rgba(106, 140, 255, .08), inset 0 1px 0 rgba(255, 255, 255, .12); }
 .dashboard-grid { display: grid; grid-template-columns: 1.55fr 1fr 1fr 1fr; gap: 13px; }
-.balance-card { position: relative; overflow: hidden; min-height: 171px; padding: 20px 21px; border-color: rgba(120, 151, 255, .25); background: radial-gradient(ellipse at 77% 4%, rgba(96, 116, 255, .2), transparent 48%), linear-gradient(123deg, rgba(31, 44, 80, .91), rgba(16, 25, 45, .92) 64%, rgba(19, 27, 49, .85)); box-shadow: 0 16px 42px rgba(34, 48, 117, .17), inset 0 1px rgba(255,255,255,.07); }
+.balance-card { position: relative; overflow: hidden; min-height: 171px; padding: 20px 21px; border-color: rgba(130, 160, 255, .3); background: radial-gradient(ellipse at 78% 0%, rgba(102, 126, 255, .24), transparent 50%), radial-gradient(ellipse at 20% 100%, rgba(162, 119, 255, .14), transparent 45%), linear-gradient(124deg, rgba(32, 45, 84, .94), rgba(16, 25, 46, .94) 62%, rgba(20, 29, 52, .88)); box-shadow: 0 18px 46px rgba(28, 42, 102, .22), 0 0 24px rgba(102, 126, 255, .08), inset 0 1px 0 rgba(255, 255, 255, .1); }
 .balance-card::before { content: ""; position: absolute; top: -130px; right: -82px; width: 280px; height: 280px; border: 1px solid rgba(157, 167, 255, .12); border-radius: 50%; box-shadow: 0 0 0 24px rgba(157, 167, 255, .025), 0 0 0 48px rgba(157, 167, 255, .02); }
 .balance-top, .balance-foot { position: relative; display: flex; align-items: center; justify-content: space-between; }
 .metric-label { color: #8c9bb6; font-size: 9px; font-weight: 700; letter-spacing: 1.2px; }
@@ -769,3 +769,190 @@ body.light-theme .currency-option-meta { color: #63738f; }
 body.light-theme .currency-option-code { color: #2b3a55; }
 body.light-theme .currency-option-sep { color: #94a3b8; }
 body.light-theme .currency-option-symbol { color: #0284c7; }
+
+
+/* ========================================================
+   FINOVA PREMIUM UI ANIMATION & INTERACTION ENHANCEMENTS
+   ======================================================== */
+
+@keyframes glow-breathe {
+  0% { opacity: .11; transform: scale(.97); }
+  50% { opacity: .18; transform: scale(1.04); }
+  100% { opacity: .12; transform: scale(1); }
+}
+
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes menu-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes track-shimmer {
+  to { transform: translateX(220%); }
+}
+
+/* Staggered card entrance for dashboard */
+.dashboard-grid > article:nth-child(1) { animation: card-reveal .42s .03s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.dashboard-grid > article:nth-child(2) { animation: card-reveal .42s .07s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.dashboard-grid > article:nth-child(3) { animation: card-reveal .42s .11s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.dashboard-grid > article:nth-child(4) { animation: card-reveal .42s .15s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.content-grid > section:nth-child(1) { animation: card-reveal .46s .19s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.content-grid > section:nth-child(2) { animation: card-reveal .46s .23s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.wallet-panel { animation: card-reveal .48s .27s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Enhanced Metric Cards Hover Effects */
+.metric-card {
+  transition: transform .28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow .28s cubic-bezier(0.2, 0.8, 0.2, 1), border-color .28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.income-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(89, 214, 160, .35);
+  box-shadow: 0 20px 46px rgba(0, 0, 0, .28), 0 0 24px rgba(89, 214, 160, .12), inset 0 1px 0 rgba(255, 255, 255, .1);
+}
+.expense-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 132, 124, .35);
+  box-shadow: 0 20px 46px rgba(0, 0, 0, .28), 0 0 24px rgba(255, 132, 124, .12), inset 0 1px 0 rgba(255, 255, 255, .1);
+}
+.transaction-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(106, 140, 255, .35);
+  box-shadow: 0 20px 46px rgba(0, 0, 0, .28), 0 0 24px rgba(106, 140, 255, .12), inset 0 1px 0 rgba(255, 255, 255, .1);
+}
+.balance-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(140, 170, 255, .38);
+  box-shadow: 0 24px 56px rgba(32, 48, 120, .3), 0 0 32px rgba(102, 126, 255, .18), inset 0 1px 0 rgba(255, 255, 255, .16);
+}
+
+/* Enhanced Buttons Hover & Click Effects */
+.button {
+  transition: transform .2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .2s cubic-bezier(0.16, 1, 0.3, 1), background .2s ease, border-color .2s ease;
+}
+.button:active {
+  transform: translateY(0) scale(.98) !important;
+}
+.button-primary {
+  box-shadow: 0 6px 20px rgba(92, 111, 238, .28), inset 0 1px 0 rgba(255, 255, 255, .22);
+}
+.button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(92, 111, 238, .44), 0 0 18px rgba(121, 86, 219, .26), inset 0 1px 0 rgba(255, 255, 255, .32);
+}
+.button-primary:active {
+  box-shadow: 0 4px 14px rgba(92, 111, 238, .35);
+}
+.button-secondary:active,
+.button-quiet:active {
+  transform: translateY(0) scale(.98);
+}
+
+/* Navigation Links Smooth Interactions */
+.side-nav .nav-link {
+  transition: background .2s ease, color .2s ease, border-color .2s ease, transform .2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.side-nav .nav-link:hover {
+  transform: translateX(3px);
+}
+.side-nav .nav-link.active {
+  box-shadow: 0 4px 16px rgba(40, 60, 140, .16), inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+/* Dropdown Menus Smooth Transitions */
+.language-picker.open .language-menu,
+.currency-picker.open .currency-menu {
+  transform-origin: top right;
+  animation: menu-pop .18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.currency-option {
+  transition: background .16s ease, border-color .16s ease, transform .16s ease;
+}
+.currency-option:hover {
+  transform: translateX(2px);
+}
+
+/* Spending Progress Bar Animation */
+.insight-track i {
+  position: relative;
+  overflow: hidden;
+  transition: width .85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.insight-track i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .28), transparent);
+  transform: translateX(-100%);
+  animation: track-shimmer 2.5s ease-in-out infinite;
+}
+
+/* Transaction List Rows Interactive Lift */
+.transaction-row {
+  transition: background .18s ease, transform .18s ease;
+}
+.transaction-row:hover {
+  background: rgba(255, 255, 255, .025);
+  transform: translateX(3px);
+}
+
+/* Light Theme Harmonization */
+body.light-theme .panel {
+  box-shadow: 0 14px 36px rgba(48, 64, 105, .09), inset 0 1px 0 rgba(255, 255, 255, .85);
+}
+body.light-theme .panel:hover {
+  border-color: rgba(83, 113, 211, .35);
+  box-shadow: 0 20px 44px rgba(48, 64, 105, .14), 0 0 20px rgba(89, 119, 234, .08), inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+body.light-theme .balance-card:hover {
+  box-shadow: 0 22px 52px rgba(38, 57, 105, .28), 0 0 24px rgba(96, 116, 255, .15);
+}
+body.light-theme .income-card:hover {
+  border-color: rgba(66, 186, 139, .35);
+  box-shadow: 0 18px 40px rgba(48, 64, 105, .12), 0 0 18px rgba(66, 186, 139, .1);
+}
+body.light-theme .expense-card:hover {
+  border-color: rgba(230, 101, 102, .35);
+  box-shadow: 0 18px 40px rgba(48, 64, 105, .12), 0 0 18px rgba(230, 101, 102, .1);
+}
+body.light-theme .transaction-card:hover {
+  border-color: rgba(98, 126, 234, .35);
+  box-shadow: 0 18px 40px rgba(48, 64, 105, .12), 0 0 18px rgba(98, 126, 234, .1);
+}
+body.light-theme .transaction-row:hover {
+  background: rgba(65, 91, 157, .04);
+}
+
+/* Accessibility: Full reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .panel:hover,
+  .balance-card:hover,
+  .metric-card:hover,
+  .button:hover,
+  .side-nav .nav-link:hover,
+  .currency-option:hover,
+  .transaction-row:hover {
+    transform: none !important;
+  }
+}
