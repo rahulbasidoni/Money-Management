@@ -135,7 +135,7 @@
       await Finova.restoreData(backup);
       Finova.notify("Money Management data restored from the selected backup.");
     } catch (error) {
-      console.error("FINOVA could not import the selected backup.", error);
+      console.error("Money Management could not import the selected backup.", error);
       Finova.notify(error.message || "The selected backup could not be restored.", "error");
     } finally {
       importFile.value = "";
@@ -162,10 +162,10 @@
       danger: true
     })) return;
     try {
-      await Finova.restoreData({ ...backup, application: "FINOVA", wallet: backup.wallet || { initialBalances: {}, topUps: [] } });
+      await Finova.restoreData({ ...backup, application: "Money Management", wallet: backup.wallet || { initialBalances: {}, topUps: [] } });
       Finova.notify("The automatic local backup has been restored.");
     } catch (error) {
-      console.error("FINOVA could not restore its automatic backup.", error);
+      console.error("Money Management could not restore its automatic backup.", error);
       Finova.notify(error.message || "The automatic backup could not be restored.", "error");
     }
   });

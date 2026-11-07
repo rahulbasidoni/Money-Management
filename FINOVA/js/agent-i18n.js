@@ -1,7 +1,7 @@
 /* ========================================================
-   FINOVA AGENT i18n – Multilingual Localization System
-   Synchronized directly with FINOVA application language
-   Supports all 30 FINOVA languages
+   MONEY MANAGEMENT AGENT i18n – Multilingual Localization System
+   Synchronized directly with Money Management application language
+   Supports all 30 Money Management languages
    ======================================================== */
 (function () {
   "use strict";
@@ -19,7 +19,7 @@
     casual_thank_you: "You're welcome! 😊 Let me know if you need any other help with your finances.",
     casual_ack: "Glad to hear! 😊 Feel free to ask whenever you'd like to check your spending or savings.",
     casual_help: "Of course! 😊 I can help you track your spending, check wallet balances, compare months, and build savings plans. What would you like to explore?",
-    casual_who: "I'm **Agent**, your personal finance companion in FINOVA! I help you keep track of your income, expenses, and savings goals.",
+    casual_who: "I'm **Agent**, your personal finance companion in Money Management! I help you keep track of your income, expenses, and savings goals.",
     casual_bye: "Have a great day ahead! 👋 I'm always here whenever you want to check your finances.",
     casual_fallback: "I'm here to help! 😊 Feel free to ask anything about your spending, income, or savings goals.",
     unrelated_scope: "Sorry! 😊 I'm your personal finance Agent. I can help you understand your income, expenses, savings, and manage your money, but I can't help with that topic.",
@@ -91,7 +91,7 @@
     casual_thank_you: "आपका स्वागत है! 😊 अगर आपको पैसों से जुड़ी कोई और मदद चाहिए तो मुझे जरूर बताएं।",
     casual_ack: "यह सुनकर अच्छा लगा! 😊 जब भी आप अपने खर्च या बचत देखना चाहें, बेझिझक पूछें।",
     casual_help: "बिल्कुल! 😊 मैं आपके खर्च ट्रैक करने, वॉलेट बैलेंस देखने, महीनों की तुलना करने और बचत योजना बनाने में मदद कर सकता हूँ।",
-    casual_who: "मैं **Agent** हूँ, FINOVA में आपका पर्सनल फ़ाइनेंस साथी! मैं आपकी आय, खर्च और बचत लक्ष्यों को ट्रैक करने में मदद करता हूँ।",
+    casual_who: "मैं **Agent** हूँ, Money Management में आपका पर्सनल फ़ाइनेंस साथी! मैं आपकी आय, खर्च और बचत लक्ष्यों को ट्रैक करने में मदद करता हूँ।",
     casual_bye: "आपका दिन शुभ हो! 👋 जब भी आपको अपने पैसों की जानकारी चाहिए, मैं यहीं हूँ।",
     casual_fallback: "मैं आपकी मदद के लिए यहाँ हूँ! 😊 अपने खर्च, आय या बचत लक्ष्यों के बारे में कुछ भी पूछें।",
     unrelated_scope: "माफ़ कीजिए! 😊 मैं आपका पर्सनल फ़ाइनेंस एजेंट हूँ। मैं आपकी आय, खर्च, बचत और पैसों के प्रबंधन में मदद कर सकता हूँ, लेकिन इस विषय में नहीं।",
@@ -148,7 +148,7 @@
     casual_thank_you: "ಸ್ವಾಗತ! 😊 ನಿಮ್ಮ ಹಣಕಾಸಿನ ಬಗ್ಗೆ ಇನ್ನೇನಾದರೂ ಸಹಾಯ ಬೇಕಿದ್ದರೆ ನನಗೆ ತಿಳಿಸಿ.",
     casual_ack: "ಖುಷಿಯಾಯಿತು! 😊 ನಿಮ್ಮ ಖರ್ಚು ಅಥವಾ ಉಳಿತಾಯವನ್ನು ಪರಿಶೀಲಿಸಲು ಬಯಸಿದಾಗಲೆಲ್ಲಾ ಕೇಳಿ.",
     casual_help: "ಖಂಡಿತ! 😊 ನಿಮ್ಮ ಖರ್ಚುಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು, ವಾಲೆಟ್ ಬ್ಯಾಲೆನ್ಸ್ ನೋಡಲು, ತಿಂಗಳುಗಳನ್ನು ಹೋಲಿಸಲು ಮತ್ತು ಉಳಿತಾಯ ಯೋಜನೆ ರೂಪಿಸಲು ನಾನು ಸಹಾಯ ಮಾಡಬಲ್ಲೆ.",
-    casual_who: "ನಾನು **Agent**, FINOVA ನಲ್ಲಿ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಒಡನಾಡಿ! ನಿಮ್ಮ ಆದಾಯ, ಖರ್ಚು ಮತ್ತು ಉಳಿತಾಯ ಗುರಿಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ನಾನು ಸಹಾಯ ಮಾಡುತ್ತೇನೆ.",
+    casual_who: "ನಾನು **Agent**, Money Management ನಲ್ಲಿ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಒಡನಾಡಿ! ನಿಮ್ಮ ಆದಾಯ, ಖರ್ಚು ಮತ್ತು ಉಳಿತಾಯ ಗುರಿಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಲು ನಾನು ಸಹಾಯ ಮಾಡುತ್ತೇನೆ.",
     casual_bye: "ಶುಭ ದಿನ! 👋 ನಿಮ್ಮ ಹಣಕಾಸು ಪರಿಶೀಲಿಸಲು ಬಯಸಿದಾಗಲೆಲ್ಲಾ ನಾನು ಇಲ್ಲೇ ಇರುತ್ತೇನೆ.",
     casual_fallback: "ನಾನು ನಿಮಗೆ ಸಹಾಯ ಮಾಡಲು ಇಲ್ಲಿದ್ದೇನೆ! 😊 ನಿಮ್ಮ ಖರ್ಚು, ಆದಾಯ ಅಥವಾ ಉಳಿತಾಯದ ಬಗ್ಗೆ ಏನಾದರೂ ಕೇಳಿ.",
     unrelated_scope: "ಕ್ಷಮಿಸಿ! 😊 ನಾನು ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಏಜೆಂಟ್. ನಿಮ್ಮ ಆದಾಯ, ಖರ್ಚು, ಉಳಿತಾಯ ಮತ್ತು ಹಣ ನಿರ್ವಹಣೆಗೆ ನಾನು ಸಹಾಯ ಮಾಡಬಲ್ಲೆ, ಆದರೆ ಈ ವಿಷಯದಲ್ಲಿ ಸಹಾಯ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ.",
@@ -205,7 +205,7 @@
     casual_thank_you: "ధన్యవాదాలు! 😊 మీకు ఆర్థిక విషయాల్లో మరేదైనా సహాయం కావాలంటే నాకు తెలియజేయండి.",
     casual_ack: "సంతోషం! 😊 మీ ఖర్చులు లేదా పొదుపు వివరాలు తెలుసుకోవడానికి ఎప్పుడైనా అడగవచ్చు.",
     casual_help: "తప్పకుండా! 😊 మీ ఖర్చులను ట్రాక్ చేయడానికి, వాలెట్ బ్యాలెన్స్ చూడటానికి, నెలలను పోల్చడానికి మరియు పొదుపు ప్రణాళికలు రూపొందించడానికి నేను సహాయం చేయగలను.",
-    casual_who: "నేను **Agent**, FINOVA లో మీ వ్యక్తిగత ఆర్థిక సహచరుడిని! మీ ఆదాయం, ఖర్చులు మరియు పొదుపు లక్ష్యాలను పర్యవేక్షించడంలో నేను సహాయపడతాను.",
+    casual_who: "నేను **Agent**, Money Management లో మీ వ్యక్తిగత ఆర్థిక సహచరుడిని! మీ ఆదాయం, ఖర్చులు మరియు పొదుపు లక్ష్యాలను పర్యవేక్షించడంలో నేను సహాయపడతాను.",
     casual_bye: "మంచి రోజు కావాలని కోరుకుంటున్నాను! 👋 మీ ఆర్థిక వివరాలు చూసుకోవడానికి నేను ఎప్పుడూ ఇక్కడే ఉంటాను.",
     casual_fallback: "నేను మీకు సహాయం చేయడానికి ఇక్కడ ఉన్నాను! 😊 మీ ఖర్చులు, ఆదాయం లేదా పొదుపుల గురించి ఏదైనా అడగండి.",
     unrelated_scope: "క్షమించండి! 😊 నేను మీ వ్యక్తిగత ఆర్థిక సహాయకుడిని. మీ ఆదాయం, ఖర్చులు, పొదుపు మరియు డబ్బు నిర్వహణలో నేను సహాయపడగలను, కానీ ఈ అంశంలో సహాయం చేయలేను.",
@@ -262,7 +262,7 @@
     casual_thank_you: "நல்வரவு! 😊 உங்கள் நிதி தொடர்பாக வேறு ஏதேனும் உதவி தேவைப்பட்டால் எனக்குத் தெரியப்படுத்துங்கள்.",
     casual_ack: "மகிழ்ச்சி! 😊 உங்கள் செலவுகள் அல்லது சேமிப்பை சரிபார்க்க விரும்பும் போதெல்லாம் கேளுங்கள்.",
     casual_help: "நிச்சயமாக! 😊 உங்கள் செலவுகளைக் கண்காணிக்க, வாலட் இருப்பை சரிபார்க்க, மாதங்களை ஒப்பிட மற்றும் சேமிப்புத் திட்டங்களை உருவாக்க நான் உதவ முடியும்.",
-    casual_who: "நான் **Agent**, FINOVA இல் உங்கள் தனிப்பட்ட நிதித் துணைவன்! உங்கள் வருமானம், செலவுகள் மற்றும் சேமிப்பு இலக்குகளைக் கண்காணிக்க உதவுகிறேன்.",
+    casual_who: "நான் **Agent**, Money Management இல் உங்கள் தனிப்பட்ட நிதித் துணைவன்! உங்கள் வருமானம், செலவுகள் மற்றும் சேமிப்பு இலக்குகளைக் கண்காணிக்க உதவுகிறேன்.",
     casual_bye: "இனிய நாளாக அமையட்டும்! 👋 உங்கள் நிதியை சரிபார்க்க எப்போது வேண்டுமானாலும் நான் இங்கே இருப்பேன்.",
     casual_fallback: "நான் உங்களுக்கு உதவ இங்கே இருக்கிறேன்! 😊 உங்கள் செலவுகள், வருமானம் அல்லது சேமிப்பு பற்றி எதையும் கேளுங்கள்.",
     unrelated_scope: "மன்னிக்கவும்! 😊 நான் உங்கள் தனிப்பட்ட நிதி முகவர். உங்கள் வருமானம், செலவுகள், சேமிப்பு மற்றும் பண நிர்வாகத்திற்கு உதவ முடியும், ஆனால் இந்தத் தலைப்பில் உதவ முடியாது.",
@@ -319,7 +319,7 @@
     casual_thank_you: "¡De nada! 😊 Avísame si necesitas cualquier otra ayuda con tus finanzas.",
     casual_ack: "¡Me alegra saberlo! 😊 Pregúntame cuando quieras revisar tus gastos o ahorros.",
     casual_help: "¡Por supuesto! 😊 Puedo ayudarte a registrar gastos, revisar saldos, comparar meses y armar planes de ahorro.",
-    casual_who: "¡Soy **Agent**, tu compañero de finanzas personales en FINOVA! Te ayudo a monitorear tus ingresos, gastos y metas de ahorro.",
+    casual_who: "¡Soy **Agent**, tu compañero de finanzas personales en Money Management! Te ayudo a monitorear tus ingresos, gastos y metas de ahorro.",
     casual_bye: "¡Que tengas un excelente día! 👋 Siempre estaré aquí cuando quieras revisar tus finanzas.",
     casual_fallback: "¡Estoy aquí para ayudarte! 😊 Pregúntame sobre tus gastos, ingresos o metas de ahorro.",
     unrelated_scope: "¡Lo siento! 😊 Soy tu Agent de finanzas personales. Puedo ayudarte con tus ingresos, gastos, ahorros y administración de dinero, pero no con ese tema.",
@@ -357,7 +357,7 @@
     casual_thank_you: "Avec plaisir ! 😊 N'hésitez pas si vous avez d'autres questions sur vos finances.",
     casual_ack: "Ravi de l'entendre ! 😊 Posez vos questions quand vous souhaitez vérifier vos dépenses.",
     casual_help: "Bien sûr ! 😊 Je peux vous aider à suivre vos dépenses, vérifier vos soldes et planifier votre épargne.",
-    casual_who: "Je suis **Agent**, votre compagnon financier personnel sur FINOVA !",
+    casual_who: "Je suis **Agent**, votre compagnon financier personnel sur Money Management !",
     casual_bye: "Bonne journée ! 👋 Je suis toujours là quand vous souhaitez consulter vos finances.",
     casual_fallback: "Je suis là pour vous aider ! 😊 Posez-moi des questions sur vos finances.",
     unrelated_scope: "Désolé ! 😊 Je suis votre Agent de finances personnelles. Je peux vous aider avec vos revenus, dépenses et épargne, mais pas sur ce sujet.",
@@ -392,7 +392,7 @@
     casual_thank_you: "على الرحب والسعة! 😊 أخبرني إذا كنت بحاجة لأي مساعدة أخرى في شؤونك المالية.",
     casual_ack: "يسعدني سماع ذلك! 😊 لا تتردد في السؤال عندما ترغب في التحقق من نفقاتك أو مدخراتك.",
     casual_help: "بالتأكيد! 😊 يمكنني مساعدتك في تتبع النفقات، مراجعة الأرصدة، مقارنة الأشهر ووضع خطط التوفير.",
-    casual_who: "أنا **Agent**، رفيقك المالي الشخصي في FINOVA! أساعدك في إدارة دخلك ومصروفاتك.",
+    casual_who: "أنا **Agent**، رفيقك المالي الشخصي في Money Management! أساعدك في إدارة دخلك ومصروفاتك.",
     casual_bye: "أتمنى لك يوماً سعيداً! 👋 أنا دائماً هنا لمساعدتك في أمورك المالية.",
     casual_fallback: "أنا هنا للمساعدة! 😊 اسألني عن مصروفاتك، دخلك أو أهداف التوفير.",
     unrelated_scope: "عذراً! 😊 أنا وكيلك المالي الشخصي (Agent). يمكنني مساعدتك في الدخل والنفقات والادخار وإدارة أموالك، لكن لا يمكنني المساعدة في هذا الموضوع.",
@@ -422,7 +422,7 @@
     casual_how_are_you: "Mir geht es gut, danke der Nachfrage! 😊 Wie geht es Ihnen?",
     casual_thank_you: "Gern geschehen! 😊 Lassen Sie mich wissen, wenn Sie weitere Hilfe benötigen.",
     casual_help: "Natürlich! 😊 Ich kann Ihnen helfen, Ausgaben zu verfolgen und Sparpläne zu erstellen.",
-    casual_who: "Ich bin **Agent**, Ihr persönlicher Finanzbegleiter bei FINOVA!",
+    casual_who: "Ich bin **Agent**, Ihr persönlicher Finanzbegleiter bei Money Management!",
     unrelated_scope: "Entschuldigung! 😊 Ich bin Ihr persönlicher Finanz-Agent. Ich kann Ihnen bei Finanzen helfen, aber nicht bei diesem Thema.",
     spending_month: "Sie haben diesen Monat **{amount}** in **{count} Transaktion(en)** ausgegeben.\n\nDer Großteil ging an **{topCategory}** ({topAmount}).",
     prompts: {
@@ -441,7 +441,7 @@
     casual_how_are_you: "我很好，谢谢关心！😊 您怎么样？今天想看点什么？",
     casual_thank_you: "不客气！😊 如果您还有其他财务问题，随时告诉我。",
     casual_help: "当然可以！😊 我可以帮您记录支出、查看余额、比较月份以及制定储蓄计划。",
-    casual_who: "我是 **Agent**，您在 FINOVA 的个人财务助手！",
+    casual_who: "我是 **Agent**，您在 Money Management 的个人财务助手！",
     unrelated_scope: "抱歉！😊 我是您的个人财务 Agent。我可以协助您处理收入、支出、储蓄和理财，但无法解答该主题。",
     welcome_msg: "您好 {name}！👋 我是 **Agent**，您的个人财务伴侣。\n\n请随时询问关于支出、收入或储蓄的问题！",
     spending_month: "您本月共在 **{count} 笔交易** 中支出了 **{amount}**。\n\n其中大部分用于 **{topCategory}** ({topAmount})。",
@@ -467,7 +467,7 @@
     casual_how_are_you: "元気です、お気遣いありがとうございます！😊 どのようなお手伝いをしましょうか？",
     casual_thank_you: "どういたしまして！😊 お金に関するご質問があればいつでもどうぞ。",
     casual_help: "もちろんです！😊 支出の追跡や残高確認、貯蓄プランの作成をお手伝いできます。",
-    casual_who: "私はFINOVAの専属ファイナンシャルパートナー **Agent** です！",
+    casual_who: "私はMoney Managementの専属ファイナンシャルパートナー **Agent** です！",
     unrelated_scope: "申し訳ありません！😊 私は個人財務専用のAgentです。収入、支出、貯蓄の管理はお手伝いできますが、この話題にはお答えできません。",
     spending_month: "今月は **{count} 件の取引** で合計 **{amount}** を支出しました。\n\n最も多かった支出は **{topCategory}** ({topAmount}) です。",
     where_money_goes: "{period}の支出の大部分は **{topCategory}** に使われており、合計 **{topAmount}**（全体の約 **{topPct}%**）です。",
@@ -487,7 +487,7 @@
     casual_how_are_you: "잘 지내고 있습니다, 물어봐 주셔서 감사합니다! 😊 오늘은 무엇을 확인하시겠어요?",
     casual_thank_you: "천만에요! 😊 금융에 관한 도움이 더 필요하시면 언제든 말씀해주세요.",
     casual_help: "물론이죠! 😊 지출 추적, 잔액 확인, 저축 계획 수립을 도와드릴 수 있습니다.",
-    casual_who: "저는 FINOVA의 개인 금융 도우미 **Agent** 입니다!",
+    casual_who: "저는 Money Management의 개인 금융 도우미 **Agent** 입니다!",
     unrelated_scope: "죄송합니다! 😊 저는 개인 금융 전용 Agent입니다. 수입, 지출, 저축 및 자산 관리를 도와드릴 수 있지만, 해당 주제에는 답변해 드릴 수 없습니다.",
     spending_month: "이번 달에 총 **{count}건의 거래**로 **{amount}**을(를) 지출하셨습니다.\n\n가장 많은 지출은 **{topCategory}** ({topAmount})였습니다.",
     where_money_goes: "{period} 지출의 대부분은 **{topCategory}**에 사용되었으며, 총 **{topAmount}**(전체 지출의 약 **{topPct}%**)입니다.",
@@ -505,7 +505,7 @@
     greeting_default: "Здравствуйте! 👋 Как ваш день? Чем я могу помочь вам сегодня?",
     casual_how_are_you: "Все отлично, спасибо! 😊 А у вас? Что бы вы хотели проверить сегодня?",
     casual_thank_you: "Пожалуйста! 😊 Дайте знать, если понадобится помощь с финансами.",
-    casual_who: "Я **Agent**, ваш личный финансовый помощник в FINOVA!",
+    casual_who: "Я **Agent**, ваш личный финансовый помощник в Money Management!",
     unrelated_scope: "Извините! 😊 Я ваш личный финансовый Agent. Я могу помочь с доходами, расходами и сбережениями, но не по этой теме.",
     spending_month: "В этом месяце вы потратили **{amount}** в **{count} транзакциях**.\n\nБольше всего ушло на **{topCategory}** ({topAmount}).",
     prompts: {
@@ -521,7 +521,7 @@
     greeting_default: "Ciao! 👋 Come va la tua giornata? Come posso aiutarti oggi?",
     casual_how_are_you: "Tutto bene, grazie! 😊 E tu? Cosa vorresti verificare oggi?",
     casual_thank_you: "Prego! 😊 Fammi sapere se hai bisogno di altro aiuto con le tue finanze.",
-    casual_who: "Sono **Agent**, il tuo assistente finanziario personale in FINOVA!",
+    casual_who: "Sono **Agent**, il tuo assistente finanziario personale in Money Management!",
     unrelated_scope: "Mi dispiace! 😊 Sono il tuo Agent di finanza personale. Posso aiutarti con entrate, uscite e risparmi, ma non con questo argomento.",
     spending_month: "Hai speso **{amount}** questo mese in **{count} transazioni**.\n\nLa maggior parte è andata in **{topCategory}** ({topAmount}).",
     prompts: {
@@ -537,7 +537,7 @@
     greeting_default: "Olá! 👋 Como vai o seu dia? Como posso ajudar você hoje?",
     casual_how_are_you: "Tudo bem, obrigado por perguntar! 😊 E você? O que gostaria de verificar hoje?",
     casual_thank_you: "De nada! 😊 Avise-me se precisar de mais alguma ajuda com suas finanças.",
-    casual_who: "Eu sou o **Agent**, seu assistente financeiro pessoal no FINOVA!",
+    casual_who: "Eu sou o **Agent**, seu assistente financeiro pessoal no Money Management!",
     unrelated_scope: "Desculpe! 😊 Eu sou o seu Agent de finanças pessoais. Posso ajudar com receitas, despesas e poupança, mas não com esse assunto.",
     spending_month: "Você gastou **{amount}** este mês em **{count} transações**.\n\nA maior parte foi em **{topCategory}** ({topAmount}).",
     prompts: {
@@ -608,7 +608,7 @@
     const currentLang = langOverride || (window.Finova && Finova.getLanguage ? Finova.getLanguage() : localStorage.getItem("finova.language.v1") || "en");
     const langObj = (window.Finova && Finova.languages ? Finova.languages.find(function (l) { return l.code === currentLang; }) : null) || { name: currentLang, nativeName: currentLang };
     const langDisplayName = langObj.nativeName ? (langObj.name + " (" + langObj.nativeName + ")") : langObj.name;
-    return "Always respond in the user's currently selected FINOVA application language: " + langDisplayName + ". This instruction applies to every response, including greetings, casual conversations, financial analysis, recommendations, follow-up questions, and error messages. Do not switch to English unless English is the selected language or the user explicitly requests another language.";
+    return "Always respond in the user's currently selected Money Management application language: " + langDisplayName + ". This instruction applies to every response, including greetings, casual conversations, financial analysis, recommendations, follow-up questions, and error messages. Do not switch to English unless English is the selected language or the user explicitly requests another language.";
   }
 
   window.FinovaAgentI18n = {

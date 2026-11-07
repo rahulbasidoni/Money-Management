@@ -431,7 +431,7 @@
       const value = localStorage.getItem(key);
       return value ? JSON.parse(value) : fallback;
     } catch (error) {
-      console.error("FINOVA could not read local data.", error);
+      console.error("Money Management could not read local data.", error);
       notify("Some saved data could not be read. Check your browser storage.", "error");
       return fallback;
     }
@@ -442,7 +442,7 @@
       localStorage.setItem(key, JSON.stringify(value));
       return true;
     } catch (error) {
-      console.error("FINOVA could not save local data.", error);
+      console.error("Money Management could not save local data.", error);
       notify("Unable to save data. Your browser storage may be full or unavailable.", "error");
       return false;
     }
@@ -698,7 +698,7 @@
       };
       localStorage.setItem(scopedKey(BACKUP_KEY), JSON.stringify(snapshot));
     } catch (error) {
-      console.error("FINOVA could not create an automatic local backup.", error);
+      console.error("Money Management could not create an automatic local backup.", error);
       notify("Automatic backup could not be updated. Export a JSON backup before continuing.", "error");
     }
   }
@@ -709,7 +709,7 @@
 
   function exportData() {
     return {
-      application: "FINOVA",
+      application: "Money Management",
       version: 2,
       exportedAt: new Date().toISOString(),
       profile: { name: getProfile()?.name || "" },
@@ -720,7 +720,7 @@
   }
 
   async function restoreData(data) {
-    if (!data || data.application !== "FINOVA" || !Array.isArray(data.transactions)) {
+    if (!data || (data.application !== "Money Management" && data.application !== "FINOVA") || !Array.isArray(data.transactions)) {
       throw new Error("This file is not a valid Money Management backup.");
     }
     const validTransactions = data.transactions.every((item) =>
@@ -783,7 +783,7 @@
           console.error("Money Management could not roll back transactions after a failed restore.", rollbackError);
         }
       }
-      console.error("FINOVA could not restore the selected backup.", error);
+      console.error("Money Management could not restore the selected backup.", error);
       throw new Error(`Restore failed: ${error.message || "Supabase rejected the data."}${rollbackFailed ? " Rollback also failed; check your account data." : " Your previous automatic backup is still available."}`);
     }
     window.dispatchEvent(new CustomEvent("finova:data-changed"));
@@ -1044,7 +1044,7 @@
             submit.disabled = false;
           }
         } catch (error) {
-          console.error("FINOVA could not verify the local password.", error);
+          console.error("Money Management could not verify the local password.", error);
           form.querySelector(".password-confirm-error").textContent = error.message;
           submit.disabled = false;
         }
@@ -2384,7 +2384,7 @@
           return { rate: calculatedRate, date: cache[key].date };
         }
       } catch (err) {
-        console.warn(`FINOVA could not retrieve live exchange rate for ${f} -> ${t}. Falling back to baseline.`, err);
+        console.warn(`Money Management could not retrieve live exchange rate for ${f} -> ${t}. Falling back to baseline.`, err);
       }
 
       const baseFrom = Number(USD_BASELINE_RATES[f]) || 1;
@@ -2437,7 +2437,7 @@
         if (value?.date && value.date > newestRateDate) newestRateDate = value.date;
       });
     } catch (error) {
-      console.warn("FINOVA currency conversion is unavailable; totals remain separated by currency.", error);
+      console.warn("Money Management currency conversion is unavailable; totals remain separated by currency.", error);
       return { converted: false, value: null, ratesDate: "", groups: groupAmounts(transactions), error };
     }
 

@@ -1,7 +1,7 @@
 /* ========================================================
-   FINOVA AGENT – Intelligent Financial Assistant Engine
+   MONEY MANAGEMENT AGENT – Intelligent Financial Assistant Engine
    Natural Conversation · Friendly Personality · Personal Finance Scope
-   Fully Synchronized with FINOVA Application Language
+   Fully Synchronized with Money Management Application Language
    ======================================================== */
 (function () {
   "use strict";
@@ -107,7 +107,7 @@
       return FinovaAgentI18n.getSystemInstruction(getCurrentLang());
     }
     const currentLang = getCurrentLang();
-    return `Always respond in the user's currently selected FINOVA application language: ${currentLang}. This instruction applies to every response, including greetings, casual conversations, financial analysis, recommendations, follow-up questions, and error messages. Do not switch to English unless English is the selected language or the user explicitly requests another language.`;
+    return `Always respond in the user's currently selected Money Management application language: ${currentLang}. This instruction applies to every response, including greetings, casual conversations, financial analysis, recommendations, follow-up questions, and error messages. Do not switch to English unless English is the selected language or the user explicitly requests another language.`;
   }
 
   function getUserKey() {

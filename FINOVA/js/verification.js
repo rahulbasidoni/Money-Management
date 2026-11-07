@@ -21,7 +21,7 @@
     const name = user?.user_metadata?.full_name || user?.user_metadata?.name || "there";
     document.getElementById("verification-eyebrow").textContent = "EMAIL VERIFIED";
     document.getElementById("verification-title").textContent = "You're all set.";
-    document.getElementById("verification-message").textContent = `Welcome to FINOVA, ${name}!`;
+    document.getElementById("verification-message").textContent = `Welcome to Money Management, ${name}!`;
     document.getElementById("verification-detail").textContent = "Your email is verified. Your secure financial workspace is ready.";
     document.getElementById("verification-illustration").classList.add("verification-illustration-success");
     resendActions.classList.add("hidden");

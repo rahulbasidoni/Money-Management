@@ -1,4 +1,4 @@
-/* First-run, account-scoped product tour shared by every authenticated FINOVA page. */
+/* First-run, account-scoped product tour shared by every authenticated Money Management page. */
 (function () {
   "use strict";
 
@@ -7,8 +7,8 @@
   const STEPS = [
     {
       id: "welcome",
-      title: "Welcome to FINOVA!",
-      message: "Welcome to your personal finance dashboard! Let me quickly show you how FINOVA helps you manage, understand, and grow your money.",
+      title: "Welcome to Money Management!",
+      message: "Welcome to your personal finance dashboard! Let me quickly show you how Money Management helps you manage, understand, and grow your money.",
       targets: []
     },
     {
@@ -45,7 +45,7 @@
     {
       id: "currency",
       title: "Manage Your Currency Easily",
-      message: "FINOVA supports over 160 world currencies. Click the currency selector in the top bar to choose your display currency or search instantly by name, code, or symbol.",
+      message: "Money Management supports over 160 world currencies. Click the currency selector in the top bar to choose your display currency or search instantly by name, code, or symbol.",
       targets: ['[data-currency-trigger]', '[data-currency-picker]', '.currency-control'],
       type: "currency"
     },
@@ -58,7 +58,7 @@
     {
       id: "finish",
       title: "You're all set!",
-      message: "That's how FINOVA works! You are ready to take control of your finances. Make every transaction count.",
+      message: "That's how Money Management works! You are ready to take control of your finances. Make every transaction count.",
       finish: true,
       targets: []
     }
@@ -67,7 +67,7 @@
   const COPY = {
   "en": {
     "titles": [
-      "Welcome to FINOVA!",
+      "Welcome to Money Management!",
       "Your financial overview",
       "Add a transaction",
       "Your transaction history",
@@ -78,18 +78,18 @@
       "You're all set!"
     ],
     "messages": [
-      "Welcome to your personal finance dashboard! Let me quickly show you how FINOVA helps you manage, understand, and grow your money.",
+      "Welcome to your personal finance dashboard! Let me quickly show you how Money Management helps you manage, understand, and grow your money.",
       "This is your financial overview. Here you can see your total balance, income, expenses, transaction count, and recent activity in one place.",
       "Record your income and expenses here. Enter the amount, category, date, and other details to keep your financial records accurate and updated.",
       "Here you can view your transaction history. Search, filter, sort, edit, or delete previous transactions whenever you need.",
       "Understand your spending habits with charts and reports. Compare income and expenses, explore monthly trends, and see where your money goes.",
       "Agent is your personal financial assistant. It analyzes your income, spending, and savings from your records to answer questions and provide personalized financial suggestions.",
-      "FINOVA supports over 160 world currencies. Click the currency selector in the top bar to choose your display currency or search instantly by name, code, or symbol.",
+      "Money Management supports over 160 world currencies. Click the currency selector in the top bar to choose your display currency or search instantly by name, code, or symbol.",
       "Your wallet helps you track available money. Add money to your wallet, and your balance will automatically update when you record income or expenses.",
-      "That's how FINOVA works! You are ready to take control of your finances. Make every transaction count."
+      "That's how Money Management works! You are ready to take control of your finances. Make every transaction count."
     ],
     "eyebrows": [
-      "FINOVA · YOUR MONEY, IN FOCUS",
+      "Money Management · YOUR MONEY, IN FOCUS",
       "DASHBOARD OVERVIEW",
       "RECORD FINANCES",
       "TRANSACTION LEDGER",
@@ -142,7 +142,7 @@
   },
   "hi": {
     "titles": [
-      "FINOVA में आपका स्वागत है!",
+      "Money Management में आपका स्वागत है!",
       "आपका वित्तीय अवलोकन",
       "लेन-देन जोड़ें",
       "आपके लेन-देन का इतिहास",
@@ -153,18 +153,18 @@
       "आप तैयार हैं!"
     ],
     "messages": [
-      "आपके व्यक्तिगत वित्त डैशबोर्ड में आपका स्वागत है! आइए देखें कि FINOVA आपके पैसे को प्रबंधित करने और समझने में कैसे मदद करता है।",
+      "आपके व्यक्तिगत वित्त डैशबोर्ड में आपका स्वागत है! आइए देखें कि Money Management आपके पैसे को प्रबंधित करने और समझने में कैसे मदद करता है।",
       "यह आपका वित्तीय अवलोकन है। यहाँ आप अपना कुल बैलेंस, आय, खर्च, लेन-देन की संख्या और हाल की गतिविधि एक जगह देख सकते हैं।",
       "अपनी आय और खर्च यहाँ दर्ज करें। रिकॉर्ड अपडेट रखने के लिए राशि, श्रेणी, तारीख और विवरण भरें।",
       "यहाँ अपने लेन-देन का इतिहास देखें। ज़रूरत पड़ने पर खोजें, फ़िल्टर करें, क्रमबद्ध करें, संपादित करें या हटाएं।",
       "चार्ट और रिपोर्ट से अपनी खर्च करने की आदतें समझें। आय और खर्च की तुलना करें और जानें कि आपका पैसा कहाँ जाता है।",
       "एजेंट आपका व्यक्तिगत वित्तीय सहायक है। यह आपके रिकॉर्ड से आय, खर्च और बचत का विश्लेषण करके सवालों के जवाब और उपयोगी सुझाव देता है।",
-      "FINOVA 160 से अधिक मुद्राओं का समर्थन करता है। अपनी पसंदीदा मुद्रा चुनने या नाम, कोड या प्रतीक द्वारा तुरंत खोजने के लिए शीर्ष बार पर क्लिक करें।",
+      "Money Management 160 से अधिक मुद्राओं का समर्थन करता है। अपनी पसंदीदा मुद्रा चुनने या नाम, कोड या प्रतीक द्वारा तुरंत खोजने के लिए शीर्ष बार पर क्लिक करें।",
       "आपका वॉलेट उपलब्ध पैसे को ट्रैक करने में मदद करता है। पैसे जोड़ें; आय या खर्च दर्ज करने पर बैलेंस अपने आप अपडेट होगा।",
-      "FINOVA इसी तरह काम करता है! अब आप अपने वित्त पर नियंत्रण पाने के लिए तैयार हैं। हर लेन-देन को महत्व दें।"
+      "Money Management इसी तरह काम करता है! अब आप अपने वित्त पर नियंत्रण पाने के लिए तैयार हैं। हर लेन-देन को महत्व दें।"
     ],
     "eyebrows": [
-      "FINOVA · आपका पैसा, केंद्र में",
+      "Money Management · आपका पैसा, केंद्र में",
       "डैशबोर्ड अवलोकन",
       "वित्त रिकॉर्ड करें",
       "लेन-देन बहीखाता",
@@ -217,7 +217,7 @@
   },
   "kn": {
     "titles": [
-      "FINOVA ಗೆ ಸುಸ್ವಾಗತ!",
+      "Money Management ಗೆ ಸುಸ್ವಾಗತ!",
       "ನಿಮ್ಮ ಹಣಕಾಸಿನ ಅವಲೋಕನ",
       "ವಹಿವಾಟು ಸೇರಿಸಿ",
       "ನಿಮ್ಮ ವಹಿವಾಟಿನ ಇತಿಹಾಸ",
@@ -228,18 +228,18 @@
       "ಎಲ್ಲವೂ ಸಿದ್ಧವಾಗಿದೆ!"
     ],
     "messages": [
-      "ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಸುಸ್ವಾಗತ! FINOVA ನಿಮ್ಮ ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಮತ್ತು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಹೇಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ ನೋಡಿ.",
+      "ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಸುಸ್ವಾಗತ! Money Management ನಿಮ್ಮ ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಮತ್ತು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಹೇಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ ನೋಡಿ.",
       "ಇದು ನಿಮ್ಮ ಹಣಕಾಸಿನ ಅವಲೋಕನ. ಇಲ್ಲಿ ಒಟ್ಟು ಬ್ಯಾಲೆನ್ಸ್, ಆದಾಯ, ವೆಚ್ಚ, ವಹಿವಾಟುಗಳ ಸಂಖ್ಯೆ ಮತ್ತು ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆಯನ್ನು ನೋಡಿ.",
       "ನಿಮ್ಮ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಇಲ್ಲಿ ದಾಖಲಿಸಿ. ಮೊತ್ತ, ವರ್ಗ, ದಿನಾಂಕ ಮತ್ತು ಇತರ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ.",
       "ಇಲ್ಲಿ ನಿಮ್ಮ ವಹಿವಾಟಿನ ಇತಿಹಾಸವನ್ನು ನೋಡಿ. ಅಗತ್ಯವಿದ್ದಾಗ ಹಿಂದಿನ ವಹಿವಾಟುಗಳನ್ನು ಹುಡುಕಿ, ಫಿಲ್ಟರ್ ಮಾಡಿ, ಸಂಪಾದಿಸಿ ಅಥವಾ ಅಳಿಸಿ.",
       "ಚಾರ್ಟ್‌ಗಳು ಮತ್ತು ವರದಿಗಳ ಮೂಲಕ ನಿಮ್ಮ ಖರ್ಚಿನ ಅಭ್ಯಾಸವನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ. ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಹೋಲಿಸಿ.",
       "ಏಜೆಂಟ್ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಸಹಾಯಕ. ನಿಮ್ಮ ದಾಖಲೆಗಳಿಂದ ಆದಾಯ, ವೆಚ್ಚ ಮತ್ತು ಉಳಿತಾಯವನ್ನು ವಿಶ್ಲೇಷಿಸಿ ಸಲಹೆಗಳನ್ನು ನೀಡುತ್ತದೆ.",
-      "FINOVA 160 ಕ್ಕೂ ಹೆಚ್ಚು ಜಾಗತಿಕ ಕರೆನ್ಸಿಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ. ನಿಮ್ಮ ಕರೆನ್ಸಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಅಥವಾ ಹುಡುಕಲು ಮೇಲಿನ ಬಾರ್ ಕ್ಲಿಕ್ ಮಾಡಿ.",
+      "Money Management 160 ಕ್ಕೂ ಹೆಚ್ಚು ಜಾಗತಿಕ ಕರೆನ್ಸಿಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ. ನಿಮ್ಮ ಕರೆನ್ಸಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಅಥವಾ ಹುಡುಕಲು ಮೇಲಿನ ಬಾರ್ ಕ್ಲಿಕ್ ಮಾಡಿ.",
       "ನಿಮ್ಮ ವಾಲೆಟ್ ಲಭ್ಯವಿರುವ ಹಣವನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡುತ್ತದೆ. ಹಣ ಸೇರಿಸಿ; ಆದಾಯ ಅಥವಾ ವೆಚ್ಚ ದಾಖಲಿಸಿದಾಗ ಬ್ಯಾಲೆನ್ಸ್ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸುತ್ತದೆ.",
-      "FINOVA ಹೀಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ! ನಿಮ್ಮ ಹಣಕಾಸಿನ ನಿಯಂತ್ರಣಕ್ಕೆ ನೀವು ಸಿದ್ಧ. ಪ್ರತಿಯೊಂದು ವಹಿವಾಟಿಗೂ ಮಹತ್ವ ನೀಡಿ."
+      "Money Management ಹೀಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ! ನಿಮ್ಮ ಹಣಕಾಸಿನ ನಿಯಂತ್ರಣಕ್ಕೆ ನೀವು ಸಿದ್ಧ. ಪ್ರತಿಯೊಂದು ವಹಿವಾಟಿಗೂ ಮಹತ್ವ ನೀಡಿ."
     ],
     "eyebrows": [
-      "FINOVA · ನಿಮ್ಮ ಹಣ, ಗಮನದಲ್ಲಿ",
+      "Money Management · ನಿಮ್ಮ ಹಣ, ಗಮನದಲ್ಲಿ",
       "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಅವಲೋಕನ",
       "ಹಣಕಾಸು ದಾಖಲಿಸಿ",
       "ವಹಿವಾಟು ಲೆಡ್ಜರ್",
@@ -292,7 +292,7 @@
   },
   "te": {
     "titles": [
-      "FINOVA కి స్వాగతం!",
+      "Money Management కి స్వాగతం!",
       "మీ ఆర్థిక అవలోకనం",
       "లావాదేవీని జోడించండి",
       "మీ లావాదేవీల చరిత్ర",
@@ -303,18 +303,18 @@
       "అంతా సిద్ధం!"
     ],
     "messages": [
-      "మీ వ్యక్తిగత ఆర్థిక డాష్‌బోర్డ్‌కు స్వాగతం! FINOVA మీ డబ్బును నిర్వహించడానికి మరియు అర్థం చేసుకోవడానికి ఎలా సహాయపడుతుందో చూడండి.",
+      "మీ వ్యక్తిగత ఆర్థిక డాష్‌బోర్డ్‌కు స్వాగతం! Money Management మీ డబ్బును నిర్వహించడానికి మరియు అర్థం చేసుకోవడానికి ఎలా సహాయపడుతుందో చూడండి.",
       "ఇది మీ ఆర్థిక అవలోకనం. ఇక్కడ మొత్తం బ్యాలెన్స్, ఆదాయం, ఖర్చులు, లావాదేవీల సంఖ్యను ఒకే చోట చూడండి.",
       "మీ ఆదాయం, ఖర్చులను ఇక్కడ నమోదు చేయండి. రికార్డులను అప్‌డేట్‌గా ఉంచడానికి వివరాలను నమోదు చేయండి.",
       "మీ లావాదేవీల చరిత్రను ఇక్కడ చూడండి. అవసరమైనప్పుడు పాత లావాదేవీలను వెతకండి, సవరించండి లేదా తొలగించండి.",
       "చార్ట్‌లతో మీ ఖర్చు అలవాట్లను అర్థం చేసుకోండి. ఆదాయం, ఖర్చులను పోల్చి మీ డబ్బు ఎక్కడికి వెళ్తుందో తెలుసుకోండి.",
       "ఏజెంట్ మీ వ్యక్తిగత ఆర్థిక సహాయకుడు. ఇది మీ రికార్డుల నుండి ఆదాయం, వ్యయాలను విశ్లేషించి ఉపయోగకరమైన సలహాలు ఇస్తుంది.",
-      "FINOVA 160 కి పైగా ప్రపంచ కరెన్సీలకు మద్దతు ఇస్తుంది. మీకు కావలసిన కరెన్సీని ఎంచుకోవడానికి ఎగువ బార్‌ను ఉపయోగించండి.",
+      "Money Management 160 కి పైగా ప్రపంచ కరెన్సీలకు మద్దతు ఇస్తుంది. మీకు కావలసిన కరెన్సీని ఎంచుకోవడానికి ఎగువ బార్‌ను ఉపయోగించండి.",
       "మీ వాలెట్ అందుబాటులో ఉన్న డబ్బును ట్రాక్ చేస్తుంది. డబ్బు జోడించండి; లావాదేవీలతో బ్యాలెన్స్ స్వయంచాలకంగా మారుతుంది.",
-      "FINOVA ఇలా పనిచేస్తుంది! మీ ఆర్థికాలపై పూర్తి నియంత్రణ సాధించడానికి మీరు సిద్ధంగా ఉన్నారు."
+      "Money Management ఇలా పనిచేస్తుంది! మీ ఆర్థికాలపై పూర్తి నియంత్రణ సాధించడానికి మీరు సిద్ధంగా ఉన్నారు."
     ],
     "eyebrows": [
-      "FINOVA · మీ డబ్బు, దృష్టిలో",
+      "Money Management · మీ డబ్బు, దృష్టిలో",
       "డాష్‌బోర్డ్ అవలోకనం",
       "ఆర్థిక రికార్డులు",
       "లావాదేవీల లెడ్జర్",
@@ -367,7 +367,7 @@
   },
   "ta": {
     "titles": [
-      "FINOVA-விற்கு வரவேற்கிறோம்!",
+      "Money Management-விற்கு வரவேற்கிறோம்!",
       "உங்கள் நிதி கண்ணோட்டம்",
       "பரிவர்த்தனை சேர்க்கவும்",
       "பரிவர்த்தனை வரலாறு",
@@ -378,18 +378,18 @@
       "அனைத்தும் தயார்!"
     ],
     "messages": [
-      "உங்கள் தனிப்பட்ட நிதி டாஷ்போர்டிற்கு வரவேற்கிறோம்! FINOVA உங்கள் பணத்தை நிர்வகிக்க எவ்வாறு உதவுகிறது என்பதைப் பாருங்கள்.",
+      "உங்கள் தனிப்பட்ட நிதி டாஷ்போர்டிற்கு வரவேற்கிறோம்! Money Management உங்கள் பணத்தை நிர்வகிக்க எவ்வாறு உதவுகிறது என்பதைப் பாருங்கள்.",
       "இது உங்கள் நிதி கண்ணோட்டம். மொத்த இருப்பு, வருமானம், செலவுகள் மற்றும் சமீபத்திய செயல்பாடுகளை இங்கே காண்க.",
       "உங்கள் வருமானம் மற்றும் செலவுகளை இங்கே பதிவு செய்யுங்கள். விவரங்களை உள்ளிட்டு பதிவுகளை புதுப்பித்த நிலையில் வைத்திருங்கள்.",
       "உங்கள் பரிவர்த்தனை வரலாற்றை இங்கே காண்க. தேவையான போது தேடலாம், வடிகட்டலாம் அல்லது திருத்தலாம்.",
       "விளக்கப்படங்கள் மூலம் உங்கள் செலவுப் பழக்கங்களைப் புரிந்து கொள்ளுங்கள். வருமானம் மற்றும் செலவை ஒப்பிட்டுப் பாருங்கள்.",
       "ஏஜென்ட் உங்கள் தனிப்பட்ட நிதி உதவியாளர். இது உங்கள் பதிவுகளை பகுப்பாய்வு செய்து சிறந்த நிதி பரிந்துரைகளை வழங்குகிறது.",
-      "FINOVA 160 க்கும் மேற்பட்ட உலக நாணயங்களை ஆதரிக்கிறது. நாணயத்தைத் தேர்ந்தெடுக்க அல்லது தேட மேல் பட்டியைப் பயன்படுத்தவும்.",
+      "Money Management 160 க்கும் மேற்பட்ட உலக நாணயங்களை ஆதரிக்கிறது. நாணயத்தைத் தேர்ந்தெடுக்க அல்லது தேட மேல் பட்டியைப் பயன்படுத்தவும்.",
       "உங்கள் பணப்பை இருப்பு கிடைக்கும் பணத்தைக் கண்காணிக்கிறது. பணத்தைச் சேர்க்கவும்; பரிவர்த்தனைகளுடன் இருப்பு தானாக மாறும்.",
-      "FINOVA இப்படித்தான் செயல்படுகிறது! உங்கள் நிதியைக் கட்டுப்படுத்த நீங்கள் தயாராக உள்ளீர்கள்."
+      "Money Management இப்படித்தான் செயல்படுகிறது! உங்கள் நிதியைக் கட்டுப்படுத்த நீங்கள் தயாராக உள்ளீர்கள்."
     ],
     "eyebrows": [
-      "FINOVA · உங்கள் பணம், கவனத்தில்",
+      "Money Management · உங்கள் பணம், கவனத்தில்",
       "டாஷ்போர்டு கண்ணோட்டம்",
       "நிதிப் பதிவு",
       "பரிவர்த்தனை லெட்ஜர்",
@@ -442,7 +442,7 @@
   },
   "ml": {
     "titles": [
-      "FINOVA-ലേക്ക് സ്വാഗതം!",
+      "Money Management-ലേക്ക് സ്വാഗതം!",
       "നിങ്ങളുടെ സാമ്പത്തിക അവലോകനം",
       "ഇടപാട് ചേർക്കുക",
       "നിങ്ങളുടെ ഇടപാട് ചരിത്രം",
@@ -453,18 +453,18 @@
       "എല്ലാം സജ്ജമായി!"
     ],
     "messages": [
-      "നിങ്ങളുടെ പേഴ്സണൽ ഫിനാൻസ് ഡാഷ്‌ബോർഡിലേക്ക് സ്വാഗതം! FINOVA നിങ്ങളുടെ പണം കൈകാര്യം ചെയ്യാൻ എങ്ങനെ സഹായിക്കുന്നുവെന്ന് കാണുക.",
+      "നിങ്ങളുടെ പേഴ്സണൽ ഫിനാൻസ് ഡാഷ്‌ബോർഡിലേക്ക് സ്വാഗതം! Money Management നിങ്ങളുടെ പണം കൈകാര്യം ചെയ്യാൻ എങ്ങനെ സഹായിക്കുന്നുവെന്ന് കാണുക.",
       "ഇത് നിങ്ങളുടെ സാമ്പത്തിക അവലോകനമാണ്. ആകെ ബാലൻസ്, വരുമാനം, ചെലവ് എന്നിവ ഇവിടെ കാണാം.",
       "നിങ്ങളുടെ വരുമാനവും ചെലവും ഇവിടെ രേഖപ്പെടുത്തുക. കൃത്യമായ റെക്കോർഡുകൾക്കായി വിശദാംശങ്ങൾ നൽകുക.",
       "ഇവിടെ നിങ്ങളുടെ ഇടപാട് ചരിത്രം പരിശോധിക്കാം. പഴയ ഇടപാടുകൾ തിരയാനും തിരുത്താനും സാധിക്കും.",
       "ചാർട്ടുകളിലൂടെ നിങ്ങളുടെ ചെലവഴിക്കൽ രീതികൾ മനസ്സിലാക്കുക. വരുമാനവും ചെലവും താരതമ്യം ചെയ്യുക.",
       "ഏജന്റ് നിങ്ങളുടെ വ്യക്തിഗത സാമ്പത്തിക സഹായിയാണ്. നിങ്ങളുടെ രേഖകൾ പരിശോധിച്ച് ചോദ്യങ്ങൾക്ക് ഉത്തരങ്ങളും ശുപാർശകളും നൽകുന്നു.",
-      "FINOVA 160 ലധികം ആഗോള കറൻസികളെ പിന്തുണയ്ക്കുന്നു. മാറ്റാൻ മുകളിലെ കറൻസി സെലക്ടർ ഉപയോഗിക്കുക.",
+      "Money Management 160 ലധികം ആഗോള കറൻസികളെ പിന്തുണയ്ക്കുന്നു. മാറ്റാൻ മുകളിലെ കറൻസി സെലക്ടർ ഉപയോഗിക്കുക.",
       "നിങ്ങളുടെ വാലറ്റ് ലഭ്യമായ പണം ട്രാക്ക് ചെയ്യുന്നു. പണം ചേർക്കുക; ഇടപാടുകൾ നടത്തുമ്പോൾ ബാലൻസ് മാറും.",
-      "FINOVA ഇങ്ങനെയാണ് പ്രവർത്തിക്കുന്നത്! നിങ്ങളുടെ ധനകാര്യം നിയന്ത്രിക്കാൻ നിങ്ങൾ തയ്യാറാണ്."
+      "Money Management ഇങ്ങനെയാണ് പ്രവർത്തിക്കുന്നത്! നിങ്ങളുടെ ധനകാര്യം നിയന്ത്രിക്കാൻ നിങ്ങൾ തയ്യാറാണ്."
     ],
     "eyebrows": [
-      "FINOVA · നിങ്ങളുടെ പണം, പൂർണ്ണ ശ്രദ്ധയിൽ",
+      "Money Management · നിങ്ങളുടെ പണം, പൂർണ്ണ ശ്രദ്ധയിൽ",
       "ഡാഷ്‌ബോർഡ് അവലോകനം",
       "ധനകാര്യ റെക്കോർഡ്",
       "ഇടപാട് ലെഡ്ജർ",
@@ -517,7 +517,7 @@
   },
   "mr": {
     "titles": [
-      "FINOVA मध्ये आपले स्वागत आहे!",
+      "Money Management मध्ये आपले स्वागत आहे!",
       "तुमचे आर्थिक अवलोकन",
       "व्यवहार जोडा",
       "तुमचा व्यवहार इतिहास",
@@ -528,18 +528,18 @@
       "सर्व काही तयार आहे!"
     ],
     "messages": [
-      "तुमच्या वैयक्तिक वित्त डॅशबोर्डवर स्वागत आहे! FINOVA तुमचे पैसे व्यवस्थापित करण्यात कशी मदत करते ते पहा.",
+      "तुमच्या वैयक्तिक वित्त डॅशबोर्डवर स्वागत आहे! Money Management तुमचे पैसे व्यवस्थापित करण्यात कशी मदत करते ते पहा.",
       "हे तुमचे आर्थिक अवलोकन आहे. येथे तुमची एकूण शिल्लक, उत्पन्न, खर्च आणि अलीकडील क्रियाकलाप पहा.",
       "तुमचे उत्पन्न आणि खर्च येथे नोंदवा. अचूक नोंदी ठेवण्यासाठी तपशील प्रविष्ट करा.",
       "येथे तुमचा व्यवहार इतिहास तपासा. आवश्यकतेनुसार जुने व्यवहार शोधा, क्रमवारी लावा किंवा संपादित करा.",
       "तक्त्यांच्या मदतीने तुमच्या खर्चाच्या सवयी समजून घ्या. उत्पन्न आणि खर्चाची तुलना करा.",
       "एजंट हा तुमचा वैयक्तिक आर्थिक सहाय्यक आहे. तो तुमच्या नोंदींचे विश्लेषण करून उत्तरे आणि सल्ले देतो.",
-      "FINOVA 160 पेक्षा जास्त जागतिक चलनांना समर्थन देते. चलन निवडण्यासाठी शीर्ष बार वापरा.",
+      "Money Management 160 पेक्षा जास्त जागतिक चलनांना समर्थन देते. चलन निवडण्यासाठी शीर्ष बार वापरा.",
       "तुमचे वॉलेट उपलब्ध पैसे ट्रॅक करण्यास मदत करते. पैसे जोडा; व्यवहारानुसार शिल्लक आपोआप बदलते.",
-      "FINOVA अशा प्रकारे कार्य करते! आता तुम्ही तुमच्या वित्तावर नियंत्रण ठेवण्यास सज्ज आहात."
+      "Money Management अशा प्रकारे कार्य करते! आता तुम्ही तुमच्या वित्तावर नियंत्रण ठेवण्यास सज्ज आहात."
     ],
     "eyebrows": [
-      "FINOVA · तुमचे पैसे, केंद्रस्थानी",
+      "Money Management · तुमचे पैसे, केंद्रस्थानी",
       "डॅशबोर्ड अवलोकन",
       "वित्त नोंदवा",
       "व्यवहार नोंदवही",
@@ -592,7 +592,7 @@
   },
   "bn": {
     "titles": [
-      "FINOVA-তে স্বাগতম!",
+      "Money Management-তে স্বাগতম!",
       "আপনার আর্থিক সারসংক্ষেপ",
       "লেনদেন যুক্ত করুন",
       "লেনদেনের ইতিহাস",
@@ -603,18 +603,18 @@
       "সব প্রস্তুত!"
     ],
     "messages": [
-      "আপনার ব্যক্তিগত আর্থিক ড্যাশবোর্ডে স্বাগতম! FINOVA কীভাবে আপনার অর্থ পরিচালনা করতে সাহায্য করে তা দেখুন।",
+      "আপনার ব্যক্তিগত আর্থিক ড্যাশবোর্ডে স্বাগতম! Money Management কীভাবে আপনার অর্থ পরিচালনা করতে সাহায্য করে তা দেখুন।",
       "এটি আপনার আর্থিক সারসংক্ষেপ। এখানে মোট ব্যালেন্স, আয়, ব্যয় এবং সাম্প্রতিক কার্যকলাপ দেখতে পাবেন।",
       "আপনার আয় ও ব্যয় এখানে লিপিবদ্ধ করুন। রেকর্ড হালনাগাদ রাখতে বিবরণ পূরণ করুন।",
       "এখানে আপনার লেনদেনের ইতিহাস দেখুন। প্রয়োজনে লেনদেন অনুসন্ধান, ফিল্টার বা সম্পাদনা করুন।",
       "চার্ট ও প্রতিবেদনের মাধ্যমে ব্যয়ের অভ্যাস বুঝুন। আয় ও ব্যয়ের তুলনা করুন।",
       "এজেন্ট আপনার ব্যক্তিগত আর্থিক সহায়ক। এটি আপনার রেকর্ড বিশ্লেষণ করে প্রশ্নের উত্তর ও পরামর্শ দেয়।",
-      "FINOVA ১৬০টিরও বেশি বিশ্ব মুদ্রা সমর্থন করে। আপনার মুদ্রা বেছে নিতে ওপরের বার ব্যবহার করুন।",
+      "Money Management ১৬০টিরও বেশি বিশ্ব মুদ্রা সমর্থন করে। আপনার মুদ্রা বেছে নিতে ওপরের বার ব্যবহার করুন।",
       "আপনার ওয়ালেট উপলব্ধ অর্থ ট্র্যাক করে। অর্থ যোগ করুন; লেনদেনের সাথে ব্যালেন্স স্বয়ংক্রিয়ভাবে আপডেট হবে।",
-      "এভাবেই FINOVA কাজ করে! আপনি এখন আপনার আর্থিক নিয়ন্ত্রণ নিতে পুরোপুরি প্রস্তুত।"
+      "এভাবেই Money Management কাজ করে! আপনি এখন আপনার আর্থিক নিয়ন্ত্রণ নিতে পুরোপুরি প্রস্তুত।"
     ],
     "eyebrows": [
-      "FINOVA · আপনার অর্থ, নজরে",
+      "Money Management · আপনার অর্থ, নজরে",
       "ড্যাশবোর্ড পর্যবেক্ষণ",
       "অর্থ লিপিবদ্ধকরণ",
       "লেনদেন লেজার",
@@ -667,7 +667,7 @@
   },
   "gu": {
     "titles": [
-      "FINOVA માં આપનું સ્વાગત છે!",
+      "Money Management માં આપનું સ્વાગત છે!",
       "તમારી નાણાકીય ઝાંખી",
       "વ્યવહાર ઉમેરો",
       "વ્યવહાર ઇતિહાસ",
@@ -678,18 +678,18 @@
       "બધું તૈયાર છે!"
     ],
     "messages": [
-      "તમારા વ્યક્તિગત ફાઇનાન્સ ડેશબોર્ડમાં સ્વાગત છે! FINOVA તમારા પૈસાનું સંચાલન કરવામાં કેવી રીતે મદદ કરે છે તે જુઓ.",
+      "તમારા વ્યક્તિગત ફાઇનાન્સ ડેશબોર્ડમાં સ્વાગત છે! Money Management તમારા પૈસાનું સંચાલન કરવામાં કેવી રીતે મદદ કરે છે તે જુઓ.",
       "આ તમારી નાણાકીય ઝાંખી છે. અહીં તમારું કુલ બેલેન્સ, આવક, ખર્ચ અને તાજેતરની પ્રવૃત્તિ જુઓ.",
       "તમારી આવક અને ખર્ચ અહીં નોંધો. સચોટ રેકોર્ડ રાખવા માટે વિગતો દાખલ કરો.",
       "અહીં તમારો વ્યવહાર ઇતિહાસ તપાસો. જૂના વ્યવહારો શોધો, સૉર્ટ કરો અથવા સંપાદિત કરો.",
       "ચાર્ટ અને અહેવાલો દ્વારા તમારી ખર્ચની ટેવો સમજો. આવક અને ખર્ચની સરખામણી કરો.",
       "એજન્ટ તમારો અંગત નાણાકીય સહાયક છે. તે તમારા રેકોર્ડ્સનું વિશ્લેષણ કરીને ઉપયોગી સૂચનો આપે છે.",
-      "FINOVA 160 થી વધુ વૈશ્વિક ચલણોને સપોર્ટ કરે છે. ચલણ પસંદ કરવા માટે ટોચની પટ્ટી પર ક્લિક કરો.",
+      "Money Management 160 થી વધુ વૈશ્વિક ચલણોને સપોર્ટ કરે છે. ચલણ પસંદ કરવા માટે ટોચની પટ્ટી પર ક્લિક કરો.",
       "તમારું વૉલેટ ઉપલબ્ધ રકમ ટ્રૅક કરે છે. નાણાં ઉમેરો; વ્યવહાર મુજબ બેલેન્સ આપમેળે અપડેટ થશે.",
-      "આ રીતે FINOVA કાર્ય કરે છે! હવે તમે તમારા નાણાં પર નિયંત્રણ મેળવવા માટે તૈયાર છો."
+      "આ રીતે Money Management કાર્ય કરે છે! હવે તમે તમારા નાણાં પર નિયંત્રણ મેળવવા માટે તૈયાર છો."
     ],
     "eyebrows": [
-      "FINOVA · તમારા નાણાં, કેન્દ્રમાં",
+      "Money Management · તમારા નાણાં, કેન્દ્રમાં",
       "ડેશબોર્ડ ઝાંખી",
       "નાણાં નોંધણી",
       "વ્યવહાર ખાતાવહી",
@@ -742,7 +742,7 @@
   },
   "pa": {
     "titles": [
-      "FINOVA ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ!",
+      "Money Management ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ!",
       "ਤੁਹਾਡਾ ਵਿੱਤੀ ਜਾਇਜ਼ਾ",
       "ਲੈਣ-ਦੇਣ ਸ਼ਾਮਲ ਕਰੋ",
       "ਲੈਣ-ਦੇਣ ਦਾ ਇਤਿਹਾਸ",
@@ -753,18 +753,18 @@
       "ਸਭ ਤਿਆਰ ਹੈ!"
     ],
     "messages": [
-      "ਤੁਹਾਡੇ ਨਿੱਜੀ ਵਿੱਤ ਡੈਸ਼ਬੋਰਡ ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ! ਵੇਖੋ ਕਿ FINOVA ਤੁਹਾਡੇ ਪੈਸੇ ਦਾ ਪ੍ਰਬੰਧ ਕਰਨ ਵਿੱਚ ਕਿਵੇਂ ਮਦਦ ਕਰਦਾ ਹੈ।",
+      "ਤੁਹਾਡੇ ਨਿੱਜੀ ਵਿੱਤ ਡੈਸ਼ਬੋਰਡ ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ! ਵੇਖੋ ਕਿ Money Management ਤੁਹਾਡੇ ਪੈਸੇ ਦਾ ਪ੍ਰਬੰਧ ਕਰਨ ਵਿੱਚ ਕਿਵੇਂ ਮਦਦ ਕਰਦਾ ਹੈ।",
       "ਇਹ ਤੁਹਾਡਾ ਵਿੱਤੀ ਜਾਇਜ਼ਾ ਹੈ। ਇੱਥੇ ਕੁੱਲ ਬਕਾਇਆ, ਆਮਦਨ, ਖਰਚੇ ਅਤੇ ਤਾਜ਼ਾ ਗਤੀਵਿਧੀਆਂ ਵੇਖੋ।",
       "ਆਪਣੀ ਆਮਦਨ ਅਤੇ ਖਰਚੇ ਇੱਥੇ ਦਰਜ ਕਰੋ। ਰਿਕਾਰਡ ਅੱਪਡੇਟ ਰੱਖਣ ਲਈ ਵੇਰਵੇ ਭਰੋ।",
       "ਇੱਥੇ ਆਪਣਾ ਲੈਣ-ਦੇਣ ਇਤਿਹਾਸ ਦੇਖੋ। ਪੁਰਾਣੇ ਲੈਣ-ਦੇਣ ਖੋਜੋ, ਲੜੀਬੱਧ ਕਰੋ ਜਾਂ ਸੋਧੋ।",
       "ਚਾਰਟਾਂ ਨਾਲ ਆਪਣੀਆਂ ਖਰਚ ਆਦਤਾਂ ਨੂੰ ਸਮਝੋ। ਆਮਦਨ ਅਤੇ ਖਰਚਿਆਂ ਦੀ ਤੁਲਨਾ ਕਰੋ।",
       "ਏਜੰਟ ਤੁਹਾਡਾ ਨਿੱਜੀ ਵਿੱਤੀ ਸਹਾਇਕ ਹੈ। ਇਹ ਤੁਹਾਡੇ ਰਿਕਾਰਡਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕਰਕੇ ਉੱਤਰ ਅਤੇ ਸੁਝਾਅ ਦਿੰਦਾ ਹੈ।",
-      "FINOVA 160 ਤੋਂ ਵੱਧ ਵਿਸ਼ਵ ਕਰੰਸੀਆਂ ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ। ਕਰੰਸੀ ਚੁਣਨ ਲਈ ਉੱਪਰਲੇ ਬਾਰ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।",
+      "Money Management 160 ਤੋਂ ਵੱਧ ਵਿਸ਼ਵ ਕਰੰਸੀਆਂ ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ। ਕਰੰਸੀ ਚੁਣਨ ਲਈ ਉੱਪਰਲੇ ਬਾਰ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।",
       "ਤੁਹਾਡਾ ਵਾਲਿਟ ਉਪਲਬਧ ਪੈਸੇ ਨੂੰ ਟਰੈਕ ਕਰਦਾ ਹੈ। ਪੈਸੇ ਸ਼ਾਮਲ ਕਰੋ; ਲੈਣ-ਦੇਣ ਨਾਲ ਬੈਲੇਂਸ ਆਪੇ ਅੱਪਡੇਟ ਹੋਵੇਗਾ।",
-      "FINOVA ਇਸ ਤਰ੍ਹਾਂ ਕੰਮ ਕਰਦਾ ਹੈ! ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ ਵਿੱਤ 'ਤੇ ਕਾਬੂ ਪਾਉਣ ਲਈ ਪੂਰੀ ਤਰ੍ਹਾਂ ਤਿਆਰ ਹੋ।"
+      "Money Management ਇਸ ਤਰ੍ਹਾਂ ਕੰਮ ਕਰਦਾ ਹੈ! ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ ਵਿੱਤ 'ਤੇ ਕਾਬੂ ਪਾਉਣ ਲਈ ਪੂਰੀ ਤਰ੍ਹਾਂ ਤਿਆਰ ਹੋ।"
     ],
     "eyebrows": [
-      "FINOVA · ਤੁਹਾਡਾ ਪੈਸਾ, ਧਿਆਨ ਵਿੱਚ",
+      "Money Management · ਤੁਹਾਡਾ ਪੈਸਾ, ਧਿਆਨ ਵਿੱਚ",
       "ਡੈਸ਼ਬੋਰਡ ਜਾਇਜ਼ਾ",
       "ਵਿੱਤ ਦਰਜ ਕਰੋ",
       "ਲੈਣ-ਦੇਣ ਬਹੀ-ਖਾਤਾ",
@@ -817,7 +817,7 @@
   },
   "ur": {
     "titles": [
-      "FINOVA میں خوش آمدید!",
+      "Money Management میں خوش آمدید!",
       "آپ کا مالیاتی جائزہ",
       "لین دین شامل کریں",
       "لین دین کی تاریخ",
@@ -828,18 +828,18 @@
       "سب کچھ تیار ہے!"
     ],
     "messages": [
-      "آپ کے ذاتی مالیاتی ڈیش بورڈ میں خوش آمدید! FINOVA آپ کے پیسوں کے انتظام میں کس طرح مدد کرتا ہے دیکھیں۔",
+      "آپ کے ذاتی مالیاتی ڈیش بورڈ میں خوش آمدید! Money Management آپ کے پیسوں کے انتظام میں کس طرح مدد کرتا ہے دیکھیں۔",
       "یہ آپ کا مالیاتی جائزہ ہے۔ یہاں کل بیلنس، آمدنی، اخراجات اور حالیہ سرگرمیاں دیکھیں۔",
       "اپنی آمدنی اور اخراجات کا اندراج کریں۔ ریکارڈ کو اپ ڈیٹ رکھنے کے لیے تفصیلات درج کریں۔",
       "یہاں اپنی لین دین کی تاریخ دیکھیں۔ ضرورت پڑنے پر پرانے ریکارڈ تلاش کریں، فلٹر کریں یا تبدیل کریں۔",
       "چارٹس کے ذریعے اپنے اخراجات کی عادات سمجھیں۔ آمدنی اور اخراجات کا موازنہ کریں۔",
       "ایجنٹ آپ کا ذاتی مالیاتی معاون ہے۔ یہ آپ کے ریکارڈ کا تجزیہ کر کے تجاویز اور جوابات دیتا ہے۔",
-      "FINOVA 160 سے زائد بین الاقوامی کرنسیوں کی حمایت کرتا ہے۔ کرنسی تبدیل کرنے کے لیے اوپر بار پر کلک کریں۔",
+      "Money Management 160 سے زائد بین الاقوامی کرنسیوں کی حمایت کرتا ہے۔ کرنسی تبدیل کرنے کے لیے اوپر بار پر کلک کریں۔",
       "والیٹ دستیاب رقم کو ٹریک کرتا ہے۔ رقم شامل کریں؛ لین دین کے ساتھ بیلنس خود بخود اپ ڈیٹ ہو جائے گا۔",
-      "FINOVA اسی طرح کام کرتا ہے! اب آپ اپنے مالیات پر مکمل کنٹرول حاصل کرنے کے لیے تیار ہیں۔"
+      "Money Management اسی طرح کام کرتا ہے! اب آپ اپنے مالیات پر مکمل کنٹرول حاصل کرنے کے لیے تیار ہیں۔"
     ],
     "eyebrows": [
-      "FINOVA · آپ کا پیسہ، مرکز میں",
+      "Money Management · آپ کا پیسہ، مرکز میں",
       "ڈیش بورڈ کا جائزہ",
       "مالیات کا اندراج",
       "لین دین کا ریکارڈ",
@@ -892,7 +892,7 @@
   },
   "ar": {
     "titles": [
-      "مرحبًا بك في FINOVA!",
+      "مرحبًا بك في Money Management!",
       "نظرة عامة على أموالك",
       "إضافة معاملة",
       "سجل معاملاتك",
@@ -903,18 +903,18 @@
       "أنت جاهز تمامًا!"
     ],
     "messages": [
-      "مرحبًا بك في لوحة معلوماتك المالية الشخصية! تعرّف بسرعة على كيفية مساعدة FINOVA لك في إدارة أموالك وفهمها.",
+      "مرحبًا بك في لوحة معلوماتك المالية الشخصية! تعرّف بسرعة على كيفية مساعدة Money Management لك في إدارة أموالك وفهمها.",
       "هذه نظرة عامة على أموالك. يمكنك هنا رؤية الرصيد الإجمالي والدخل والنفقات وعدد المعاملات والنشاط الأخير.",
       "سجّل دخلك ونفقاتك هنا. أدخل المبلغ والفئة والتاريخ والتفاصيل لتحديث سجلاتك المالية.",
       "يمكنك هنا مراجعة سجل معاملاتك والبحث فيها وتصفيتها وتعديلها أو حذفها متى احتجت.",
       "افهم عادات الإنفاق من خلال الرسوم والتقارير. قارن الدخل والنفقات واكتشف أين تذهب أموالك.",
       "الوكيل هو مساعدك المالي الشخصي. يحلل دخلك ونفقاتك ومدخراتك من سجلاتك ليجيب عن أسئلتك ويقدم نصائح مخصصة.",
-      "يدعم FINOVA أكثر من 160 عملة عالمية. انقر فوق محدد العملة في الشريط العلوي لاختيار عملتك أو البحث عنها.",
+      "يدعم Money Management أكثر من 160 عملة عالمية. انقر فوق محدد العملة في الشريط العلوي لاختيار عملتك أو البحث عنها.",
       "تساعدك المحفظة على تتبع الأموال المتاحة. أضف المال وسيُحدّث الرصيد تلقائيًا عند تسجيل الدخل أو النفقات.",
-      "هكذا يعمل FINOVA! أنت مستعد الآن للتحكم الكامل في أموالك. اجعل لكل معاملة قيمة."
+      "هكذا يعمل Money Management! أنت مستعد الآن للتحكم الكامل في أموالك. اجعل لكل معاملة قيمة."
     ],
     "eyebrows": [
-      "FINOVA · أموالك في بؤرة الاهتمام",
+      "Money Management · أموالك في بؤرة الاهتمام",
       "نظرة عامة على لوحة التحكم",
       "تسجيل المعاملات المالية",
       "سجل المعاملات",
@@ -967,7 +967,7 @@
   },
   "es": {
     "titles": [
-      "¡Te damos la bienvenida a FINOVA!",
+      "¡Te damos la bienvenida a Money Management!",
       "Tu resumen financiero",
       "Añadir transacción",
       "Tu historial de transacciones",
@@ -978,18 +978,18 @@
       "¡Todo listo!"
     ],
     "messages": [
-      "¡Te damos la bienvenida a tu panel financiero personal! Descubre cómo FINOVA te ayuda a gestionar, entender y hacer crecer tu dinero.",
+      "¡Te damos la bienvenida a tu panel financiero personal! Descubre cómo Money Management te ayuda a gestionar, entender y hacer crecer tu dinero.",
       "Este es tu resumen financiero. Aquí puedes ver tu saldo total, ingresos, gastos, número de transacciones y actividad reciente.",
       "Registra aquí tus ingresos y gastos. Añade el importe, la categoría, la fecha y otros detalles para mantener tus datos al día.",
       "Consulta tu historial de transacciones. Busca, filtra, ordena, edita o elimina transacciones anteriores cuando lo necesites.",
       "Entiende tus hábitos de gasto con gráficos e informes. Compara ingresos y gastos y descubre adónde va tu dinero.",
       "Agente es tu asistente financiero inteligente. Analiza tus ingresos, gastos y ahorros para responder preguntas y darte consejos útiles.",
-      "FINOVA admite más de 160 monedas del mundo. Haz clic en el selector superior para elegir tu moneda o buscarla por nombre, código o símbolo.",
+      "Money Management admite más de 160 monedas del mundo. Haz clic en el selector superior para elegir tu moneda o buscarla por nombre, código o símbolo.",
       "Tu cartera te ayuda a controlar el dinero disponible. Añade dinero y el saldo se actualizará automáticamente con cada transacción.",
-      "¡Así funciona FINOVA! Ya puedes tomar el control total de tus finanzas. Haz que cada transacción cuente."
+      "¡Así funciona Money Management! Ya puedes tomar el control total de tus finanzas. Haz que cada transacción cuente."
     ],
     "eyebrows": [
-      "FINOVA · TU DINERO, EN PRIMER PLANO",
+      "Money Management · TU DINERO, EN PRIMER PLANO",
       "RESUMEN DEL PANEL",
       "REGISTRO DE FINANZAS",
       "HISTORIAL DE MOVIMIENTOS",
@@ -1042,7 +1042,7 @@
   },
   "fr": {
     "titles": [
-      "Bienvenue sur FINOVA !",
+      "Bienvenue sur Money Management !",
       "Votre aperçu financier",
       "Ajouter une transaction",
       "Votre historique des transactions",
@@ -1053,18 +1053,18 @@
       "Vous êtes prêt !"
     ],
     "messages": [
-      "Bienvenue sur votre tableau de bord financier personnel ! Découvrez comment FINOVA vous aide à gérer, comprendre et optimiser votre argent.",
+      "Bienvenue sur votre tableau de bord financier personnel ! Découvrez comment Money Management vous aide à gérer, comprendre et optimiser votre argent.",
       "Voici votre aperçu financier. Consultez votre solde total, vos revenus, vos dépenses, le nombre de transactions et l’activité récente.",
       "Enregistrez vos revenus et dépenses ici. Saisissez le montant, la catégorie, la date et les détails utiles pour garder vos comptes à jour.",
       "Consultez l’historique complet de vos transactions. Recherchez, filtrez, triez, modifiez ou supprimez vos anciennes transactions.",
       "Comprenez vos habitudes grâce aux graphiques et rapports. Comparez revenus et dépenses et découvrez où va votre argent.",
       "Agent est votre assistant financier personnel. Il analyse vos enregistrements pour répondre à vos questions et vous offrir des conseils sur mesure.",
-      "FINOVA prend en charge plus de 160 devises mondiales. Cliquez sur le sélecteur en haut pour choisir votre devise ou rechercher par nom ou symbole.",
+      "Money Management prend en charge plus de 160 devises mondiales. Cliquez sur le sélecteur en haut pour choisir votre devise ou rechercher par nom ou symbole.",
       "Votre portefeuille suit votre argent disponible. Ajoutez des fonds ; le solde s’actualise automatiquement avec chaque mouvement.",
-      "Voilà comment fonctionne FINOVA ! Vous êtes prêt à reprendre le contrôle de vos finances. Chaque transaction compte."
+      "Voilà comment fonctionne Money Management ! Vous êtes prêt à reprendre le contrôle de vos finances. Chaque transaction compte."
     ],
     "eyebrows": [
-      "FINOVA · VOTRE ARGENT, SOUS CONTRÔLE",
+      "Money Management · VOTRE ARGENT, SOUS CONTRÔLE",
       "APERÇU DU TABLEAU DE BORD",
       "ENREGISTRER DES OPÉRATIONS",
       "JOURNAL DES TRANSACTIONS",
@@ -1117,7 +1117,7 @@
   },
   "de": {
     "titles": [
-      "Willkommen bei FINOVA!",
+      "Willkommen bei Money Management!",
       "Dein Finanzüberblick",
       "Transaktion hinzufügen",
       "Dein Transaktionsverlauf",
@@ -1128,18 +1128,18 @@
       "Alles bereit!"
     ],
     "messages": [
-      "Willkommen in deinem persönlichen Finanz-Dashboard! Entdecke, wie FINOVA dir hilft, dein Geld zu verwalten, zu verstehen und zu vermehren.",
+      "Willkommen in deinem persönlichen Finanz-Dashboard! Entdecke, wie Money Management dir hilft, dein Geld zu verwalten, zu verstehen und zu vermehren.",
       "Hier ist dein Finanzüberblick. Sieh dir Gesamtsaldo, Einnahmen, Ausgaben, Transaktionsanzahl und aktuelle Aktivitäten an einem Ort an.",
       "Erfasse hier deine Einnahmen und Ausgaben. Gib Betrag, Kategorie, Datum und Details ein, um deine Aufzeichnungen aktuell zu halten.",
       "Hier findest du deinen Transaktionsverlauf. Suche, filtere, sortiere, bearbeite oder lösche frühere Transaktionen nach Bedarf.",
       "Verstehe dein Ausgabeverhalten mit Diagrammen und Berichten. Vergleiche Einnahmen und Ausgaben und sieh, wohin dein Geld fließt.",
       "Agent ist dein persönlicher Finanzassistent. Er analysiert Einnahmen, Ausgaben und Ersparnisse, beantwortet Fragen und gibt smarte Tipps.",
-      "FINOVA unterstützt über 160 Währungen. Klicke auf die Währungsauswahl in der oberen Leiste, um deine Anzeigewährung zu wählen oder zu suchen.",
+      "Money Management unterstützt über 160 Währungen. Klicke auf die Währungsauswahl in der oberen Leiste, um deine Anzeigewährung zu wählen oder zu suchen.",
       "Dein Wallet hilft dir, dein verfügbares Geld im Blick zu behalten. Füge Geld hinzu; der Saldo passt sich bei Transaktionen automatisch an.",
-      "So funktioniert FINOVA! Du bist jetzt bereit, die volle Kontrolle über deine Finanzen zu übernehmen. Jede Transaktion zählt."
+      "So funktioniert Money Management! Du bist jetzt bereit, die volle Kontrolle über deine Finanzen zu übernehmen. Jede Transaktion zählt."
     ],
     "eyebrows": [
-      "FINOVA · DEIN GELD, IM FOKUS",
+      "Money Management · DEIN GELD, IM FOKUS",
       "DASHBOARD-ÜBERBLICK",
       "FINANZEN ERFASSEN",
       "TRANSAKTIONSBUCH",
@@ -1192,7 +1192,7 @@
   },
   "pt": {
     "titles": [
-      "Boas-vindas ao FINOVA!",
+      "Boas-vindas ao Money Management!",
       "Sua visão financeira",
       "Adicionar transação",
       "Seu histórico de transações",
@@ -1203,18 +1203,18 @@
       "Tudo pronto!"
     ],
     "messages": [
-      "Boas-vindas ao seu painel financeiro pessoal! Veja como o FINOVA ajuda você a administrar, entender e multiplicar seu dinheiro.",
+      "Boas-vindas ao seu painel financeiro pessoal! Veja como o Money Management ajuda você a administrar, entender e multiplicar seu dinheiro.",
       "Esta é sua visão financeira. Veja seu saldo total, receitas, despesas, número de transações e atividades recentes em um só lugar.",
       "Registre suas receitas e despesas aqui. Informe o valor, categoria, data e detalhes para manter seus registros atualizados.",
       "Consulte seu histórico de transações. Pesquise, filtre, ordene, edite ou exclua transações anteriores quando precisar.",
       "Entenda seus hábitos com gráficos e relatórios. Compare receitas e despesas e descubra exatamente para onde seu dinheiro vai.",
       "O Agente é seu assistente financeiro inteligente. Ele analisa seus dados para responder a dúvidas e oferecer sugestões sob medida.",
-      "O FINOVA suporta mais de 160 moedas globais. Clique no seletor na barra superior para escolher sua moeda ou pesquisar por nome ou código.",
+      "O Money Management suporta mais de 160 moedas globais. Clique no seletor na barra superior para escolher sua moeda ou pesquisar por nome ou código.",
       "Sua carteira ajuda a acompanhar o dinheiro disponível. Adicione saldo; ele se atualiza automaticamente ao registrar receitas e despesas.",
-      "É assim que o FINOVA funciona! Você está pronto para cuidar das suas finanças com confiança. Faça cada transação valer."
+      "É assim que o Money Management funciona! Você está pronto para cuidar das suas finanças com confiança. Faça cada transação valer."
     ],
     "eyebrows": [
-      "FINOVA · SEU DINHEIRO, EM FOCO",
+      "Money Management · SEU DINHEIRO, EM FOCO",
       "VISÃO GERAL DO PAINEL",
       "REGISTRO FINANCEIRO",
       "LIVRO DE TRANSAÇÕES",
@@ -1267,7 +1267,7 @@
   },
   "it": {
     "titles": [
-      "Benvenuto in FINOVA!",
+      "Benvenuto in Money Management!",
       "La tua panoramica finanziaria",
       "Aggiungi una transazione",
       "La cronologia delle transazioni",
@@ -1278,18 +1278,18 @@
       "È tutto pronto!"
     ],
     "messages": [
-      "Benvenuto nella tua dashboard finanziaria personale! Scopri come FINOVA ti aiuta a gestire, comprendere e far crescere il tuo denaro.",
+      "Benvenuto nella tua dashboard finanziaria personale! Scopri come Money Management ti aiuta a gestire, comprendere e far crescere il tuo denaro.",
       "Questa è la tua panoramica finanziaria. Qui trovi saldo totale, entrate, uscite, numero di transazioni e attività recenti.",
       "Registra qui entrate e uscite. Inserisci importo, categoria, data e dettagli per tenere aggiornati i tuoi dati contabili.",
       "Qui trovi la cronologia delle transazioni. Cerca, filtra, ordina, modifica o elimina le transazioni passate quando serve.",
       "Comprendi le tue abitudini con grafici e report. Confronta entrate e uscite e scopri dove finisce il tuo denaro.",
       "L'Agente è il tuo assistente finanziario intelligente. Analizza le tue registrazioni per rispondere a domande e darti consigli personalizzati.",
-      "FINOVA supporta oltre 160 valute mondiali. Fai clic sul selettore in alto per impostare la tua valuta preferita o cercarla.",
+      "Money Management supporta oltre 160 valute mondiali. Fai clic sul selettore in alto per impostare la tua valuta preferita o cercarla.",
       "Il portafoglio tiene traccia del denaro disponibile. Aggiungi denaro; il saldo si aggiorna automaticamente ad ogni operazione.",
-      "Ecco come funziona FINOVA! Ora sei pronto a prendere il pieno controllo delle tue finanze. Ogni transazione ha valore."
+      "Ecco come funziona Money Management! Ora sei pronto a prendere il pieno controllo delle tue finanze. Ogni transazione ha valore."
     ],
     "eyebrows": [
-      "FINOVA · IL TUO DENARO, SOTTO CONTROLLO",
+      "Money Management · IL TUO DENARO, SOTTO CONTROLLO",
       "PANORAMICA DELLA DASHBOARD",
       "REGISTRAZIONE FINANZE",
       "REGISTRO DELLE TRANSAZIONI",
@@ -1342,7 +1342,7 @@
   },
   "ru": {
     "titles": [
-      "Добро пожаловать в FINOVA!",
+      "Добро пожаловать в Money Management!",
       "Обзор ваших финансов",
       "Добавление операции",
       "История операций",
@@ -1353,18 +1353,18 @@
       "Всё готово!"
     ],
     "messages": [
-      "Добро пожаловать в личную финансовую панель! Узнайте, как FINOVA помогает управлять деньгами, понимать расходы и копить.",
+      "Добро пожаловать в личную финансовую панель! Узнайте, как Money Management помогает управлять деньгами, понимать расходы и копить.",
       "Это обзор ваших финансов. Здесь доступны общий баланс, доходы, расходы, число операций и недавняя активность в одном месте.",
       "Записывайте здесь доходы и расходы. Укажите сумму, категорию, дату и детали для точности финансового учёта.",
       "Здесь находится история операций. Ищите, фильтруйте, сортируйте, редактируйте или удаляйте прошлые операции в любое время.",
       "Изучайте привычки с помощью графиков и отчётов. Сравнивайте доходы и расходы и смотрите, куда уходят деньги.",
       "Агент — ваш личный финансовый помощник. Он анализирует записи о доходах и расходах, отвечает на вопросы и даёт полезные советы.",
-      "FINOVA поддерживает более 160 мировых валют. Нажмите на переключатель валют в верхней панели для выбора или поиска по названию и коду.",
+      "Money Management поддерживает более 160 мировых валют. Нажмите на переключатель валют в верхней панели для выбора или поиска по названию и коду.",
       "Кошелёк помогает отслеживать доступные средства. Пополняйте баланс; он автоматически меняется при учёте доходов и расходов.",
-      "Вот так работает FINOVA! Вы готовы взять финансы под полный контроль. Каждая операция имеет значение."
+      "Вот так работает Money Management! Вы готовы взять финансы под полный контроль. Каждая операция имеет значение."
     ],
     "eyebrows": [
-      "FINOVA · ВАШИ ДЕНЬГИ ПОД КОНТРОЛЕМ",
+      "Money Management · ВАШИ ДЕНЬГИ ПОД КОНТРОЛЕМ",
       "ОБЗОР ПАНЕЛИ",
       "УЧЁТ ФИНАНСОВ",
       "ЖУРНАЛ ОПЕРАЦИЙ",
@@ -1417,7 +1417,7 @@
   },
   "zh-Hans": {
     "titles": [
-      "欢迎使用 FINOVA！",
+      "欢迎使用 Money Management！",
       "财务概览",
       "添加交易",
       "交易记录",
@@ -1428,18 +1428,18 @@
       "一切就绪！"
     ],
     "messages": [
-      "欢迎来到您的个人财务仪表板！快速了解 FINOVA 如何帮助您管理、了解和增加您的财富。",
+      "欢迎来到您的个人财务仪表板！快速了解 Money Management 如何帮助您管理、了解和增加您的财富。",
       "这里是您的财务概览。您可以在此一站式查看总余额、收入、支出、交易笔数及近期动态。",
       "在此记录您的收入与支出。填写金额、类别、日期等详细信息，保持账目准确完整。",
       "在此查看完整的交易历史记录。随时搜索、筛选、排序、修改或删除历史账目。",
       "通过清晰的图表和报告了解消费习惯。比较收入与支出，掌握每月趋势与资金去向。",
       "智能助理是您的专属金融助手。它根据您的真实账目深度分析收支与结余，解答疑问并提供实用建议。",
-      "FINOVA 支持全球 160 多种货币。点击顶栏货币选择器即可快速切换或按名称、代码和符号搜索。",
+      "Money Management 支持全球 160 多种货币。点击顶栏货币选择器即可快速切换或按名称、代码和符号搜索。",
       "钱包可帮助您追踪当前可用资金。存入资金后，记录收入或支出时余额将自动同步更新。",
-      "这就是 FINOVA 的使用方式！您已做好全面掌控个人财务的准备。让每笔交易都有价值。"
+      "这就是 Money Management 的使用方式！您已做好全面掌控个人财务的准备。让每笔交易都有价值。"
     ],
     "eyebrows": [
-      "FINOVA · 资金动向，尽在掌握",
+      "Money Management · 资金动向，尽在掌握",
       "仪表板概览",
       "账目记录",
       "交易明细账本",
@@ -1492,7 +1492,7 @@
   },
   "zh-Hant": {
     "titles": [
-      "歡迎使用 FINOVA！",
+      "歡迎使用 Money Management！",
       "財務概覽",
       "新增交易",
       "交易紀錄",
@@ -1503,18 +1503,18 @@
       "一切就緒！"
     ],
     "messages": [
-      "歡迎來到您的個人財務儀表板！快速了解 FINOVA 如何協助您管理、掌握並累積您的資產。",
+      "歡迎來到您的個人財務儀表板！快速了解 Money Management 如何協助您管理、掌握並累積您的資產。",
       "這裡是您的財務概覽。您可以在此一處掌握總餘額、收入、支出、交易筆數與近期活動。",
       "在此記錄收入與支出。填寫金額、類別、日期與備註，保持個人帳目清晰完整。",
       "在此檢視完整的交易歷史紀錄。隨時搜尋、篩選、排序、編輯或刪除歷史紀錄。",
       "透過圖表與報表深入了解消費習慣。比較收支變化，掌握每月資金流向趨勢。",
       "智慧助理是您的專屬財務顧問。它透過分析真實帳目解答您的財務疑問，並提供實用建議。",
-      "FINOVA 支援全球 160 多種主要貨幣。點選頂部工具列即可快速切換或依代碼搜尋。",
+      "Money Management 支援全球 160 多種主要貨幣。點選頂部工具列即可快速切換或依代碼搜尋。",
       "錢包協助您追蹤當前可支配資金。存入金額後，記帳時餘額會自動連動更新。",
-      "這就是 FINOVA 的核心功能！現在就開始主導您的財務人生，讓每一筆消費都更有價值。"
+      "這就是 Money Management 的核心功能！現在就開始主導您的財務人生，讓每一筆消費都更有價值。"
     ],
     "eyebrows": [
-      "FINOVA · 資產動態，清晰掌握",
+      "Money Management · 資產動態，清晰掌握",
       "儀表板總覽",
       "日常記帳",
       "交易明細總帳",
@@ -1567,7 +1567,7 @@
   },
   "ja": {
     "titles": [
-      "FINOVAへようこそ！",
+      "Money Managementへようこそ！",
       "財務の概要",
       "取引を追加",
       "取引履歴",
@@ -1578,18 +1578,18 @@
       "準備完了です！"
     ],
     "messages": [
-      "個人向け財務ダッシュボードへようこそ！FINOVAでお金を賢く管理し、現状を把握する方法をご紹介します。",
+      "個人向け財務ダッシュボードへようこそ！Money Managementでお金を賢く管理し、現状を把握する方法をご紹介します。",
       "ここでは合計残高、収入、支出、取引数、最近のアクティビティをまとめてひと目で確認できます。",
       "ここで収入と支出を記録します。金額、カテゴリ、日付を入力して記録を常に最新に保ちましょう。",
       "取引履歴をいつでも確認できます。必要に応じて検索、絞り込み、並べ替え、編集、削除が可能です。",
       "グラフやレポートでお金の使い道や傾向を可視化します。収入と支出を比較し月別トレンドを把握できます。",
       "エージェントはあなたの専属ファイナンシャルアシスタントです。実際の取引データをもとに質問に答え、役立つアドバイスを提供します。",
-      "FINOVAは世界160以上の通貨に対応しています。ヘッダーの通貨セレクターからいつでも変更や検索ができます。",
+      "Money Managementは世界160以上の通貨に対応しています。ヘッダーの通貨セレクターからいつでも変更や検索ができます。",
       "ウォレットで利用可能なお金を管理できます。残高を追加すると、日々の収支に合わせて自動更新されます。",
-      "FINOVAの使い方は以上です！お金の管理をしっかりコントロールする準備が整いました。1つ1つの取引を大切に。"
+      "Money Managementの使い方は以上です！お金の管理をしっかりコントロールする準備が整いました。1つ1つの取引を大切に。"
     ],
     "eyebrows": [
-      "FINOVA · 資産の動きをクリアに",
+      "Money Management · 資産の動きをクリアに",
       "ダッシュボード概要",
       "収支を記録",
       "取引台帳",
@@ -1642,7 +1642,7 @@
   },
   "ko": {
     "titles": [
-      "FINOVA에 오신 것을 환영합니다!",
+      "Money Management에 오신 것을 환영합니다!",
       "재정 현황 대시보드",
       "거래 추가하기",
       "거래 내역 확인",
@@ -1653,18 +1653,18 @@
       "모든 준비가 끝났습니다!"
     ],
     "messages": [
-      "개인 맞춤형 금융 대시보드에 오신 것을 환영합니다! FINOVA가 자산을 효율적으로 관리하고 증식하도록 돕는 방법을 확인해 보세요.",
+      "개인 맞춤형 금융 대시보드에 오신 것을 환영합니다! Money Management가 자산을 효율적으로 관리하고 증식하도록 돕는 방법을 확인해 보세요.",
       "이곳은 재정 개요 화면입니다. 총 잔액, 수입, 지출, 거래 건수 및 최근 활동을 한눈에 확인할 수 있습니다.",
       "이곳에서 수입과 지출을 기록하세요. 금액, 카테고리, 날짜를 입력하여 정확한 재정 기록을 유지할 수 있습니다.",
       "전체 거래 내역을 언제든 확인하세요. 필요에 따라 검색, 필터링, 정렬, 수정 및 삭제가 가능합니다.",
       "차트와 보고서를 통해 지출 습관을 파악하세요. 수입과 지출을 비교하고 월별 추세를 확인해 보세요.",
       "에이전트는 고객님의 스마트한 금융 비서입니다. 실제 기록된 수입과 지출 데이터를 분석하여 맞춤형 질문 답변과 조언을 제공합니다.",
-      "FINOVA는 전 세계 160개 이상의 통화를 지원합니다. 상단 바의 통화 선택기를 눌러 표시 통화를 손쉽게 변경하거나 검색할 수 있습니다.",
+      "Money Management는 전 세계 160개 이상의 통화를 지원합니다. 상단 바의 통화 선택기를 눌러 표시 통화를 손쉽게 변경하거나 검색할 수 있습니다.",
       "지갑 기능을 통해 가용 자금을 명확히 추적하세요. 잔액을 충전하면 거래 발생 시 자동으로 동기화됩니다.",
-      "이것으로 FINOVA의 기본 안내가 완료되었습니다! 이제 스마트하게 자산을 관리해 보세요. 모든 거래에 가치를 더하세요."
+      "이것으로 Money Management의 기본 안내가 완료되었습니다! 이제 스마트하게 자산을 관리해 보세요. 모든 거래에 가치를 더하세요."
     ],
     "eyebrows": [
-      "FINOVA · 내 손안의 똑똑한 금융",
+      "Money Management · 내 손안의 똑똑한 금융",
       "대시보드 개요",
       "수입 및 지출 기록",
       "거래 내역 원장",
@@ -1717,7 +1717,7 @@
   },
   "id": {
     "titles": [
-      "Selamat Datang di FINOVA!",
+      "Selamat Datang di Money Management!",
       "Ringkasan Keuangan Anda",
       "Tambah Transaksi",
       "Riwayat Transaksi",
@@ -1728,18 +1728,18 @@
       "Semua Siap!"
     ],
     "messages": [
-      "Selamat datang di dasbor keuangan pribadi Anda! Mari lihat bagaimana FINOVA membantu mengelola, memahami, dan mengembangkan uang Anda.",
+      "Selamat datang di dasbor keuangan pribadi Anda! Mari lihat bagaimana Money Management membantu mengelola, memahami, dan mengembangkan uang Anda.",
       "Ini adalah ringkasan keuangan Anda. Lihat total saldo, pemasukan, pengeluaran, jumlah transaksi, dan aktivitas terbaru di satu tempat.",
       "Catat pemasukan dan pengeluaran Anda di sini. Masukkan jumlah, kategori, tanggal, dan detail lain agar pembukuan tetap rapi.",
       "Periksa riwayat transaksi Anda kapan saja. Cari, saring, urutkan, ubah, atau hapus catatan transaksi dengan sangat mudah.",
       "Pahami kebiasaan belanja Anda dengan grafik dan laporan. Bandingkan pemasukan dan pengeluaran serta amati tren bulanan.",
       "Agen adalah asisten keuangan pribadi cerdas Anda. Agen menganalisis data riil Anda untuk menjawab pertanyaan dan memberikan kiat finansial.",
-      "FINOVA mendukung lebih dari 160 mata uang dunia. Klik pemilih mata uang di bilah atas untuk memilih mata uang tampilan atau mencari berdasarkan kode.",
+      "Money Management mendukung lebih dari 160 mata uang dunia. Klik pemilih mata uang di bilah atas untuk memilih mata uang tampilan atau mencari berdasarkan kode.",
       "Dompet Anda melacak uang yang tersedia. Tambahkan dana; saldo akan diperbarui secara otomatis saat ada transaksi baru.",
-      "Begitulah cara kerja FINOVA! Anda kini siap memegang kendali penuh atas keuangan Anda. Buat setiap transaksi lebih berarti."
+      "Begitulah cara kerja Money Management! Anda kini siap memegang kendali penuh atas keuangan Anda. Buat setiap transaksi lebih berarti."
     ],
     "eyebrows": [
-      "FINOVA · KEUANGAN ANDA, LEBIH FOKUS",
+      "Money Management · KEUANGAN ANDA, LEBIH FOKUS",
       "RINGKASAN DASBOR",
       "CATAT KEUANGAN",
       "BUKU TRANSAKSI",
@@ -1792,7 +1792,7 @@
   },
   "th": {
     "titles": [
-      "ยินดีต้อนรับสู่ FINOVA!",
+      "ยินดีต้อนรับสู่ Money Management!",
       "ภาพรวมทางการเงินของคุณ",
       "บันทึกรายการธุรกรรม",
       "ประวัติรายการธุรกรรม",
@@ -1803,18 +1803,18 @@
       "ทุกอย่างพร้อมแล้ว!"
     ],
     "messages": [
-      "ยินดีต้อนรับสู่แดชบอร์ดการเงินส่วนบุคคลของคุณ! ดูว่า FINOVA ช่วยคุณจัดการ ทำความเข้าใจ และต่อยอดเงินของคุณได้อย่างไร",
+      "ยินดีต้อนรับสู่แดชบอร์ดการเงินส่วนบุคคลของคุณ! ดูว่า Money Management ช่วยคุณจัดการ ทำความเข้าใจ และต่อยอดเงินของคุณได้อย่างไร",
       "นี่คือภาพรวมทางการเงิน คุณสามารถดูยอดเงินรวม รายรับ รายจ่าย จำนวนธุรกรรม และกิจกรรมล่าสุดได้ในที่เดียว",
       "บันทึกรายรับและรายจ่ายของคุณที่นี่ กรอกจำนวนเงิน หมวดหมู่ วันที่ และรายละเอียดเพื่อรักษาความถูกต้องของข้อมูล",
       "ดูประวัติรายการธุรกรรมทั้งหมดของคุณได้ที่นี่ ค้นหา กรอง จัดเรียง แก้ไข หรือลบรายการในอดีตได้ตลอดเวลา",
       "ทำความเข้าใจพฤติกรรมการใช้จ่ายด้วยแผนภูมิและรายงาน เปรียบเทียบรายรับและรายจ่าย และดูแนวโน้มในแต่ละเดือน",
       "เอเจนต์คือผู้ช่วยทางการเงินส่วนบุคคลของคุณ ซึ่งจะวิเคราะห์บันทึกจริงเพื่อตอบคำถามและให้คำแนะนำทางการเงินที่ตรงจุด",
-      "FINOVA รองรับสกุลเงินมากกว่า 160 สกุลทั่วโลก คลิกตัวเลือกสกุลเงินที่แถบด้านบนเพื่อเลือกหรือค้นหาตามชื่อหรือรหัส",
+      "Money Management รองรับสกุลเงินมากกว่า 160 สกุลทั่วโลก คลิกตัวเลือกสกุลเงินที่แถบด้านบนเพื่อเลือกหรือค้นหาตามชื่อหรือรหัส",
       "กระเป๋าเงินช่วยคุณติดตามเงินสดที่พร้อมใช้ เติมเงินเข้ากระเป๋า แล้วยอดคงเหลือจะอัปเดตโดยอัตโนมัติเมื่อมีธุรกรรม",
-      "และนี่คือการทำงานของ FINOVA! ตอนนี้คุณพร้อมที่จะควบคุมการเงินของตัวเองแล้ว ทำให้ทุกธุรกรรมมีความหมาย"
+      "และนี่คือการทำงานของ Money Management! ตอนนี้คุณพร้อมที่จะควบคุมการเงินของตัวเองแล้ว ทำให้ทุกธุรกรรมมีความหมาย"
     ],
     "eyebrows": [
-      "FINOVA · เงินของคุณ ในการควบคุมของคุณ",
+      "Money Management · เงินของคุณ ในการควบคุมของคุณ",
       "ภาพรวมแดชบอร์ด",
       "บันทึกการเงิน",
       "สมุดบัญชีธุรกรรม",
@@ -1867,7 +1867,7 @@
   },
   "vi": {
     "titles": [
-      "Chào mừng bạn đến với FINOVA!",
+      "Chào mừng bạn đến với Money Management!",
       "Tổng quan tài chính của bạn",
       "Thêm giao dịch mới",
       "Lịch sử giao dịch",
@@ -1878,18 +1878,18 @@
       "Tất cả đã sẵn sàng!"
     ],
     "messages": [
-      "Chào mừng bạn đến với bảng điều khiển tài chính cá nhân! Hãy cùng tìm hiểu cách FINOVA giúp bạn quản lý và phát triển dòng tiền.",
+      "Chào mừng bạn đến với bảng điều khiển tài chính cá nhân! Hãy cùng tìm hiểu cách Money Management giúp bạn quản lý và phát triển dòng tiền.",
       "Đây là bức tranh tổng quan tài chính. Bạn có thể theo dõi tổng số dư, thu nhập, chi tiêu, số giao dịch và hoạt động gần đây tại một nơi.",
       "Ghi chép thu nhập và chi tiêu của bạn tại đây. Nhập số tiền, danh mục, ngày tháng để sổ sách luôn chính xác và đầy đủ.",
       "Xem lại toàn bộ lịch sử thu chi của bạn. Dễ dàng tìm kiếm, lọc theo danh mục, sắp xếp, chỉnh sửa hoặc xóa giao dịch.",
       "Hiểu rõ thói quen chi tiêu thông qua biểu đồ và báo cáo trực quan. So sánh thu chi và nắm bắt xu hướng biến động hàng tháng.",
       "Agent là trợ lý tài chính thông minh của bạn. Agent phân tích dữ liệu thực tế để giải đáp câu hỏi và đưa ra gợi ý hữu ích.",
-      "FINOVA hỗ trợ hơn 160 loại tiền tệ trên toàn cầu. Nhấp vào bộ chọn ở thanh trên cùng để đổi đơn vị tiền tệ hoặc tìm kiếm nhanh.",
+      "Money Management hỗ trợ hơn 160 loại tiền tệ trên toàn cầu. Nhấp vào bộ chọn ở thanh trên cùng để đổi đơn vị tiền tệ hoặc tìm kiếm nhanh.",
       "Ví tiền giúp bạn theo dõi khoản tiền khả dụng tức thì. Nạp thêm tiền; số dư sẽ tự động cập nhật khi bạn ghi nhận thu chi.",
-      "Đó là toàn bộ cách FINOVA vận hành! Bạn đã sẵn sàng làm chủ tài chính cá nhân. Hãy biến mọi khoản chi tiêu trở nên ý nghĩa."
+      "Đó là toàn bộ cách Money Management vận hành! Bạn đã sẵn sàng làm chủ tài chính cá nhân. Hãy biến mọi khoản chi tiêu trở nên ý nghĩa."
     ],
     "eyebrows": [
-      "FINOVA · TIỀN BẠC DƯỚI TẦM TAY",
+      "Money Management · TIỀN BẠC DƯỚI TẦM TAY",
       "TỔNG QUAN BẢNG ĐIỀU KHIỂN",
       "GHI CHÉP TÀI CHÍNH",
       "SỔ CÁI GIAO DỊCH",
@@ -1942,7 +1942,7 @@
   },
   "tr": {
     "titles": [
-      "FINOVA'ya Hoş Geldiniz!",
+      "Money Management'ya Hoş Geldiniz!",
       "Finansal Genel Bakışınız",
       "İşlem Ekle",
       "İşlem Geçmişiniz",
@@ -1953,18 +1953,18 @@
       "Her Şey Hazır!"
     ],
     "messages": [
-      "Kişisel finans panonuza hoş geldiniz! FINOVA'nın paranızı yönetmenize, anlamanıza ve büyütmenize nasıl yardımcı olduğunu keşfedin.",
+      "Kişisel finans panonuza hoş geldiniz! Money Management'nın paranızı yönetmenize, anlamanıza ve büyütmenize nasıl yardımcı olduğunu keşfedin.",
       "Bu sizin finansal genel bakışınızdır. Toplam bakiyenizi, gelirinizi, giderinizi ve son hareketlerinizi tek bir yerden görebilirsiniz.",
       "Gelir ve giderlerinizi buraya kaydedin. Kayıtlarınızın güncel kalması için tutar, kategori, tarih ve detayları girin.",
       "İşlem geçmişinizi buradan inceleyin. İhtiyaç duyduğunuzda eski işlemleri arayın, filtreleyin, düzenleyin veya silin.",
       "Grafikler ve raporlarla harcama alışkanlıklarınızı anlayın. Gelir ve giderleri karşılaştırın ve paranızın nereye gittiğini görün.",
       "Agent sizin akıllı kişisel finans danışmanınızdır. Gerçek kayıtlarınızı inceleyerek sorularınızı yanıtlar ve kişisel öneriler sunar.",
-      "FINOVA, 160'tan fazla dünya para birimini destekler. Para biriminizi seçmek veya aramak için üst çubuktaki seçiciye tıklayın.",
+      "Money Management, 160'tan fazla dünya para birimini destekler. Para biriminizi seçmek veya aramak için üst çubuktaki seçiciye tıklayın.",
       "Cüzdanınız kullanılabilir nakit paranızı takip eder. Cüzdana para ekleyin; gelir veya gider kaydettikçe bakiye otomatik güncellenir.",
-      "FINOVA işte bu kadar kolay! Artık mali durumunuzu tam kontrol altına almaya hazırsınız. Her harcamanın değerini bilin."
+      "Money Management işte bu kadar kolay! Artık mali durumunuzu tam kontrol altına almaya hazırsınız. Her harcamanın değerini bilin."
     ],
     "eyebrows": [
-      "FINOVA · PARANIZ, KONTROLÜNÜZDE",
+      "Money Management · PARANIZ, KONTROLÜNÜZDE",
       "GÖSTERGE PANELİ",
       "FİNANS KAYDI",
       "İŞLEM DEFTERİ",
@@ -2017,7 +2017,7 @@
   },
   "nl": {
     "titles": [
-      "Welkom bij FINOVA!",
+      "Welkom bij Money Management!",
       "Uw financieel overzicht",
       "Transactie toevoegen",
       "Uw transactiegeschiedenis",
@@ -2028,18 +2028,18 @@
       "Alles staat klaar!"
     ],
     "messages": [
-      "Welkom op uw persoonlijke financiële dashboard! Ontdek hoe FINOVA u helpt uw geld te beheren, begrijpen en laten groeien.",
+      "Welkom op uw persoonlijke financiële dashboard! Ontdek hoe Money Management u helpt uw geld te beheren, begrijpen en laten groeien.",
       "Dit is uw financieel overzicht. Bekijk hier uw totaalsaldo, inkomsten, uitgaven, transactieaantallen en recente activiteiten op één plek.",
       "Registreer hier uw inkomsten en uitgaven. Vul bedrag, categorie, datum en toelichting in om uw administratie compleet te houden.",
       "Bekijk hier uw transactiegeschiedenis. Zoek, filter, sorteer, bewerk of verwijder eerdere transacties wanneer u maar wilt.",
       "Krijg inzicht in uw uitgavenpatroon met grafieken en rapporten. Vergelijk inkomsten en uitgaven en zie waar uw geld naartoe gaat.",
       "Agent is uw slimme persoonlijke financiële assistent. Hij analyseert uw administratie om vragen te beantwoorden en gerichte tips te geven.",
-      "FINOVA ondersteunt meer dan 160 valuta's wereldwijd. Klik op de valutaknop in de bovenbalk om uw valuta te kiezen of op te zoeken.",
+      "Money Management ondersteunt meer dan 160 valuta's wereldwijd. Klik op de valutaknop in de bovenbalk om uw valuta te kiezen of op te zoeken.",
       "Uw portemonnee helpt u beschikbaar geld bij te houden. Voeg geld toe; het saldo werkt automatisch bij met uw geregistreerde boekingen.",
-      "Zo werkt FINOVA! U bent nu klaar om de regie over uw financiën te nemen. Zorg dat elke transactie telt."
+      "Zo werkt Money Management! U bent nu klaar om de regie over uw financiën te nemen. Zorg dat elke transactie telt."
     ],
     "eyebrows": [
-      "FINOVA · UW GELD, IN BEELD",
+      "Money Management · UW GELD, IN BEELD",
       "DASHBOARDOVERZICHT",
       "FINANCIËN VASTLEGGEN",
       "TRANSACTIELOGBOEK",
@@ -2092,7 +2092,7 @@
   },
   "pl": {
     "titles": [
-      "Witaj w FINOVA!",
+      "Witaj w Money Management!",
       "Twój przegląd finansowy",
       "Dodaj transakcję",
       "Historia transakcji",
@@ -2103,18 +2103,18 @@
       "Wszystko gotowe!"
     ],
     "messages": [
-      "Witaj w osobistym panelu finansowym! Zobacz, jak FINOVA pomaga zarządzać pieniędzmi, rozumieć wydatki i budować oszczędności.",
+      "Witaj w osobistym panelu finansowym! Zobacz, jak Money Management pomaga zarządzać pieniędzmi, rozumieć wydatki i budować oszczędności.",
       "Oto Twój przegląd finansowy. Sprawdzaj łączne saldo, przychody, wydatki, liczbę transakcji i ostatnią aktywność w jednym miejscu.",
       "Rejestruj tutaj swoje przychody i wydatki. Wprowadź kwotę, kategorię, datę i szczegóły, aby zachować porządek w zapisach.",
       "Przeglądaj pełną historię transakcji. Wyszukuj, filtruj, sortuj, edytuj lub usuwaj minione wpisy w dowolnej chwili.",
       "Poznaj swoje nawyki dzięki wykresom i raportom. Porównuj przychody z wydatkami i śledź miesięczne trendy.",
       "Agent to Twój inteligentny doradca finansowy. Analizuje Twoje rzeczywiste dane, odpowiada na pytania i podpowiada sprytne oszczędności.",
-      "FINOVA obsługuje ponad 160 walut z całego świata. Kliknij selektor walut na górnym pasku, aby wybrać lub wyszukać walutę.",
+      "Money Management obsługuje ponad 160 walut z całego świata. Kliknij selektor walut na górnym pasku, aby wybrać lub wyszukać walutę.",
       "Portfel pomaga kontrolować dostępne środki. Zasilaj portfel; saldo aktualizuje się automatycznie przy każdym wpisie.",
-      "Tak właśnie działa FINOVA! Możesz już w pełni kontrolować swoje finanse. Spraw, aby każda transakcja miała znaczenie."
+      "Tak właśnie działa Money Management! Możesz już w pełni kontrolować swoje finanse. Spraw, aby każda transakcja miała znaczenie."
     ],
     "eyebrows": [
-      "FINOVA · TWOJE FINANSE, W CENTRUM UWAGI",
+      "Money Management · TWOJE FINANSE, W CENTRUM UWAGI",
       "PRZEGLĄD PANELU",
       "REJESTRACJA WYDATKÓW",
       "DZIENNIK TRANSAKCJI",
@@ -2167,7 +2167,7 @@
   },
   "sw": {
     "titles": [
-      "Karibu kwenye FINOVA!",
+      "Karibu kwenye Money Management!",
       "Muhtasari wa Fedha Zako",
       "Ongeza Muamala",
       "Historia ya Miamala Yako",
@@ -2178,18 +2178,18 @@
       "Kila Kitu Kiko Tayari!"
     ],
     "messages": [
-      "Karibu kwenye dashibodi yako binafsi ya fedha! Gundua jinsi FINOVA inavyokusaidia kusimamia, kuelewa, na kukuza fedha zako.",
+      "Karibu kwenye dashibodi yako binafsi ya fedha! Gundua jinsi Money Management inavyokusaidia kusimamia, kuelewa, na kukuza fedha zako.",
       "Huu ni muhtasari wako wa kifedha. Tazama salio kamili, mapato, matumizi, idadi ya miamala, na shughuli za hivi karibuni hapa.",
       "Rekodi mapato na matumizi yako hapa. Weka kiasi, kitengo, tarehe na maelezo ili kuweka kumbukumbu zako sahihi.",
       "Kagua historia yako ya miamala wakati wowote. Tafuta, chuja, panga, hariri au futa miamala ya zamani.",
       "Elewa mwenendo wako wa matumizi kupitia chati na ripoti. Linganisha mapato na matumizi na ujue fedha zako zinakokwenda.",
       "Wakala ni msaidizi wako mahiri wa kifedha. Anachanganua rekodi zako halisi ili kujibu maswali na kutoa ushauri muhimu wa kifedha.",
-      "FINOVA inasaidia sarafu zaidi ya 160 duniani kote. Bofya kichaguzi cha sarafu kwenye upau wa juu kubadili au kutafuta sarafu.",
+      "Money Management inasaidia sarafu zaidi ya 160 duniani kote. Bofya kichaguzi cha sarafu kwenye upau wa juu kubadili au kutafuta sarafu.",
       "Mkoba wako unakusaidia kufuatilia fedha zilizopo. Ongeza fedha; salio litasasishwa kiotomatiki unapoweka rekodi za miamala.",
-      "Hivi ndivyo FINOVA inavyofanya kazi! Sasa uko tayari kusimamia fedha zako kikamilifu. Fanya kila muamala uwe na maana."
+      "Hivi ndivyo Money Management inavyofanya kazi! Sasa uko tayari kusimamia fedha zako kikamilifu. Fanya kila muamala uwe na maana."
     ],
     "eyebrows": [
-      "FINOVA · FEDHA ZAKO, CHINI YA UDHIBITI",
+      "Money Management · FEDHA ZAKO, CHINI YA UDHIBITI",
       "MUHTASARI WA DASHIBODI",
       "REKODI ZA FEDHA",
       "DAFTARI LA MIAMALA",
@@ -2242,7 +2242,7 @@
   },
   "ne": {
     "titles": [
-      "FINOVA मा स्वागत छ!",
+      "Money Management मा स्वागत छ!",
       "तपाईंको वित्तीय अवलोकन",
       "कारोबार थप्नुहोस्",
       "कारोबार इतिहास",
@@ -2253,18 +2253,18 @@
       "सबै तयार छ!"
     ],
     "messages": [
-      "तपाईंको व्यक्तिगत वित्त ड्यासबோர्डमा स्वागत छ! FINOVA ले तपाईंको पैसा व्यवस्थापन गर्न र बुझ्न कसरी मद्दत गर्छ हेर्नुहोस्।",
+      "तपाईंको व्यक्तिगत वित्त ड्यासबோர्डमा स्वागत छ! Money Management ले तपाईंको पैसा व्यवस्थापन गर्न र बुझ्न कसरी मद्दत गर्छ हेर्नुहोस्।",
       "यो तपाईंको वित्तीय अवलोकन हो। यहाँ कुल ब्यालेन्स, आम्दानी, खर्च र हालैका गतिविधिहरू एकै ठाउँमा हेर्न सक्नुहुन्छ।",
       "आफ्नो आम्दानी र खर्च यहाँ दर्ता गर्नुहोस्। रेकर्ड अद्यावधिक राख्न रकम, वर्ग, मिति र विवरण भर्नुहोस्।",
       "यहाँ आफ्नो कारोबार इतिहास हेर्नुहोस्। आवश्यकता अनुसार पुराना कारोबारहरू खोज्नुहोस्, क्रमबद्ध गर्नुहोस् वा सम्पादन गर्नुहोस्।",
       "चार्ट र रिपोर्टहरूको मद्दतले आफ्नो खर्च गर्ने बानी बुझ्नुहोस्। आम्दानी र खर्चको तुलना गर्नुहोस्।",
       "एजेन्ट तपाईंको व्यक्तिगत वित्तीय सहायक हो। यसले तपाईंको रेकर्डहरू विश्लेषण गरेर प्रश्नहरूको जवाफ र वित्तीय सुझाव दिन्छ।",
-      "FINOVA ले १६० भन्दा बढी विश्व मुद्राहरूलाई समर्थन गर्दछ। मुद्रा छान्न शीर्ष पट्टीमा रहेको मुद्रा चयनकर्तामा क्लिक गर्नुहोस्।",
+      "Money Management ले १६० भन्दा बढी विश्व मुद्राहरूलाई समर्थन गर्दछ। मुद्रा छान्न शीर्ष पट्टीमा रहेको मुद्रा चयनकर्तामा क्लिक गर्नुहोस्।",
       "तपाईंको वालेटले उपलब्ध रकम ट्र्याक गर्दछ। पैसा थप्नुहोस्; कारोबार गर्दा ब्यालेन्स स्वतः अद्यावधिक हुन्छ।",
-      "यसरी FINOVA ले काम गर्छ! अब तपाईं आफ्नो वित्त नियन्त्रण गर्न पूर्ण रूपमा तयार हुनुहुन्छ।"
+      "यसरी Money Management ले काम गर्छ! अब तपाईं आफ्नो वित्त नियन्त्रण गर्न पूर्ण रूपमा तयार हुनुहुन्छ।"
     ],
     "eyebrows": [
-      "FINOVA · तपाईंको पैसा, तपाईंको नियन्त्रणमा",
+      "Money Management · तपाईंको पैसा, तपाईंको नियन्त्रणमा",
       "ड्यासबோர्ड अवलोकन",
       "वित्त रेकर्ड",
       "कारोबार खाता",
@@ -2320,10 +2320,13 @@
   let state;
   let overlay;
   let shade;
+  let shadePath;
   let spotlights;
   let card;
-  let renderTimer;
+  let rafId = null;
+  let isTicking = false;
   let activeTargets = [];
+  let lastRectsSignature = "";
 
   function accountKey(key) {
     const user = (window.Finova && typeof Finova.getCurrentUsername === "function" ? Finova.getCurrentUsername() : null) || "default";
@@ -2341,7 +2344,7 @@
         ? parsed
         : null;
     } catch (error) {
-      console.error("FINOVA could not restore the active product tour.", error);
+      console.error("Money Management could not restore the active product tour.", error);
       return null;
     }
   }
@@ -2350,7 +2353,7 @@
     try {
       sessionStorage.setItem(STATE_KEY, JSON.stringify(state));
     } catch (error) {
-      console.error("FINOVA could not save the active product tour.", error);
+      console.error("Money Management could not save the active product tour.", error);
       if (window.Finova && typeof Finova.notify === "function") {
         Finova.notify("The tour cannot continue across pages because browser session storage is unavailable.", "error");
       }
@@ -2374,7 +2377,7 @@
     if (localized) {
       if (key === "title") return localized.titles[state.step] || step.title;
       if (key === "message") return localized.messages[state.step] || step.message;
-      if (key === "eyebrow") return localized.eyebrows?.[state.step] || "FINOVA · YOUR MONEY, IN FOCUS";
+      if (key === "eyebrow") return localized.eyebrows?.[state.step] || "Money Management · YOUR MONEY, IN FOCUS";
       if (key === "step") {
         const pattern = localized.step || "Step {current} of {total}";
         return pattern
@@ -2420,33 +2423,72 @@
     return (step.targets || []).map((selector) => document.querySelector(selector)).filter(Boolean);
   }
 
+  /* Highly optimized spotlight updater avoiding DOM thrashing and redundant SVG re-renders */
   function updateSpotlight(targets) {
+    if (!overlay || !shade) return [];
     const width = window.innerWidth;
     const height = window.innerHeight;
-    shade.setAttribute("viewBox", `0 0 ${width} ${height}`);
-    const outer = `M0,0 H${width} V${height} H0 Z`;
+
+    if (!targets || targets.length === 0) {
+      if (lastRectsSignature !== "empty") {
+        shade.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        if (shadePath) shadePath.setAttribute("d", "");
+        if (spotlights) spotlights.replaceChildren();
+        lastRectsSignature = "empty";
+      }
+      return [];
+    }
+
     const rects = targets.map((target) => {
       const bounds = target.getBoundingClientRect();
       return {
-        left: bounds.left - 7,
-        top: bounds.top - 7,
-        right: bounds.right + 7,
-        bottom: bounds.bottom + 7,
-        width: bounds.width + 14,
-        height: bounds.height + 14
+        left: Math.round(bounds.left - 7),
+        top: Math.round(bounds.top - 7),
+        right: Math.round(bounds.right + 7),
+        bottom: Math.round(bounds.bottom + 7),
+        width: Math.round(bounds.width + 14),
+        height: Math.round(bounds.height + 14)
       };
     });
-    shade.querySelector("path").setAttribute("d", [outer, ...rects.map(roundedRectPath)].join(" "));
-    spotlights.replaceChildren();
-    rects.forEach((rect) => {
-      const spotlight = document.createElement("span");
-      spotlight.className = "tour-spotlight";
-      spotlight.style.left = `${Math.max(0, rect.left)}px`;
-      spotlight.style.top = `${Math.max(0, rect.top)}px`;
-      spotlight.style.width = `${Math.max(0, Math.min(width, rect.right) - Math.max(0, rect.left))}px`;
-      spotlight.style.height = `${Math.max(0, Math.min(height, rect.bottom) - Math.max(0, rect.top))}px`;
-      spotlights.appendChild(spotlight);
-    });
+
+    // Check if rects changed to avoid recomputing SVG path if coordinates are unchanged
+    const sig = rects.map(r => `${r.left},${r.top},${r.width},${r.height}`).join("|");
+    if (sig !== lastRectsSignature) {
+      lastRectsSignature = sig;
+      shade.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      const outer = `M0,0 H${width} V${height} H0 Z`;
+      if (shadePath) {
+        shadePath.setAttribute("d", [outer, ...rects.map(roundedRectPath)].join(" "));
+      }
+
+      // Reuse existing spotlight DOM elements instead of destroying & recreating on scroll
+      if (spotlights) {
+        const existing = spotlights.children;
+        while (existing.length < rects.length) {
+          const sp = document.createElement("span");
+          sp.className = "tour-spotlight";
+          spotlights.appendChild(sp);
+        }
+        while (spotlights.children && spotlights.children.length > rects.length) {
+          const last = spotlights.lastElementChild || spotlights.children[spotlights.children.length - 1];
+          if (last && typeof last.remove === "function") {
+            last.remove();
+          } else if (last && typeof spotlights.removeChild === "function") {
+            spotlights.removeChild(last);
+          } else {
+            break;
+          }
+        }
+        rects.forEach((rect, idx) => {
+          const sp = existing[idx];
+          sp.style.left = `${Math.max(0, rect.left)}px`;
+          sp.style.top = `${Math.max(0, rect.top)}px`;
+          sp.style.width = `${Math.max(0, Math.min(width, rect.right) - Math.max(0, rect.left))}px`;
+          sp.style.height = `${Math.max(0, Math.min(height, rect.bottom) - Math.max(0, rect.top))}px`;
+        });
+      }
+    }
+
     return rects;
   }
 
@@ -2458,7 +2500,7 @@
     shade = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     shade.classList.add("tour-shade");
     shade.setAttribute("aria-hidden", "true");
-    const shadePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    shadePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
     shadePath.setAttribute("fill-rule", "evenodd");
     shade.appendChild(shadePath);
 
@@ -2477,18 +2519,28 @@
   }
 
   function endTour(markCompleted) {
-    if (renderTimer) window.clearTimeout(renderTimer);
+    if (rafId) {
+      window.cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    isTicking = false;
     overlay?.remove();
     overlay = null;
+    shade = null;
+    shadePath = null;
+    spotlights = null;
+    card = null;
     activeTargets = [];
-    window.removeEventListener("resize", reposition);
-    window.removeEventListener("scroll", reposition, true);
+    lastRectsSignature = "";
+
+    window.removeEventListener("resize", handleResize);
+    window.removeEventListener("scroll", handleScroll, { passive: true, capture: true });
     state = null;
     try {
       sessionStorage.removeItem(STATE_KEY);
       if (markCompleted) localStorage.setItem(accountKey(COMPLETED_KEY), "true");
     } catch (error) {
-      console.error("FINOVA could not save product tour completion.", error);
+      console.error("Money Management could not save product tour completion.", error);
     }
   }
 
@@ -2497,13 +2549,29 @@
     if (state && overlay) renderStep();
   }
 
-  function reposition() {
-    if (!state || !overlay) return;
-    if (renderTimer) window.clearTimeout(renderTimer);
-    renderTimer = window.setTimeout(() => {
+  /* Optimized requestAnimationFrame batching for smooth scrolling */
+  function scheduleReposition() {
+    if (!state || !overlay || isTicking) return;
+    isTicking = true;
+    rafId = window.requestAnimationFrame(() => {
+      isTicking = false;
       if (!state || !overlay) return;
       updateSpotlight(activeTargets);
-    }, 16);
+    });
+  }
+
+  /* Filter out scroll events originating from inside the tour card */
+  function handleScroll(e) {
+    if (!state || !overlay) return;
+    if (e && e.target && card && (e.target === card || card.contains(e.target))) {
+      return; // Do not recalculate spotlight when scrolling inside the tour card
+    }
+    scheduleReposition();
+  }
+
+  function handleResize() {
+    lastRectsSignature = "";
+    scheduleReposition();
   }
 
   function goToStep(index) {
@@ -2694,6 +2762,7 @@
     }
     if (!overlay) createTourUI();
     activeTargets = targets;
+    lastRectsSignature = ""; // Force clean update for new step
     card.setAttribute("aria-labelledby", "tour-title");
     card.setAttribute("aria-describedby", "tour-message");
     card.innerHTML = "";
@@ -2762,9 +2831,9 @@
           firstTarget.getBoundingClientRect().top < 0) {
         firstTarget.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
       }
-      reposition();
+      scheduleReposition();
     } else {
-      reposition();
+      scheduleReposition();
     }
   }
 
@@ -2774,8 +2843,8 @@
     state = { username, step: 0 };
     saveState();
     goToStep(0);
-    window.addEventListener("resize", reposition);
-    window.addEventListener("scroll", reposition, true);
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("scroll", handleScroll, { passive: true, capture: true });
   }
 
   function bindTourTriggers() {
@@ -2795,7 +2864,7 @@
       try {
         if (localStorage.getItem(accountKey(COMPLETED_KEY)) === "true") return;
       } catch (error) {
-        console.error("FINOVA could not check product tour completion.", error);
+        console.error("Money Management could not check product tour completion.", error);
       }
       state = { username, step: 0 };
       saveState();
@@ -2803,8 +2872,8 @@
     window.setTimeout(() => {
       if (!state) return;
       renderStep();
-      window.addEventListener("resize", reposition);
-      window.addEventListener("scroll", reposition, true);
+      window.addEventListener("resize", handleResize);
+      window.addEventListener("scroll", handleScroll, { passive: true, capture: true });
     }, 350);
   }
 
