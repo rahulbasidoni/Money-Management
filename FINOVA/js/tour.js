@@ -216,6 +216,11 @@
   }
 
   function translated(step, key) {
+    if (key === "replay") {
+      return (window.Finova && typeof Finova.translate === "function")
+        ? (Finova.translate("Take a Tour") || Finova.translate("takeTour"))
+        : "Take a Tour";
+    }
     const localized = copyForLanguage();
     if (localized) {
       if (key === "title") return localized.titles[state.step];
@@ -223,7 +228,7 @@
       if (key === "step") return localized.step
         .replace("{current}", String(state.step + 1))
         .replace("{total}", String(STEPS.length));
-      return localized[key];
+      if (localized[key]) return localized[key];
     }
     const source = key === "title" ? step.title : key === "message" ? step.message : ({
       next: "Next",
@@ -233,15 +238,18 @@
       replay: "Take a Tour"
     })[key];
     if (key === "step") return `Step ${state.step + 1} of ${STEPS.length}`;
-    return Finova.translate(source);
+    return (window.Finova && typeof Finova.translate === "function") ? Finova.translate(source) : source;
   }
 
   function updateReplayLabels() {
+    const replayText = (window.Finova && typeof Finova.translate === "function")
+      ? (Finova.translate("Take a Tour") || Finova.translate("takeTour"))
+      : translated(STEPS[0], "replay");
     document.querySelectorAll("[data-start-tour]").forEach((button) => {
       const label = button.querySelector("[data-tour-replay-label]");
-      if (label) label.textContent = translated(STEPS[0], "replay");
-      button.setAttribute("aria-label", translated(STEPS[0], "replay"));
-      button.title = translated(STEPS[0], "replay");
+      if (label) label.textContent = replayText;
+      button.setAttribute("aria-label", replayText);
+      button.title = replayText;
     });
   }
 

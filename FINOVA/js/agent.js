@@ -19,6 +19,69 @@
   let chartCounter = 0;
 
   // --- Language Management ---
+    function getAgentDisplayName() {
+    return (window.Finova && typeof Finova.translate === "function")
+      ? Finova.translate("Agent")
+      : "Agent";
+  }
+
+  function updateAgentUiLanguage() {
+    const agentName = getAgentDisplayName();
+    document.querySelectorAll("[data-agent-display-name]").forEach((el) => {
+      el.textContent = agentName;
+    });
+
+    if (document.body && document.body.dataset && document.body.dataset.page === "agent") {
+      const mm = (window.Finova && typeof Finova.translate === "function") ? Finova.translate("Money Management") : "Money Management";
+      document.title = `${agentName} · ${mm}`;
+    }
+
+    if (userInput) {
+      userInput.placeholder = (window.Finova && typeof Finova.translate === "function")
+        ? Finova.translate("Ask Agent anything about your finances, spending, or savings…")
+        : `Ask ${agentName} anything about your finances, spending, or savings…`;
+      userInput.setAttribute("aria-label", (window.Finova && typeof Finova.translate === "function")
+        ? Finova.translate("Message to Agent")
+        : `Message to ${agentName}`);
+    }
+
+    const sendBtn = document.getElementById("agent-send-btn");
+    if (sendBtn) {
+      sendBtn.setAttribute("aria-label", (window.Finova && typeof Finova.translate === "function")
+        ? Finova.translate("Send message to Agent")
+        : `Send message to ${agentName}`);
+    }
+
+    const typingLabel = document.getElementById("agent-typing-label");
+    if (typingLabel) {
+      typingLabel.textContent = (window.Finova && typeof Finova.translate === "function")
+        ? Finova.translate("Agent is analyzing your records…")
+        : `${agentName} is analyzing your records…`;
+    }
+
+    const chatCard = document.querySelector(".agent-chat-card");
+    if (chatCard) {
+      chatCard.setAttribute("aria-label", (window.Finova && typeof Finova.translate === "function")
+        ? Finova.translate("Agent conversation")
+        : `${agentName} conversation`);
+    }
+
+    const footnote = document.getElementById("agent-footnote-text");
+    if (footnote) {
+      footnote.textContent = (window.Finova && typeof Finova.translate === "function")
+        ? Finova.translate("Agent analyzes records strictly within your local authenticated account. Never shares private financial data.")
+        : `🔒 ${agentName} analyzes records strictly within your local authenticated account. Never shares private financial data.`;
+    }
+
+    const youText = (window.Finova && typeof Finova.translate === "function") ? Finova.translate("You") : "You";
+    document.querySelectorAll(".agent-msg-ai .agent-msg-sender").forEach((el) => {
+      el.textContent = agentName;
+    });
+    document.querySelectorAll(".agent-msg-user .agent-msg-sender").forEach((el) => {
+      el.textContent = youText;
+    });
+  }
+
   function getCurrentLang() {
     return (window.Finova && typeof Finova.getLanguage === "function"
       ? Finova.getLanguage()
@@ -987,7 +1050,7 @@
       ${avatarHtml}
       <div class="agent-msg-body">
         <div class="agent-msg-header">
-          <span class="agent-msg-sender">${isUser ? "You" : "Agent"}</span>
+          <span class="agent-msg-sender">${isUser ? (window.Finova ? Finova.translate("You") : "You") : getAgentDisplayName()}</span>
           <span class="agent-msg-time">${formatTime(msg.timestamp)}</span>
           ${copyBtnHtml}
         </div>
@@ -1207,6 +1270,7 @@
   }
 
   function updateLocalizedUI() {
+    updateAgentUiLanguage();
     const trans = Finova.getTransactions ? Finova.getTransactions() : [];
     if (recordsCountEl) {
       recordsCountEl.textContent = t("connected_badge", { count: trans.length });
@@ -1304,5 +1368,6 @@
     if (Finova.ready) await Finova.ready;
     loadHistory();
     initEvents();
+    updateAgentUiLanguage();
   });
 })();

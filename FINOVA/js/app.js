@@ -1269,14 +1269,438 @@
     }
   };
 
+  const TOUR_AGENT_TRANSLATIONS = {
+  "en": {
+    "Take a Tour": "Take a Tour",
+    "takeTour": "Take a Tour",
+    "Agent": "Agent",
+    "agentName": "Agent",
+    "You": "You",
+    "Agent conversation": "Agent conversation",
+    "Agent is analyzing your records…": "Agent is analyzing your records…",
+    "Ask Agent anything about your finances, spending, or savings…": "Ask Agent anything about your finances, spending, or savings…",
+    "Message to Agent": "Message to Agent",
+    "Send message to Agent": "Send message to Agent",
+    "Clear Agent conversation?": "Clear Agent conversation?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agent analyzes records strictly within your local authenticated account. Never shares private financial data."
+  },
+  "hi": {
+    "Take a Tour": "टूर देखें",
+    "takeTour": "टूर देखें",
+    "Agent": "एजेंट",
+    "agentName": "एजेंट",
+    "You": "आप",
+    "Agent conversation": "एजेंट बातचीत",
+    "Agent is analyzing your records…": "एजेंट आपके रिकॉर्ड का विश्लेषण कर रहा है…",
+    "Ask Agent anything about your finances, spending, or savings…": "एजेंट से अपने वित्त, खर्च या बचत के बारे में कुछ भी पूछें…",
+    "Message to Agent": "एजेंट को संदेश",
+    "Send message to Agent": "एजेंट को संदेश भेजें",
+    "Clear Agent conversation?": "एजेंट की बातचीत साफ़ करें?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "एजेंट आपके रिकॉर्ड का विश्लेषण केवल आपके स्थानीय प्रमाणित खाते के भीतर करता है। कभी भी निजी वित्तीय डेटा साझा नहीं करता है।"
+  },
+  "kn": {
+    "Take a Tour": "ಪ್ರವಾಸ ಮಾಡಿ",
+    "takeTour": "ಪ್ರವಾಸ ಮಾಡಿ",
+    "Agent": "ಏಜೆಂಟ್",
+    "agentName": "ಏಜೆಂಟ್",
+    "You": "ನೀವು",
+    "Agent conversation": "ಏಜೆಂಟ್ ಸಂಭಾಷಣೆ",
+    "Agent is analyzing your records…": "ಏಜೆಂಟ್ ನಿಮ್ಮ ದಾಖಲೆಗಳನ್ನು ವಿಶ್ಲೇಷಿಸುತ್ತಿದೆ…",
+    "Ask Agent anything about your finances, spending, or savings…": "ನಿಮ್ಮ ಹಣಕಾಸು, ಖರ್ಚು ಅಥವಾ ಉಳಿತಾಯದ ಬಗ್ಗೆ ಏಜೆಂಟ್‌ಗೆ ಏನನ್ನಾದರೂ ಕೇಳಿ…",
+    "Message to Agent": "ಏಜೆಂಟ್‌ಗೆ ಸಂದೇಶ",
+    "Send message to Agent": "ಏಜೆಂಟ್‌ಗೆ ಸಂದೇಶ ಕಳುಹಿಸಿ",
+    "Clear Agent conversation?": "ಏಜೆಂಟ್ ಸಂಭಾಷಣೆಯನ್ನು ಅಳಿಸುವುದೇ?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "ಏಜೆಂಟ್ ನಿಮ್ಮ ಸ್ಥಳೀಯ ಖಾತೆಯೊಳಗೆ ದಾಖಲೆಗಳನ್ನು ಕಟ್ಟುನಿಟ್ಟಾಗಿ ವಿಶ್ಲೇಷಿಸುತ್ತದೆ. ಖಾಸಗಿ ಹಣಕಾಸು ಮಾಹಿತಿಯನ್ನು ಎಂದಿಗೂ ಹಂಚಿಕೊಳ್ಳುವುದಿಲ್ಲ."
+  },
+  "te": {
+    "Take a Tour": "టూర్ చూడండి",
+    "takeTour": "టూర్ చూడండి",
+    "Agent": "ఏజెంట్",
+    "agentName": "ఏజెంట్",
+    "You": "మీరు",
+    "Agent conversation": "ఏజెంట్ సంభాషణ",
+    "Agent is analyzing your records…": "ఏజెంట్ మీ రికార్డులను విశ్లేషిస్తోంది…",
+    "Ask Agent anything about your finances, spending, or savings…": "మీ ఆర్థిక విషయాలు, ఖర్చులు లేదా పొదుపుల గురించి ఏజెంట్‌ను ఏదైనా అడగండి…",
+    "Message to Agent": "ఏజెంట్‌కు సందేశం",
+    "Send message to Agent": "ఏజెంట్‌కు సందేశం పంపండి",
+    "Clear Agent conversation?": "ఏజెంట్ సంభాషణను క్లియర్ చేయాలా?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "ఏజెంట్ మీ స్థానిక ప్రామాణీకరించిన ఖాతాలో మాత్రమే రికార్డులను విశ్లేషిస్తుంది. ప్రైవేట్ ఆర్థిక డేటాను ఎప్పుడూ భాగస్వామ్యం చేయదు."
+  },
+  "ta": {
+    "Take a Tour": "சுற்றுப்பயணம் செய்க",
+    "takeTour": "சுற்றுப்பயணம் செய்க",
+    "Agent": "ஏஜென்ட்",
+    "agentName": "ஏஜென்ட்",
+    "You": "நீங்கள்",
+    "Agent conversation": "ஏஜென்ட் உரையாடல்",
+    "Agent is analyzing your records…": "ஏஜென்ட் உங்கள் பதிவுகளை பகுப்பாய்வு செய்கிறது…",
+    "Ask Agent anything about your finances, spending, or savings…": "உங்கள் நிதி, செலவு அல்லது சேமிப்பு பற்றி ஏஜென்ட்டிடம் எதையும் கேளுங்கள்…",
+    "Message to Agent": "ஏஜென்ட்டுக்கு செய்தி",
+    "Send message to Agent": "ஏஜென்ட்டுக்கு செய்தி அனுப்பவும்",
+    "Clear Agent conversation?": "ஏஜென்ட் உரையாடலை அழிக்கவா?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "ஏஜென்ட் உங்கள் உள்ளூர் கணக்கிற்குள் மட்டுமே பதிவுகளை பகுப்பாய்வு செய்கிறது. தனிப்பட்ட நிதித் தரவை ஒருபோதும் பகிராது."
+  },
+  "ml": {
+    "Take a Tour": "ടൂർ കാണുക",
+    "takeTour": "ടൂർ കാണുക",
+    "Agent": "ഏജന്റ്",
+    "agentName": "ഏജന്റ്",
+    "You": "നിങ്ങൾ",
+    "Agent conversation": "ഏജന്റ് സംഭാഷണം",
+    "Agent is analyzing your records…": "ഏജന്റ് നിങ്ങളുടെ റെക്കോർഡുകൾ വിശകലനം ചെയ്യുന്നു…",
+    "Ask Agent anything about your finances, spending, or savings…": "നിങ്ങളുടെ ധനകാര്യം, ചെലവ് അല്ലെങ്കിൽ സമ്പാദ്യം എന്നിവയെക്കുറിച്ച് ഏജന്റ് പക്കൽ എന്തും ചോദിക്കുക…",
+    "Message to Agent": "ഏജന്റ് സന്ദേശം",
+    "Send message to Agent": "ഏജന്റ് സന്ദേശം അയക്കുക",
+    "Clear Agent conversation?": "ഏജന്റ് സംഭാഷണം മായ്‌ക്കണോ?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "ഏജന്റ് നിങ്ങളുടെ പ്രാദേശിക അക്കൗണ്ടിനുള്ളിൽ മാത്രമായി റെക്കോർഡുകൾ വിശകലനം ചെയ്യുന്നു. സ്വകാര്യ സാമ്പത്തിക ഡാറ്റ ഒരിക്കലും പങ്കിടില്ല."
+  },
+  "mr": {
+    "Take a Tour": "टूर पहा",
+    "takeTour": "टूर पहा",
+    "Agent": "एजंट",
+    "agentName": "एजंट",
+    "You": "तुम्ही",
+    "Agent conversation": "एजंट संभाषण",
+    "Agent is analyzing your records…": "एजंट तुमच्या नोंदींचे विश्लेषण करत आहे…",
+    "Ask Agent anything about your finances, spending, or savings…": "एजंटला तुमच्या वित्ताविषयी, खर्चाविषयी किंवा बचतीविषयी काहीही विचारा…",
+    "Message to Agent": "एजंटला संदेश",
+    "Send message to Agent": "एजंटला संदेश पाठवा",
+    "Clear Agent conversation?": "एजंटचे संभाषण साफ करायचे?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "एजंट फक्त तुमच्या स्थानिक खात्यामध्ये नोंदींचे विश्लेषण करतो. खाजगी आर्थिक माहिती कधीही शेअर करत नाही."
+  },
+  "bn": {
+    "Take a Tour": "ট্যুর দেখুন",
+    "takeTour": "ট্যুর দেখুন",
+    "Agent": "এজেন্ট",
+    "agentName": "এজেন্ট",
+    "You": "আপনি",
+    "Agent conversation": "এজেন্ট কথোপকথন",
+    "Agent is analyzing your records…": "এজেন্ট আপনার রেকর্ড বিশ্লেষণ করছে…",
+    "Ask Agent anything about your finances, spending, or savings…": "আপনার অর্থায়ন, খরচ বা সঞ্চয় সম্পর্কে এজেন্টকে যেকোনো কিছু জিজ্ঞাসা করুন…",
+    "Message to Agent": "এজেন্টকে বার্তা",
+    "Send message to Agent": "এজেন্টকে বার্তা পাঠান",
+    "Clear Agent conversation?": "এজেন্ট কথোপকথন পরিষ্কার করবেন?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "এজেন্ট কঠোরভাবে আপনার স্থানীয় অ্যাকাউন্টের মধ্যে রেকর্ড বিশ্লেষণ করে। ব্যক্তিগত আর্থিক ডেটা কখনোই শেয়ার করে না।"
+  },
+  "gu": {
+    "Take a Tour": "ટૂર જુઓ",
+    "takeTour": "ટૂર જુઓ",
+    "Agent": "એજન્ટ",
+    "agentName": "એજન્ટ",
+    "You": "તમે",
+    "Agent conversation": "એજન્ટ વાતચીત",
+    "Agent is analyzing your records…": "એજન્ટ તમારા રેકોર્ડ્સનું વિશ્લેષણ કરી રહ્યું છે…",
+    "Ask Agent anything about your finances, spending, or savings…": "તમારા નાણાં, ખર્ચ અથવા બચત વિશે એજન્ટને કંઈપણ પૂછો…",
+    "Message to Agent": "એજન્ટને સંદેશ",
+    "Send message to Agent": "એજન્ટને સંદેશ મોકલો",
+    "Clear Agent conversation?": "એજન્ટ વાતચીત સાફ કરવી છે?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "એજન્ટ ફક્ત તમારા સ્થાનિક ખાતામાં રેકોર્ડ્સનું વિશ્લેષણ કરે છે. ક્યારેય ખાનગી નાણાકીય ડેટા શેર કરતું નથી."
+  },
+  "pa": {
+    "Take a Tour": "ਟੂਰ ਦੇਖੋ",
+    "takeTour": "ਟੂਰ ਦੇਖੋ",
+    "Agent": "ਏਜੰਟ",
+    "agentName": "ਏਜੰਟ",
+    "You": "ਤੁਸੀਂ",
+    "Agent conversation": "ਏਜੰਟ ਗੱਲਬਾਤ",
+    "Agent is analyzing your records…": "ਏਜੰਟ ਤੁਹਾਡੇ ਰਿਕਾਰਡਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕਰ ਰਿਹਾ ਹੈ…",
+    "Ask Agent anything about your finances, spending, or savings…": "ਏਜੰਟ ਨੂੰ ਆਪਣੇ ਵਿੱਤ, ਖਰਚਿਆਂ ਜਾਂ ਬੱਚਤਾਂ ਬਾਰੇ ਕੁਝ ਵੀ ਪੁੱਛੋ…",
+    "Message to Agent": "ਏਜੰਟ ਨੂੰ ਸੁਨੇਹਾ",
+    "Send message to Agent": "ਏਜੰਟ ਨੂੰ ਸੁਨੇਹਾ ਭੇਜੋ",
+    "Clear Agent conversation?": "ਏਜੰਟ ਗੱਲਬਾਤ ਸਾਫ਼ ਕਰੋ?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "ਏਜੰਟ ਤੁਹਾਡੇ ਰਿਕਾਰਡਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਸਿਰਫ਼ ਤੁਹਾਡੇ ਸਥਾਨਕ ਖਾਤੇ ਦੇ ਅੰਦਰ ਹੀ ਕਰਦਾ ਹੈ। ਨਿੱਜੀ ਵਿੱਤੀ ਡੇਟਾ ਕਦੇ ਸਾਂਝਾ ਨਹੀਂ ਕਰਦਾ।"
+  },
+  "ur": {
+    "Take a Tour": "ٹور دیکھیں",
+    "takeTour": "ٹور دیکھیں",
+    "Agent": "ایجنٹ",
+    "agentName": "ایجنٹ",
+    "You": "آپ",
+    "Agent conversation": "ایجنٹ سے گفتگو",
+    "Agent is analyzing your records…": "ایجنٹ آپ کے ریکارڈز کا تجزیہ کر رہا ہے…",
+    "Ask Agent anything about your finances, spending, or savings…": "اپنے مالیات، اخراجات یا بچت کے بارے میں ایجنٹ سے کچھ بھی پوچھیں…",
+    "Message to Agent": "ایجنٹ کو پیغام",
+    "Send message to Agent": "ایجنٹ کو پیغام بھیجیں",
+    "Clear Agent conversation?": "ایجنٹ کی گفتگو صاف کریں؟",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "ایجنٹ آپ کے ریکارڈ کا تجزیہ سختی سے آپ کے مقامی اکاؤنٹ میں کرتا ہے۔ کبھی بھی نجی مالیاتی ڈیٹا کا اشتراک نہیں کرتا۔"
+  },
+  "ar": {
+    "Take a Tour": "جولة تعريفية",
+    "takeTour": "جولة تعريفية",
+    "Agent": "الوكيل",
+    "agentName": "الوكيل",
+    "You": "أنت",
+    "Agent conversation": "محادثة الوكيل",
+    "Agent is analyzing your records…": "يقوم الوكيل بتحليل سجلاتك…",
+    "Ask Agent anything about your finances, spending, or savings…": "اسأل الوكيل عن أي شيء يخص أموالك أو مصاريفك أو مدخراتك…",
+    "Message to Agent": "رسالة إلى الوكيل",
+    "Send message to Agent": "إرسال رسالة إلى الوكيل",
+    "Clear Agent conversation?": "مسح محادثة الوكيل؟",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "يقوم الوكيل بتحليل السجلات حصريًا داخل حسابك المحلي الموثق ولا يشارك بياناتك المالية الخاصة أبدًا."
+  },
+  "es": {
+    "Take a Tour": "Ver recorrido",
+    "takeTour": "Ver recorrido",
+    "Agent": "Agente",
+    "agentName": "Agente",
+    "You": "Tú",
+    "Agent conversation": "Conversación con Agente",
+    "Agent is analyzing your records…": "Agente está analizando tus registros…",
+    "Ask Agent anything about your finances, spending, or savings…": "Pregúntale a Agente lo que sea sobre tus finanzas, gastos o ahorros…",
+    "Message to Agent": "Mensaje para Agente",
+    "Send message to Agent": "Enviar mensaje a Agente",
+    "Clear Agent conversation?": "¿Borrar conversación con Agente?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agente analiza los registros estrictamente dentro de tu cuenta local autenticada. Nunca comparte datos financieros privados."
+  },
+  "fr": {
+    "Take a Tour": "Faire une visite",
+    "takeTour": "Faire une visite",
+    "Agent": "Agent",
+    "agentName": "Agent",
+    "You": "Vous",
+    "Agent conversation": "Conversation avec Agent",
+    "Agent is analyzing your records…": "Agent analyse vos données…",
+    "Ask Agent anything about your finances, spending, or savings…": "Demandez à Agent tout sur vos finances, dépenses ou épargnes…",
+    "Message to Agent": "Message à Agent",
+    "Send message to Agent": "Envoyer un message à Agent",
+    "Clear Agent conversation?": "Effacer la conversation avec Agent ?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agent analyse vos dossiers strictement dans votre compte local authentifié. Ne partage jamais de données financières privées."
+  },
+  "de": {
+    "Take a Tour": "Tour ansehen",
+    "takeTour": "Tour ansehen",
+    "Agent": "Agent",
+    "agentName": "Agent",
+    "You": "Du",
+    "Agent conversation": "Agent-Gespräch",
+    "Agent is analyzing your records…": "Agent analysiert Ihre Unterlagen…",
+    "Ask Agent anything about your finances, spending, or savings…": "Fragen Sie Agent alles über Ihre Finanzen, Ausgaben oder Ersparnisse…",
+    "Message to Agent": "Nachricht an Agent",
+    "Send message to Agent": "Nachricht an Agent senden",
+    "Clear Agent conversation?": "Agent-Konversation löschen?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agent analysiert Einträge ausschließlich innerhalb Ihres lokalen Kontos. Gibt niemals private Finanzdaten weiter."
+  },
+  "pt": {
+    "Take a Tour": "Fazer tour",
+    "takeTour": "Fazer tour",
+    "Agent": "Agente",
+    "agentName": "Agente",
+    "You": "Você",
+    "Agent conversation": "Conversa com Agente",
+    "Agent is analyzing your records…": "Agente está analisando seus registros…",
+    "Ask Agent anything about your finances, spending, or savings…": "Pergunte ao Agente qualquer coisa sobre suas finanças, gastos ou economias…",
+    "Message to Agent": "Mensagem para Agente",
+    "Send message to Agent": "Enviar mensagem para Agente",
+    "Clear Agent conversation?": "Limpar conversa com o Agente?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "O Agente analisa os registros estritamente na sua conta autenticada local. Nunca compartilha dados financeiros privados."
+  },
+  "it": {
+    "Take a Tour": "Fai un tour",
+    "takeTour": "Fai un tour",
+    "Agent": "Agente",
+    "agentName": "Agente",
+    "You": "Tu",
+    "Agent conversation": "Conversazione con Agente",
+    "Agent is analyzing your records…": "Agente sta analizzando i tuoi dati…",
+    "Ask Agent anything about your finances, spending, or savings…": "Chiedi ad Agente qualsiasi cosa su finanze, spese o risparmi…",
+    "Message to Agent": "Messaggio ad Agente",
+    "Send message to Agent": "Invia messaggio ad Agente",
+    "Clear Agent conversation?": "Cancellare la conversazione con Agente?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agente analizza i record esclusivamente nel tuo account locale autenticato. Non condivide mai dati finanziari privati."
+  },
+  "ru": {
+    "Take a Tour": "Пройти тур",
+    "takeTour": "Пройти тур",
+    "Agent": "Агент",
+    "agentName": "Агент",
+    "You": "Вы",
+    "Agent conversation": "Беседа с Агентом",
+    "Agent is analyzing your records…": "Агент анализирует ваши записи…",
+    "Ask Agent anything about your finances, spending, or savings…": "Спросите у Агента что угодно о ваших финансах, расходах или накоплениях…",
+    "Message to Agent": "Сообщение Агенту",
+    "Send message to Agent": "Отправить сообщение Агенту",
+    "Clear Agent conversation?": "Очистить беседу с Агентом?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Агент анализирует записи исключительно в вашей локальной учетной записи. Никогда не передает личные финансовые данные."
+  },
+  "zh-Hans": {
+    "Take a Tour": "浏览导览",
+    "takeTour": "浏览导览",
+    "Agent": "智能助理",
+    "agentName": "智能助理",
+    "You": "您",
+    "Agent conversation": "智能助理对话",
+    "Agent is analyzing your records…": "智能助理正在分析您的财务记录…",
+    "Ask Agent anything about your finances, spending, or savings…": "向智能助理咨询关于您的财务、支出或储蓄的任何问题…",
+    "Message to Agent": "发送给智能助理",
+    "Send message to Agent": "向智能助理发送消息",
+    "Clear Agent conversation?": "清空智能助理对话？",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "智能助理严格在您的本地验证账户内分析记录，绝不泄露私人财务数据。"
+  },
+  "zh-Hant": {
+    "Take a Tour": "瀏覽導覽",
+    "takeTour": "瀏覽導覽",
+    "Agent": "智慧助理",
+    "agentName": "智慧助理",
+    "You": "您",
+    "Agent conversation": "智慧助理對話",
+    "Agent is analyzing your records…": "智慧助理正在分析您的財務記錄…",
+    "Ask Agent anything about your finances, spending, or savings…": "向智慧助理諮詢關於您的財務、支出或儲蓄的任何問題…",
+    "Message to Agent": "發送給智慧助理",
+    "Send message to Agent": "向智慧助理發送訊息",
+    "Clear Agent conversation?": "清除智慧助理對話？",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "智慧助理嚴格在您的本地認證帳戶內分析記錄，絕不分享私人財務資料。"
+  },
+  "ja": {
+    "Take a Tour": "ツアーを見る",
+    "takeTour": "ツアーを見る",
+    "Agent": "エージェント",
+    "agentName": "エージェント",
+    "You": "あなた",
+    "Agent conversation": "エージェントとの会話",
+    "Agent is analyzing your records…": "エージェントが記録を分析しています…",
+    "Ask Agent anything about your finances, spending, or savings…": "家計、支出、貯蓄についてエージェントになんでも質問してください…",
+    "Message to Agent": "エージェントへのメッセージ",
+    "Send message to Agent": "エージェントにメッセージを送信",
+    "Clear Agent conversation?": "エージェントの会話履歴を消去しますか？",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "エージェントはお使いのアカウント内でのみ記録を分析し、個人財務データを外部に共有することはありません。"
+  },
+  "ko": {
+    "Take a Tour": "투어 시작",
+    "takeTour": "투어 시작",
+    "Agent": "에이전트",
+    "agentName": "에이전트",
+    "You": "사용자",
+    "Agent conversation": "에이전트 대화",
+    "Agent is analyzing your records…": "에이전트가 기록을 분석하는 중입니다…",
+    "Ask Agent anything about your finances, spending, or savings…": "재정, 지출, 저축에 관해 에이전트에게 무엇이든 물어보세요…",
+    "Message to Agent": "에이전트에게 메시지 보내기",
+    "Send message to Agent": "에이전트에게 메시지 전송",
+    "Clear Agent conversation?": "에이전트와의 대화를 지우시겠습니까?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "에이전트는 로컬 인증 계정 내에서만 기록을 엄격하게 분석하며 비공개 금융 데이터를 절대 공유하지 않습니다."
+  },
+  "id": {
+    "Take a Tour": "Ikuti Tur",
+    "takeTour": "Ikuti Tur",
+    "Agent": "Agen",
+    "agentName": "Agen",
+    "You": "Anda",
+    "Agent conversation": "Percakapan Agen",
+    "Agent is analyzing your records…": "Agen sedang menganalisis catatan Anda…",
+    "Ask Agent anything about your finances, spending, or savings…": "Tanyakan apa saja kepada Agen tentang keuangan, pengeluaran, atau tabungan Anda…",
+    "Message to Agent": "Pesan ke Agen",
+    "Send message to Agent": "Kirim pesan ke Agen",
+    "Clear Agent conversation?": "Hapus percakapan Agen?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agen menganalisis catatan hanya dalam akun terautentikasi lokal Anda. Tidak pernah membagikan data keuangan pribadi."
+  },
+  "th": {
+    "Take a Tour": "ชมการแนะนำ",
+    "takeTour": "ชมการแนะนำ",
+    "Agent": "เอเจนต์",
+    "agentName": "เอเจนต์",
+    "You": "คุณ",
+    "Agent conversation": "การสนทนากับเอเจนต์",
+    "Agent is analyzing your records…": "เอเจนต์กำลังวิเคราะห์บันทึกของคุณ…",
+    "Ask Agent anything about your finances, spending, or savings…": "ถามเอเจนต์ได้ทุกเรื่องเกี่ยวกับการเงิน การใช้จ่าย หรือการออมของคุณ…",
+    "Message to Agent": "ข้อความถึงเอเจนต์",
+    "Send message to Agent": "ส่งข้อความถึงเอเจนต์",
+    "Clear Agent conversation?": "ล้างการสนทนากับเอเจนต์หรือไม่?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "เอเจนต์จะวิเคราะห์บันทึกเฉพาะในบัญชีที่ผ่านการตรวจสอบของคุณ และจะไม่แชร์ข้อมูลทางการเงินส่วนบุคคลโดยเด็ดขาด"
+  },
+  "vi": {
+    "Take a Tour": "Xem hướng dẫn",
+    "takeTour": "Xem hướng dẫn",
+    "Agent": "Agent",
+    "agentName": "Agent",
+    "You": "Bạn",
+    "Agent conversation": "Trò chuyện với Agent",
+    "Agent is analyzing your records…": "Agent đang phân tích hồ sơ của bạn…",
+    "Ask Agent anything about your finances, spending, or savings…": "Hỏi Agent bất kỳ điều gì về tài chính, chi tiêu hoặc tiết kiệm của bạn…",
+    "Message to Agent": "Tin nhắn cho Agent",
+    "Send message to Agent": "Gửi tin nhắn cho Agent",
+    "Clear Agent conversation?": "Xóa cuộc trò chuyện với Agent?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agent chỉ phân tích dữ liệu trong tài khoản xác thực cục bộ của bạn. Không bao giờ chia sẻ dữ liệu tài chính riêng tư."
+  },
+  "tr": {
+    "Take a Tour": "Tura Başla",
+    "takeTour": "Tura Başla",
+    "Agent": "Agent",
+    "agentName": "Agent",
+    "You": "Siz",
+    "Agent conversation": "Agent Sohbeti",
+    "Agent is analyzing your records…": "Agent kayıtlarınızı analiz ediyor…",
+    "Ask Agent anything about your finances, spending, or savings…": "Finansmanınız, harcamalarınız veya birikimleriniz hakkında Agent'a dilediğinizi sorun…",
+    "Message to Agent": "Agent'a mesaj",
+    "Send message to Agent": "Agent'a mesaj gönder",
+    "Clear Agent conversation?": "Agent sohbetini temizle?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agent kayıtları yalnızca yerel kimliği doğrulanmış hesabınızda analiz eder. Özel finansal verileri asla paylaşmaz."
+  },
+  "nl": {
+    "Take a Tour": "Rondleiding volgen",
+    "takeTour": "Rondleiding volgen",
+    "Agent": "Agent",
+    "agentName": "Agent",
+    "You": "Jij",
+    "Agent conversation": "Gesprek met Agent",
+    "Agent is analyzing your records…": "Agent analyseert uw gegevens…",
+    "Ask Agent anything about your finances, spending, or savings…": "Vraag Agent alles over uw financiën, uitgaven of besparingen…",
+    "Message to Agent": "Bericht aan Agent",
+    "Send message to Agent": "Bericht naar Agent verzenden",
+    "Clear Agent conversation?": "Gesprek met Agent wissen?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agent analyseert gegevens uitsluitend binnen uw lokale account. Deelt nooit privégegevens."
+  },
+  "pl": {
+    "Take a Tour": "Zobacz przewodnik",
+    "takeTour": "Zobacz przewodnik",
+    "Agent": "Agent",
+    "agentName": "Agent",
+    "You": "Ty",
+    "Agent conversation": "Rozmowa z Agentem",
+    "Agent is analyzing your records…": "Agent analizuje Twoje wpisy…",
+    "Ask Agent anything about your finances, spending, or savings…": "Zapytaj Agenta o cokolwiek dotyczącego finansów, wydatków lub oszczędności…",
+    "Message to Agent": "Wiadomość do Agenta",
+    "Send message to Agent": "Wyślij wiadomość do Agenta",
+    "Clear Agent conversation?": "Wyczyścić rozmowę z Agentem?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Agent analizuje dane wyłącznie w ramach Twojego lokalnego konta. Nigdy nie udostępnia prywatnych danych finansowych."
+  },
+  "sw": {
+    "Take a Tour": "Anza Ziara",
+    "takeTour": "Anza Ziara",
+    "Agent": "Wakala",
+    "agentName": "Wakala",
+    "You": "Wewe",
+    "Agent conversation": "Mazungumzo ya Wakala",
+    "Agent is analyzing your records…": "Wakala anachambua kumbukumbu zako…",
+    "Ask Agent anything about your finances, spending, or savings…": "Muulize Wakala chochote kuhusu fedha zako, matumizi, au akiba…",
+    "Message to Agent": "Ujumbe kwa Wakala",
+    "Send message to Agent": "Tuma ujumbe kwa Wakala",
+    "Clear Agent conversation?": "Futa mazungumzo ya Wakala?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "Wakala anachambua rekodi ndani ya akaunti yako pekee. Hashiriki data yako ya kibinafsi ya kifedha kamwe."
+  },
+  "ne": {
+    "Take a Tour": "टूर हेर्नुहोस्",
+    "takeTour": "टूर हेर्नुहोस्",
+    "Agent": "एजेन्ट",
+    "agentName": "एजेन्ट",
+    "You": "तपाईं",
+    "Agent conversation": "एजेन्ट कुराकानी",
+    "Agent is analyzing your records…": "एजेन्टले तपाईंको रेकर्डहरू विश्लेषण गर्दैछ…",
+    "Ask Agent anything about your finances, spending, or savings…": "एजेन्टलाई आफ्नो वित्त, खर्च वा बचतको बारेमा जे पनि सोध्नुहोस्…",
+    "Message to Agent": "एजेन्टलाई सन्देश",
+    "Send message to Agent": "एजेन्टलाई सन्देश पठाउनुहोस्",
+    "Clear Agent conversation?": "एजेन्ट कुराकानी खाली गर्ने?",
+    "Agent analyzes records strictly within your local authenticated account. Never shares private financial data.": "एजेन्टले रेकर्डहरू तपाईंको स्थानीय खाताभित्र मात्र विश्लेषण गर्दछ। निजी वित्तीय डेटा कहिल्यै साझा गर्दैन।"
+  }
+};
+
   function getDictionary(language) {
     const lang = language || getLanguage();
     const base = lang.split("-")[0];
-    const main = TRANSLATIONS[lang] || TRANSLATIONS[base] || (lang.startsWith("zh-") ? TRANSLATIONS.zh : null) || {};
+    const main = TRANSLATIONS[lang] || TRANSLATIONS[base] || (lang.startsWith("zh") ? (lang === "zh-Hant" ? TRANSLATIONS["zh-Hant"] || TRANSLATIONS.zh : TRANSLATIONS["zh-Hans"] || TRANSLATIONS.zh) : null) || {};
     const extra = EXTRA_TRANSLATIONS[lang] || EXTRA_TRANSLATIONS[base] || (lang.startsWith("zh-") ? EXTRA_TRANSLATIONS.zh : null) || {};
     const auth = AUTH_TRANSLATIONS[lang] || AUTH_TRANSLATIONS[base] || (lang.startsWith("zh-") ? AUTH_TRANSLATIONS.zh : null) || {};
     const greet = GREETING_TRANSLATIONS[lang] || GREETING_TRANSLATIONS[base] || {};
-    return { ...main, ...extra, ...auth, ...greet };
+    const tourAgent = TOUR_AGENT_TRANSLATIONS[lang] || TOUR_AGENT_TRANSLATIONS[base] || (lang.startsWith("zh") ? (lang === "zh-Hant" ? TOUR_AGENT_TRANSLATIONS["zh-Hant"] || TOUR_AGENT_TRANSLATIONS["zh-Hans"] : TOUR_AGENT_TRANSLATIONS["zh-Hans"]) : null) || {};
+    return { ...main, ...extra, ...auth, ...greet, ...tourAgent };
   }
 
   function translate(text) {
@@ -1331,6 +1755,21 @@
       element.dataset.originalAriaLabel = element.dataset.originalAriaLabel || element.getAttribute("aria-label");
       element.setAttribute("aria-label", translate(element.dataset.originalAriaLabel));
     });
+    const tourReplayText = translate("Take a Tour");
+    document.querySelectorAll("[data-tour-replay-label]").forEach((label) => {
+      label.textContent = tourReplayText;
+    });
+    document.querySelectorAll("[data-start-tour]").forEach((btn) => {
+      btn.setAttribute("aria-label", tourReplayText);
+      btn.title = tourReplayText;
+    });
+    const agentDisplayName = translate("Agent");
+    document.querySelectorAll("[data-agent-display-name]").forEach((el) => {
+      el.textContent = agentDisplayName;
+    });
+    if (document.body && document.body.dataset && document.body.dataset.page === "agent") {
+      document.title = `${agentDisplayName} · ${translate("Money Management")}`;
+    }
     updateLanguagePickers();
   }
 
