@@ -1,176 +1,2321 @@
-/* First-run, account-scoped product tour shared by every authenticated Money Management page. */
+/* First-run, account-scoped product tour shared by every authenticated FINOVA page. */
 (function () {
   "use strict";
 
   const STATE_KEY = "finova.tour.active.v1";
   const COMPLETED_KEY = "finova.tour.completed.v1";
   const STEPS = [
-    { title: "Welcome to Money Management!", message: "Welcome to your personal finance dashboard! Let me quickly show you how Money Management helps you manage and understand your money." },
-    { title: "Your financial overview", message: "This is your financial overview. Here you can see your total balance, income, expenses, transaction count and recent activity in one place.", targets: [".dashboard-grid", '[data-nav="overview"]'] },
-    { title: "Compare your finances", message: "Understand your spending habits with charts and reports. Compare your income and expenses, explore monthly spending and see where your money goes.", targets: [".primary-chart-panel", '[data-nav="compare"]'] },
-    { title: "Your transaction history", message: "Here you can view your transaction history. Search, filter, sort, edit or delete your previous transactions whenever you need.", targets: [".transactions-panel", '[data-nav="expenses"]'] },
-    { title: "Add a transaction", message: "Record your income and expenses here. Enter the amount, category, date and other details to keep your financial records updated.", targets: [".form-panel", '[data-nav="add"]'] },
-    { title: "Your wallet balance", message: "Your wallet helps you track your available money. Add money to your wallet, and your balance will automatically update when you record income or expenses.", targets: [".wallet-panel"] },
-    { title: "You're all set!", message: "That's how Money Management works! You are ready to take control of your finances. Make every transaction count.", finish: true }
-  ];
-  const COPY = {
-    hi: {
-      titles: ["Money Management में आपका स्वागत है!", "आपका वित्तीय अवलोकन", "अपने वित्त की तुलना करें", "आपके लेन-देन का इतिहास", "लेन-देन जोड़ें", "आपके वॉलेट का बैलेंस", "आप तैयार हैं!"],
-      messages: [
-        "आपके व्यक्तिगत वित्त डैशबोर्ड में आपका स्वागत है! आइए देखें कि Money Management आपके पैसे को समझने और प्रबंधित करने में कैसे मदद करता है।",
-        "यह आपका वित्तीय अवलोकन है। यहाँ आप अपना कुल बैलेंस, आय, खर्च, लेन-देन की संख्या और हाल की गतिविधि एक जगह देख सकते हैं।",
-        "चार्ट और रिपोर्ट से अपनी खर्च करने की आदतें समझें। आय और खर्च की तुलना करें, मासिक खर्च देखें और जानें कि आपका पैसा कहाँ जाता है।",
-        "यहाँ अपने लेन-देन का इतिहास देखें। ज़रूरत पड़ने पर खोजें, फ़िल्टर करें, क्रमबद्ध करें, संपादित करें या पुराने लेन-देन हटाएँ।",
-        "अपनी आय और खर्च यहाँ दर्ज करें। रिकॉर्ड अपडेट रखने के लिए राशि, श्रेणी, तारीख और अन्य विवरण भरें।",
-        "आपका वॉलेट उपलब्ध पैसे को ट्रैक करने में मदद करता है। पैसे जोड़ें; आय या खर्च दर्ज करने पर बैलेंस अपने आप अपडेट होगा।",
-        "Money Management इसी तरह काम करता है! अब आप अपने वित्त पर नियंत्रण पाने के लिए तैयार हैं। हर लेन-देन को महत्व दें।"
-      ],
-      next: "आगे", back: "पीछे", skip: "टूर छोड़ें", finish: "शुरू करें", step: "चरण {current} / {total}", replay: "टूर देखें"
+    {
+      id: "welcome",
+      title: "Welcome to FINOVA!",
+      message: "Welcome to your personal finance dashboard! Let me quickly show you how FINOVA helps you manage, understand, and grow your money.",
+      targets: []
     },
-    es: {
-      titles: ["¡Te damos la bienvenida a Money Management!", "Tu resumen financiero", "Compara tus finanzas", "Tu historial de transacciones", "Añadir transacción", "El saldo de tu cartera", "¡Todo listo!"],
-      messages: [
-        "¡Te damos la bienvenida a tu panel financiero personal! Descubre cómo Money Management te ayuda a gestionar y entender tu dinero.",
-        "Este es tu resumen financiero. Aquí puedes ver tu saldo total, ingresos, gastos, número de transacciones y actividad reciente.",
-        "Entiende tus hábitos de gasto con gráficos e informes. Compara ingresos y gastos y descubre adónde va tu dinero.",
-        "Consulta tu historial de transacciones. Busca, filtra, ordena, edita o elimina transacciones anteriores cuando lo necesites.",
-        "Registra aquí tus ingresos y gastos. Añade el importe, la categoría, la fecha y otros detalles para mantener tus registros al día.",
-        "Tu cartera te ayuda a controlar el dinero disponible. Añade dinero y el saldo se actualizará al registrar ingresos o gastos.",
-        "¡Así funciona Money Management! Ya puedes tomar el control de tus finanzas. Haz que cada transacción cuente."
-      ],
-      next: "Siguiente", back: "Atrás", skip: "Saltar recorrido", finish: "Empezar", step: "Paso {current} de {total}", replay: "Ver recorrido"
+    {
+      id: "overview",
+      title: "Your financial overview",
+      message: "This is your financial overview. Here you can see your total balance, income, expenses, transaction count, and recent activity in one place.",
+      targets: [".dashboard-grid", '[data-nav="overview"]']
     },
-    fr: {
-      titles: ["Bienvenue sur Money Management !", "Votre aperçu financier", "Comparez vos finances", "Votre historique des transactions", "Ajouter une transaction", "Le solde de votre portefeuille", "Vous êtes prêt !"],
-      messages: [
-        "Bienvenue sur votre tableau de bord financier personnel ! Découvrez comment Money Management vous aide à gérer et comprendre votre argent.",
-        "Voici votre aperçu financier. Consultez ici votre solde total, vos revenus, vos dépenses, le nombre de transactions et l’activité récente.",
-        "Comprenez vos habitudes grâce aux graphiques et rapports. Comparez revenus et dépenses et découvrez où va votre argent.",
-        "Consultez l’historique de vos transactions. Recherchez, filtrez, triez, modifiez ou supprimez vos anciennes transactions.",
-        "Enregistrez vos revenus et dépenses ici. Saisissez le montant, la catégorie, la date et les détails utiles.",
-        "Votre portefeuille suit votre argent disponible. Ajoutez de l’argent ; le solde évoluera avec vos revenus et dépenses.",
-        "Voilà comment fonctionne Money Management ! Vous êtes prêt à reprendre le contrôle de vos finances. Chaque transaction compte."
-      ],
-      next: "Suivant", back: "Retour", skip: "Ignorer la visite", finish: "Commencer", step: "Étape {current} sur {total}", replay: "Visiter Money Management"
+    {
+      id: "add",
+      title: "Add a transaction",
+      message: "Record your income and expenses here. Enter the amount, category, date, and other details to keep your financial records accurate and updated.",
+      targets: [".form-panel", '[data-nav="add"]']
     },
-    de: {
-      titles: ["Willkommen bei Money Management!", "Dein Finanzüberblick", "Vergleiche deine Finanzen", "Dein Transaktionsverlauf", "Transaktion hinzufügen", "Dein Wallet-Guthaben", "Alles bereit!"],
-      messages: [
-        "Willkommen in deinem persönlichen Finanz-Dashboard! Entdecke, wie Money Management dir hilft, dein Geld zu verwalten und besser zu verstehen.",
-        "Hier ist dein Finanzüberblick. Sieh dir Gesamtsaldo, Einnahmen, Ausgaben, Transaktionsanzahl und aktuelle Aktivitäten an.",
-        "Verstehe dein Ausgabeverhalten mit Diagrammen und Berichten. Vergleiche Einnahmen und Ausgaben und sieh, wohin dein Geld fließt.",
-        "Hier findest du deinen Transaktionsverlauf. Suche, filtere, sortiere, bearbeite oder lösche frühere Transaktionen.",
-        "Erfasse hier deine Einnahmen und Ausgaben. Gib Betrag, Kategorie, Datum und weitere Details ein.",
-        "Dein Wallet zeigt dein verfügbares Geld. Füge Geld hinzu; dein Saldo wird mit erfassten Einnahmen und Ausgaben aktualisiert.",
-        "So funktioniert Money Management! Du kannst jetzt deine Finanzen selbst in die Hand nehmen. Jede Transaktion zählt."
-      ],
-      next: "Weiter", back: "Zurück", skip: "Tour überspringen", finish: "Los geht's", step: "Schritt {current} von {total}", replay: "Tour ansehen"
+    {
+      id: "transactions",
+      title: "Your transaction history",
+      message: "Here you can view your transaction history. Search, filter, sort, edit, or delete previous transactions whenever you need.",
+      targets: [".transactions-panel", '[data-nav="expenses"]']
     },
-    kn: {
-      titles: ["Money Managementಗೆ ಸುಸ್ವಾಗತ!", "ನಿಮ್ಮ ಹಣಕಾಸಿನ ಅವಲೋಕನ", "ನಿಮ್ಮ ಹಣಕಾಸನ್ನು ಹೋಲಿಸಿ", "ನಿಮ್ಮ ವಹಿವಾಟಿನ ಇತಿಹಾಸ", "ವಹಿವಾಟು ಸೇರಿಸಿ", "ನಿಮ್ಮ ವಾಲೆಟ್ ಬ್ಯಾಲೆನ್ಸ್", "ಎಲ್ಲವೂ ಸಿದ್ಧವಾಗಿದೆ!"],
-      messages: [
-        "ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಸುಸ್ವಾಗತ! ನಿಮ್ಮ ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಮತ್ತು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು Money Management ಹೇಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ ನೋಡಿ.",
-        "ಇದು ನಿಮ್ಮ ಹಣಕಾಸಿನ ಅವಲೋಕನ. ಇಲ್ಲಿ ಒಟ್ಟು ಬ್ಯಾಲೆನ್ಸ್, ಆದಾಯ, ವೆಚ್ಚ, ವಹಿವಾಟುಗಳ ಸಂಖ್ಯೆ ಮತ್ತು ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆಯನ್ನು ನೋಡಿ.",
-        "ಚಾರ್ಟ್‌ಗಳು ಮತ್ತು ವರದಿಗಳ ಮೂಲಕ ನಿಮ್ಮ ಖರ್ಚಿನ ಅಭ್ಯಾಸವನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ. ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಹೋಲಿಸಿ, ನಿಮ್ಮ ಹಣ ಎಲ್ಲಿಗೆ ಹೋಗುತ್ತದೆ ನೋಡಿ.",
-        "ಇಲ್ಲಿ ನಿಮ್ಮ ವಹಿವಾಟಿನ ಇತಿಹಾಸವನ್ನು ನೋಡಿ. ಅಗತ್ಯವಿದ್ದಾಗ ಹಿಂದಿನ ವಹಿವಾಟುಗಳನ್ನು ಹುಡುಕಿ, ಫಿಲ್ಟರ್ ಮಾಡಿ, ವಿಂಗಡಿಸಿ, ಸಂಪಾದಿಸಿ ಅಥವಾ ಅಳಿಸಿ.",
-        "ನಿಮ್ಮ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಇಲ್ಲಿ ದಾಖಲಿಸಿ. ಮೊತ್ತ, ವರ್ಗ, ದಿನಾಂಕ ಮತ್ತು ಇತರ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ.",
-        "ನಿಮ್ಮ ವಾಲೆಟ್ ಲಭ್ಯವಿರುವ ಹಣವನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡುತ್ತದೆ. ಹಣ ಸೇರಿಸಿ; ಆದಾಯ ಅಥವಾ ವೆಚ್ಚ ದಾಖಲಿಸಿದಾಗ ಬ್ಯಾಲೆನ್ಸ್ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸುತ್ತದೆ.",
-        "Money Management ಹೀಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ! ನಿಮ್ಮ ಹಣಕಾಸಿನ ನಿಯಂತ್ರಣಕ್ಕೆ ನೀವು ಸಿದ್ಧ. ಪ್ರತಿಯೊಂದು ವಹಿವಾಟಿಗೂ ಮಹತ್ವ ನೀಡಿ."
-      ],
-      next: "ಮುಂದೆ", back: "ಹಿಂದೆ", skip: "ಪರಿಚಯ ಬಿಟ್ಟುಬಿಡಿ", finish: "ಪ್ರಾರಂಭಿಸಿ", step: "ಹಂತ {current} / {total}", replay: "ಪರಿಚಯ ನೋಡಿ"
+    {
+      id: "compare",
+      title: "Compare your finances",
+      message: "Understand your spending habits with charts and reports. Compare income and expenses, explore monthly trends, and see where your money goes.",
+      targets: [".primary-chart-panel", '[data-nav="compare"]']
     },
-    te: {
-      titles: ["Money Managementకి స్వాగతం!", "మీ ఆర్థిక అవలోకనం", "మీ ఆర్థికాలను పోల్చండి", "మీ లావాదేవీల చరిత్ర", "లావాదేవీని జోడించండి", "మీ వాలెట్ బ్యాలెన్స్", "అంతా సిద్ధం!"],
-      messages: [
-        "మీ వ్యక్తిగత ఆర్థిక డాష్‌బోర్డ్‌కు స్వాగతం! మీ డబ్బును నిర్వహించడానికి, అర్థం చేసుకోవడానికి Money Management ఎలా సహాయపడుతుందో చూద్దాం.",
-        "ఇది మీ ఆర్థిక అవలోకనం. మొత్తం బ్యాలెన్స్, ఆదాయం, ఖర్చులు, లావాదేవీల సంఖ్య, ఇటీవలి కార్యకలాపాలను ఇక్కడ చూడండి.",
-        "చార్ట్‌లు, నివేదికలతో మీ ఖర్చు అలవాట్లను అర్థం చేసుకోండి. ఆదాయం, ఖర్చులను పోల్చి మీ డబ్బు ఎక్కడికి వెళ్తుందో తెలుసుకోండి.",
-        "మీ లావాదేవీల చరిత్రను ఇక్కడ చూడండి. అవసరమైనప్పుడు పాత లావాదేవీలను వెతకండి, ఫిల్టర్ చేయండి, క్రమబద్ధీకరించండి, సవరించండి లేదా తొలగించండి.",
-        "మీ ఆదాయం, ఖర్చులను ఇక్కడ నమోదు చేయండి. మొత్తం, వర్గం, తేదీ, ఇతర వివరాలను నమోదు చేయండి.",
-        "మీ వాలెట్ అందుబాటులో ఉన్న డబ్బును ట్రాక్ చేస్తుంది. డబ్బు జోడించండి; ఆదాయం లేదా ఖర్చులను నమోదు చేసినప్పుడు బ్యాలెన్స్ స్వయంచాలకంగా మారుతుంది.",
-        "Money Management ఇలా పనిచేస్తుంది! మీ ఆర్థికాలపై నియంత్రణ సాధించడానికి మీరు సిద్ధంగా ఉన్నారు. ప్రతి లావాదేవీని విలువైనదిగా చేయండి."
-      ],
-      next: "తదుపరి", back: "వెనుకకు", skip: "టూర్‌ను దాటవేయండి", finish: "ప్రారంభించండి", step: "దశ {current} / {total}", replay: "టూర్ చూడండి"
+    {
+      id: "agent",
+      title: "Meet Your Personal Finance Agent",
+      message: "Agent is your personal financial assistant. It analyzes your income, spending, and savings from your records to answer questions and provide personalized financial suggestions.",
+      targets: ['[data-nav="agent"]', '.agent-chat-card', '.agent-main-title'],
+      type: "agent"
     },
-    pt: {
-      titles: ["Boas-vindas ao Money Management!", "Sua visão financeira", "Compare suas finanças", "Seu histórico de transações", "Adicionar transação", "Saldo da sua carteira", "Tudo pronto!"],
-      messages: [
-        "Boas-vindas ao seu painel financeiro pessoal! Veja como o Money Management ajuda você a administrar e entender seu dinheiro.",
-        "Esta é sua visão financeira. Veja seu saldo total, receitas, despesas, número de transações e atividades recentes.",
-        "Entenda seus hábitos com gráficos e relatórios. Compare receitas e despesas e descubra para onde seu dinheiro vai.",
-        "Consulte seu histórico de transações. Pesquise, filtre, ordene, edite ou exclua transações anteriores quando precisar.",
-        "Registre suas receitas e despesas aqui. Informe o valor, a categoria, a data e outros detalhes para manter seus registros atualizados.",
-        "Sua carteira ajuda a acompanhar o dinheiro disponível. Adicione dinheiro; o saldo muda ao registrar receitas ou despesas.",
-        "É assim que o Money Management funciona! Você está pronto para cuidar das suas finanças. Faça cada transação valer."
-      ],
-      next: "Avançar", back: "Voltar", skip: "Pular visita", finish: "Começar", step: "Etapa {current} de {total}", replay: "Fazer tour"
+    {
+      id: "currency",
+      title: "Manage Your Currency Easily",
+      message: "FINOVA supports over 160 world currencies. Click the currency selector in the top bar to choose your display currency or search instantly by name, code, or symbol.",
+      targets: ['[data-currency-trigger]', '[data-currency-picker]', '.currency-control'],
+      type: "currency"
     },
-    it: {
-      titles: ["Benvenuto in Money Management!", "La tua panoramica finanziaria", "Confronta le tue finanze", "La cronologia delle transazioni", "Aggiungi una transazione", "Il saldo del tuo portafoglio", "È tutto pronto!"],
-      messages: [
-        "Benvenuto nella tua dashboard finanziaria personale! Scopri come Money Management ti aiuta a gestire e comprendere il tuo denaro.",
-        "Questa è la tua panoramica finanziaria. Qui trovi saldo totale, entrate, uscite, numero di transazioni e attività recenti.",
-        "Comprendi le tue abitudini con grafici e report. Confronta entrate e uscite e scopri dove va il tuo denaro.",
-        "Qui trovi la cronologia delle transazioni. Cerca, filtra, ordina, modifica o elimina le transazioni passate.",
-        "Registra qui entrate e uscite. Inserisci importo, categoria, data e altri dettagli per tenere aggiornati i tuoi dati.",
-        "Il portafoglio tiene traccia del denaro disponibile. Aggiungi denaro; il saldo si aggiorna con entrate e uscite registrate.",
-        "Ecco come funziona Money Management! Ora puoi gestire al meglio le tue finanze. Ogni transazione conta."
-      ],
-      next: "Avanti", back: "Indietro", skip: "Salta il tour", finish: "Inizia", step: "Passaggio {current} di {total}", replay: "Fai un tour"
+    {
+      id: "wallet",
+      title: "Your wallet balance",
+      message: "Your wallet helps you track available money. Add money to your wallet, and your balance will automatically update when you record income or expenses.",
+      targets: [".wallet-panel", ".dashboard-grid", '[data-nav="overview"]']
     },
-    ru: {
-      titles: ["Добро пожаловать в Money Management!", "Обзор ваших финансов", "Сравнение финансов", "История операций", "Добавление операции", "Баланс кошелька", "Всё готово!"],
-      messages: [
-        "Добро пожаловать в личную финансовую панель! Узнайте, как Money Management помогает управлять деньгами и лучше их понимать.",
-        "Это обзор ваших финансов. Здесь доступны общий баланс, доходы, расходы, число операций и недавняя активность.",
-        "Изучайте привычки с помощью графиков и отчётов. Сравнивайте доходы и расходы и смотрите, куда уходят деньги.",
-        "Здесь находится история операций. Ищите, фильтруйте, сортируйте, редактируйте или удаляйте прошлые операции.",
-        "Записывайте здесь доходы и расходы. Укажите сумму, категорию, дату и другие сведения.",
-        "Кошелёк помогает отслеживать доступные деньги. Пополните его; баланс обновляется при учёте доходов и расходов.",
-        "Теперь вы знаете, как работает Money Management! Пора взять финансы под контроль. Каждая операция имеет значение."
-      ],
-      next: "Далее", back: "Назад", skip: "Пропустить тур", finish: "Начать", step: "Шаг {current} из {total}", replay: "Показать тур"
-    },
-    ja: {
-      titles: ["Money Managementへようこそ！", "あなたの財務概要", "財務を比較", "取引履歴", "取引を追加", "ウォレット残高", "準備完了です！"],
-      messages: [
-        "個人向け財務ダッシュボードへようこそ。Money Managementでお金を管理し、状況を把握する方法をご紹介します。",
-        "ここでは合計残高、収入、支出、取引数、最近のアクティビティをまとめて確認できます。",
-        "グラフやレポートで支出の傾向を把握できます。収入と支出を比較し、お金の使い道を確認しましょう。",
-        "ここで取引履歴を確認できます。必要に応じて検索、絞り込み、並べ替え、編集、削除ができます。",
-        "ここで収入と支出を記録します。金額、カテゴリ、日付などを入力して記録を更新しましょう。",
-        "ウォレットで利用可能なお金を管理できます。入金すると、収入や支出の記録に合わせて残高が更新されます。",
-        "Money Managementの使い方は以上です。これから安心して資産を管理できます。ひとつひとつの取引を大切に。"
-      ],
-      next: "次へ", back: "戻る", skip: "ツアーをスキップ", finish: "使ってみる", step: "{total}ステップ中 {current} ステップ", replay: "ツアーを見る"
-    },
-    zh: {
-      titles: ["欢迎使用 Money Management！", "财务概览", "比较财务状况", "交易记录", "添加交易", "钱包余额", "一切就绪！"],
-      messages: [
-        "欢迎来到您的个人财务仪表板！快速了解 Money Management 如何帮助您管理和了解自己的资金。",
-        "这里是您的财务概览。您可以在此查看总余额、收入、支出、交易数量和近期活动。",
-        "通过图表和报告了解消费习惯。比较收入与支出，查看每月消费并了解资金去向。",
-        "在此查看交易记录。您可以随时搜索、筛选、排序、编辑或删除以往的交易。",
-        "在此记录收入和支出。填写金额、类别、日期等信息，保持财务记录完整。",
-        "钱包可帮助您追踪可用资金。添加资金后，记录收入或支出时余额会自动更新。",
-        "Money Management 的使用方法就是这些！现在您可以开始管理自己的财务，让每笔交易都更有意义。"
-      ],
-      next: "下一步", back: "上一步", skip: "跳过导览", finish: "开始使用", step: "第 {current} 步，共 {total} 步", replay: "查看导览"
-    },
-    ar: {
-      titles: ["مرحبًا بك في Money Management!", "نظرة عامة على أموالك", "قارن أموالك", "سجل معاملاتك", "إضافة معاملة", "رصيد محفظتك", "أنت جاهز!"],
-      messages: [
-        "مرحبًا بك في لوحة معلوماتك المالية الشخصية! تعرّف بسرعة على كيفية مساعدة Money Management لك في إدارة أموالك وفهمها.",
-        "هذه نظرة عامة على أموالك. يمكنك هنا رؤية الرصيد الإجمالي والدخل والنفقات وعدد المعاملات والنشاط الأخير.",
-        "افهم عادات الإنفاق من خلال الرسوم والتقارير. قارن الدخل والنفقات واكتشف أين تذهب أموالك.",
-        "يمكنك هنا مراجعة سجل معاملاتك والبحث فيها وتصفيتها وترتيبها وتعديلها أو حذفها.",
-        "سجّل دخلك ونفقاتك هنا. أدخل المبلغ والفئة والتاريخ والتفاصيل الأخرى لتحديث سجلاتك.",
-        "تساعدك المحفظة على تتبع الأموال المتاحة. أضف المال وسيُحدّث الرصيد عند تسجيل الدخل أو النفقات.",
-        "هكذا يعمل Money Management! أنت مستعد الآن للتحكم في أموالك. اجعل لكل معاملة قيمة."
-      ],
-      next: "التالي", back: "السابق", skip: "تخطي الجولة", finish: "ابدأ الاستكشاف", step: "الخطوة {current} من {total}", replay: "ابدأ الجولة"
+    {
+      id: "finish",
+      title: "You're all set!",
+      message: "That's how FINOVA works! You are ready to take control of your finances. Make every transaction count.",
+      finish: true,
+      targets: []
     }
-  };
+  ];
+
+  const COPY = {
+  "en": {
+    "titles": [
+      "Welcome to FINOVA!",
+      "Your financial overview",
+      "Add a transaction",
+      "Your transaction history",
+      "Compare your finances",
+      "Meet Your Personal Finance Agent",
+      "Manage Your Currency Easily",
+      "Your wallet balance",
+      "You're all set!"
+    ],
+    "messages": [
+      "Welcome to your personal finance dashboard! Let me quickly show you how FINOVA helps you manage, understand, and grow your money.",
+      "This is your financial overview. Here you can see your total balance, income, expenses, transaction count, and recent activity in one place.",
+      "Record your income and expenses here. Enter the amount, category, date, and other details to keep your financial records accurate and updated.",
+      "Here you can view your transaction history. Search, filter, sort, edit, or delete previous transactions whenever you need.",
+      "Understand your spending habits with charts and reports. Compare income and expenses, explore monthly trends, and see where your money goes.",
+      "Agent is your personal financial assistant. It analyzes your income, spending, and savings from your records to answer questions and provide personalized financial suggestions.",
+      "FINOVA supports over 160 world currencies. Click the currency selector in the top bar to choose your display currency or search instantly by name, code, or symbol.",
+      "Your wallet helps you track available money. Add money to your wallet, and your balance will automatically update when you record income or expenses.",
+      "That's how FINOVA works! You are ready to take control of your finances. Make every transaction count."
+    ],
+    "eyebrows": [
+      "FINOVA · YOUR MONEY, IN FOCUS",
+      "DASHBOARD OVERVIEW",
+      "RECORD FINANCES",
+      "TRANSACTION LEDGER",
+      "FINANCIAL ANALYTICS",
+      "AI-POWERED FINANCIAL ASSISTANT",
+      "GLOBAL CURRENCY SUPPORT",
+      "PERSONAL WALLET",
+      "READY TO EXPLORE"
+    ],
+    "agent": {
+      "badge": "Agent",
+      "status": "Active & Ready",
+      "heading": "Try asking questions like:",
+      "queries": [
+        "Where does most of my money go?",
+        "How much did I spend this month?",
+        "How can I save more money?",
+        "Compare my income and expenses.",
+        "Which category has the highest spending?"
+      ],
+      "note": "Type questions naturally. Agent follows your website language and strictly respects your local data privacy.",
+      "action": "Open Agent"
+    },
+    "currency": {
+      "searchPlaceholder": "Search \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Search & select from 160+ currencies:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupee (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dollar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Amounts update automatically across all pages. Verified exchange rates are used for currency comparisons.",
+      "action": "Try Currency Selector"
+    },
+    "next": "Next",
+    "back": "Back",
+    "skip": "Skip Tour",
+    "finish": "Start Exploring",
+    "step": "Step {current} of {total}",
+    "replay": "Take a Tour"
+  },
+  "hi": {
+    "titles": [
+      "FINOVA में आपका स्वागत है!",
+      "आपका वित्तीय अवलोकन",
+      "लेन-देन जोड़ें",
+      "आपके लेन-देन का इतिहास",
+      "अपने वित्त की तुलना करें",
+      "अपने व्यक्तिगत वित्त एजेंट से मिलें",
+      "अपनी मुद्रा आसानी से प्रबंधित करें",
+      "आपके वॉलेट का बैलेंस",
+      "आप तैयार हैं!"
+    ],
+    "messages": [
+      "आपके व्यक्तिगत वित्त डैशबोर्ड में आपका स्वागत है! आइए देखें कि FINOVA आपके पैसे को प्रबंधित करने और समझने में कैसे मदद करता है।",
+      "यह आपका वित्तीय अवलोकन है। यहाँ आप अपना कुल बैलेंस, आय, खर्च, लेन-देन की संख्या और हाल की गतिविधि एक जगह देख सकते हैं।",
+      "अपनी आय और खर्च यहाँ दर्ज करें। रिकॉर्ड अपडेट रखने के लिए राशि, श्रेणी, तारीख और विवरण भरें।",
+      "यहाँ अपने लेन-देन का इतिहास देखें। ज़रूरत पड़ने पर खोजें, फ़िल्टर करें, क्रमबद्ध करें, संपादित करें या हटाएं।",
+      "चार्ट और रिपोर्ट से अपनी खर्च करने की आदतें समझें। आय और खर्च की तुलना करें और जानें कि आपका पैसा कहाँ जाता है।",
+      "एजेंट आपका व्यक्तिगत वित्तीय सहायक है। यह आपके रिकॉर्ड से आय, खर्च और बचत का विश्लेषण करके सवालों के जवाब और उपयोगी सुझाव देता है।",
+      "FINOVA 160 से अधिक मुद्राओं का समर्थन करता है। अपनी पसंदीदा मुद्रा चुनने या नाम, कोड या प्रतीक द्वारा तुरंत खोजने के लिए शीर्ष बार पर क्लिक करें।",
+      "आपका वॉलेट उपलब्ध पैसे को ट्रैक करने में मदद करता है। पैसे जोड़ें; आय या खर्च दर्ज करने पर बैलेंस अपने आप अपडेट होगा।",
+      "FINOVA इसी तरह काम करता है! अब आप अपने वित्त पर नियंत्रण पाने के लिए तैयार हैं। हर लेन-देन को महत्व दें।"
+    ],
+    "eyebrows": [
+      "FINOVA · आपका पैसा, केंद्र में",
+      "डैशबोर्ड अवलोकन",
+      "वित्त रिकॉर्ड करें",
+      "लेन-देन बहीखाता",
+      "वित्तीय विश्लेषण",
+      "एआई-संचालित वित्तीय सहायक",
+      "वैश्विक मुद्रा समर्थन",
+      "व्यक्तिगत वॉलेट",
+      "शुरू करने के लिए तैयार"
+    ],
+    "agent": {
+      "badge": "एजेंट",
+      "status": "सक्रिय और तैयार",
+      "heading": "इस तरह के सवाल पूछें:",
+      "queries": [
+        "मेरा अधिकांश पैसा कहाँ जाता है?",
+        "मैंने इस महीने कितना खर्च किया?",
+        "मैं अधिक पैसे कैसे बचा सकता हूँ?",
+        "मेरी आय और खर्च की तुलना करें।",
+        "किस श्रेणी में सबसे अधिक खर्च होता है?"
+      ],
+      "note": "स्वाभाविक भाषा में सवाल पूछें। एजेंट वेबसाइट भाषा का पालन करता है और आपकी गोपनीयता का पूरा ध्यान रखता है।",
+      "action": "एजेंट खोलें"
+    },
+    "currency": {
+      "searchPlaceholder": "खोजें \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "160+ मुद्राओं में खोजें और चुनें:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "रुपया (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "डॉलर (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "दीनार (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "राशि सभी पृष्ठों पर स्वचालित रूप से अपडेट होती है। तुलना के लिए सत्यापित विनिमय दरों का उपयोग किया जाता है।",
+      "action": "मुद्रा चयनकर्ता आज़माएँ"
+    },
+    "next": "आगे",
+    "back": "पीछे",
+    "skip": "टूर छोड़ें",
+    "finish": "शुरू करें",
+    "step": "चरण {current} / {total}",
+    "replay": "टूर देखें"
+  },
+  "kn": {
+    "titles": [
+      "FINOVA ಗೆ ಸುಸ್ವಾಗತ!",
+      "ನಿಮ್ಮ ಹಣಕಾಸಿನ ಅವಲೋಕನ",
+      "ವಹಿವಾಟು ಸೇರಿಸಿ",
+      "ನಿಮ್ಮ ವಹಿವಾಟಿನ ಇತಿಹಾಸ",
+      "ನಿಮ್ಮ ಹಣಕಾಸನ್ನು ಹೋಲಿಸಿ",
+      "ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಏಜೆಂಟ್ ಅನ್ನು ಭೇಟಿ ಮಾಡಿ",
+      "ನಿಮ್ಮ ಕರೆನ್ಸಿಯನ್ನು ಸುಲಭವಾಗಿ ನಿರ್ವಹಿಸಿ",
+      "ನಿಮ್ಮ ವಾಲೆಟ್ ಬ್ಯಾಲೆನ್ಸ್",
+      "ಎಲ್ಲವೂ ಸಿದ್ಧವಾಗಿದೆ!"
+    ],
+    "messages": [
+      "ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಸುಸ್ವಾಗತ! FINOVA ನಿಮ್ಮ ಹಣವನ್ನು ನಿರ್ವಹಿಸಲು ಮತ್ತು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಹೇಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ ನೋಡಿ.",
+      "ಇದು ನಿಮ್ಮ ಹಣಕಾಸಿನ ಅವಲೋಕನ. ಇಲ್ಲಿ ಒಟ್ಟು ಬ್ಯಾಲೆನ್ಸ್, ಆದಾಯ, ವೆಚ್ಚ, ವಹಿವಾಟುಗಳ ಸಂಖ್ಯೆ ಮತ್ತು ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆಯನ್ನು ನೋಡಿ.",
+      "ನಿಮ್ಮ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಇಲ್ಲಿ ದಾಖಲಿಸಿ. ಮೊತ್ತ, ವರ್ಗ, ದಿನಾಂಕ ಮತ್ತು ಇತರ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ.",
+      "ಇಲ್ಲಿ ನಿಮ್ಮ ವಹಿವಾಟಿನ ಇತಿಹಾಸವನ್ನು ನೋಡಿ. ಅಗತ್ಯವಿದ್ದಾಗ ಹಿಂದಿನ ವಹಿವಾಟುಗಳನ್ನು ಹುಡುಕಿ, ಫಿಲ್ಟರ್ ಮಾಡಿ, ಸಂಪಾದಿಸಿ ಅಥವಾ ಅಳಿಸಿ.",
+      "ಚಾರ್ಟ್‌ಗಳು ಮತ್ತು ವರದಿಗಳ ಮೂಲಕ ನಿಮ್ಮ ಖರ್ಚಿನ ಅಭ್ಯಾಸವನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಿ. ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಹೋಲಿಸಿ.",
+      "ಏಜೆಂಟ್ ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ಸಹಾಯಕ. ನಿಮ್ಮ ದಾಖಲೆಗಳಿಂದ ಆದಾಯ, ವೆಚ್ಚ ಮತ್ತು ಉಳಿತಾಯವನ್ನು ವಿಶ್ಲೇಷಿಸಿ ಸಲಹೆಗಳನ್ನು ನೀಡುತ್ತದೆ.",
+      "FINOVA 160 ಕ್ಕೂ ಹೆಚ್ಚು ಜಾಗತಿಕ ಕರೆನ್ಸಿಗಳನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ. ನಿಮ್ಮ ಕರೆನ್ಸಿಯನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಅಥವಾ ಹುಡುಕಲು ಮೇಲಿನ ಬಾರ್ ಕ್ಲಿಕ್ ಮಾಡಿ.",
+      "ನಿಮ್ಮ ವಾಲೆಟ್ ಲಭ್ಯವಿರುವ ಹಣವನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡುತ್ತದೆ. ಹಣ ಸೇರಿಸಿ; ಆದಾಯ ಅಥವಾ ವೆಚ್ಚ ದಾಖಲಿಸಿದಾಗ ಬ್ಯಾಲೆನ್ಸ್ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸುತ್ತದೆ.",
+      "FINOVA ಹೀಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ! ನಿಮ್ಮ ಹಣಕಾಸಿನ ನಿಯಂತ್ರಣಕ್ಕೆ ನೀವು ಸಿದ್ಧ. ಪ್ರತಿಯೊಂದು ವಹಿವಾಟಿಗೂ ಮಹತ್ವ ನೀಡಿ."
+    ],
+    "eyebrows": [
+      "FINOVA · ನಿಮ್ಮ ಹಣ, ಗಮನದಲ್ಲಿ",
+      "ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಅವಲೋಕನ",
+      "ಹಣಕಾಸು ದಾಖಲಿಸಿ",
+      "ವಹಿವಾಟು ಲೆಡ್ಜರ್",
+      "ಹಣಕಾಸು ವಿಶ್ಲೇಷಣೆ",
+      "ಎಐ-ಚಾಲಿತ ಹಣಕಾಸು ಸಹಾಯಕ",
+      "ಜಾಗತಿಕ ಕರೆನ್ಸಿ ಬೆಂಬಲ",
+      "ವೈಯಕ್ತಿಕ ವಾಲೆಟ್",
+      "ಅನ್ವೇಷಿಸಲು ಸಿದ್ಧ"
+    ],
+    "agent": {
+      "badge": "ಏಜೆಂಟ್",
+      "status": "ಸಕ್ರಿಯ ಮತ್ತು ಸಿದ್ಧ",
+      "heading": "ಈ ರೀತಿಯ ಪ್ರಶ್ನೆಗಳನ್ನು ಕೇಳಿ ನೋಡಿ:",
+      "queries": [
+        "ನನ್ನ ಹೆಚ್ಚಿನ ಹಣ ಎಲ್ಲಿಗೆ ಹೋಗುತ್ತದೆ?",
+        "ಈ ತಿಂಗಳು ನಾನು ಎಷ್ಟು ಖರ್ಚು ಮಾಡಿದೆ?",
+        "ನಾನು ಹೆಚ್ಚು ಹಣವನ್ನು ಹೇಗೆ ಉಳಿಸಬಹುದು?",
+        "ನನ್ನ ಆದಾಯ ಮತ್ತು ವೆಚ್ಚಗಳನ್ನು ಹೋಲಿಸಿ.",
+        "ಯಾವ ವರ್ಗದಲ್ಲಿ ಗರಿಷ್ಠ ಖರ್ಚಾಗಿದೆ?"
+      ],
+      "note": "ಸಹಜ ಭಾಷೆಯಲ್ಲಿ ಪ್ರಶ್ನಿಸಿ. ಏಜೆಂಟ್ ವೆಬ್‌ಸೈಟ್ ಭಾಷೆಯನ್ನು ಅನುಸರಿಸುತ್ತದೆ ಮತ್ತು ಡೇಟಾ ಗೌಪ್ಯತೆಯನ್ನು ಕಾಪಾಡುತ್ತದೆ.",
+      "action": "ಏಜೆಂಟ್ ತೆರೆಯಿರಿ"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" ಹುಡುಕಿ…",
+      "heading": "160+ ಕರೆನ್ಸಿಗಳಲ್ಲಿ ಹುಡುಕಿ ಮತ್ತು ಆಯ್ಕೆಮಾಡಿ:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "ರೂಪಾಯಿ (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ಡಾಲರ್ (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "ದಿನಾರ್ (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "ಎಲ್ಲಾ ಪುಟಗಳಲ್ಲಿ ಮೊತ್ತಗಳು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸಲ್ಪಡುತ್ತವೆ. ಹೋಲಿಕೆಗಾಗಿ ಪರಿಶೀಲಿಸಿದ ದರಗಳನ್ನು ಬಳಸಲಾಗುತ್ತದೆ.",
+      "action": "ಕರೆನ್ಸಿ ಆಯ್ಕೆಮಾಡಿ"
+    },
+    "next": "ಮುಂದೆ",
+    "back": "ಹಿಂದೆ",
+    "skip": "ಪರಿಚಯ ಬಿಟ್ಟುಬಿಡಿ",
+    "finish": "ಪ್ರಾರಂಭಿಸಿ",
+    "step": "ಹಂತ {current} / {total}",
+    "replay": "ಪರಿಚಯ ನೋಡಿ"
+  },
+  "te": {
+    "titles": [
+      "FINOVA కి స్వాగతం!",
+      "మీ ఆర్థిక అవలోకనం",
+      "లావాదేవీని జోడించండి",
+      "మీ లావాదేవీల చరిత్ర",
+      "మీ ఆర్థికాలను పోల్చండి",
+      "మీ వ్యక్తిగత ఫైనాన్స్ ఏజెంట్‌ను కలవండి",
+      "మీ కరెన్సీని సులభంగా నిర్వహించండి",
+      "మీ వాలెట్ బ్యాలెన్స్",
+      "అంతా సిద్ధం!"
+    ],
+    "messages": [
+      "మీ వ్యక్తిగత ఆర్థిక డాష్‌బోర్డ్‌కు స్వాగతం! FINOVA మీ డబ్బును నిర్వహించడానికి మరియు అర్థం చేసుకోవడానికి ఎలా సహాయపడుతుందో చూడండి.",
+      "ఇది మీ ఆర్థిక అవలోకనం. ఇక్కడ మొత్తం బ్యాలెన్స్, ఆదాయం, ఖర్చులు, లావాదేవీల సంఖ్యను ఒకే చోట చూడండి.",
+      "మీ ఆదాయం, ఖర్చులను ఇక్కడ నమోదు చేయండి. రికార్డులను అప్‌డేట్‌గా ఉంచడానికి వివరాలను నమోదు చేయండి.",
+      "మీ లావాదేవీల చరిత్రను ఇక్కడ చూడండి. అవసరమైనప్పుడు పాత లావాదేవీలను వెతకండి, సవరించండి లేదా తొలగించండి.",
+      "చార్ట్‌లతో మీ ఖర్చు అలవాట్లను అర్థం చేసుకోండి. ఆదాయం, ఖర్చులను పోల్చి మీ డబ్బు ఎక్కడికి వెళ్తుందో తెలుసుకోండి.",
+      "ఏజెంట్ మీ వ్యక్తిగత ఆర్థిక సహాయకుడు. ఇది మీ రికార్డుల నుండి ఆదాయం, వ్యయాలను విశ్లేషించి ఉపయోగకరమైన సలహాలు ఇస్తుంది.",
+      "FINOVA 160 కి పైగా ప్రపంచ కరెన్సీలకు మద్దతు ఇస్తుంది. మీకు కావలసిన కరెన్సీని ఎంచుకోవడానికి ఎగువ బార్‌ను ఉపయోగించండి.",
+      "మీ వాలెట్ అందుబాటులో ఉన్న డబ్బును ట్రాక్ చేస్తుంది. డబ్బు జోడించండి; లావాదేవీలతో బ్యాలెన్స్ స్వయంచాలకంగా మారుతుంది.",
+      "FINOVA ఇలా పనిచేస్తుంది! మీ ఆర్థికాలపై పూర్తి నియంత్రణ సాధించడానికి మీరు సిద్ధంగా ఉన్నారు."
+    ],
+    "eyebrows": [
+      "FINOVA · మీ డబ్బు, దృష్టిలో",
+      "డాష్‌బోర్డ్ అవలోకనం",
+      "ఆర్థిక రికార్డులు",
+      "లావాదేవీల లెడ్జర్",
+      "ఆర్థిక విశ్లేషణ",
+      "ఏఐ-శక్తితో పనిచేసే ఆర్థిక సహాయకుడు",
+      "గ్లోబల్ కరెన్సీ మద్దతు",
+      "వ్యక్తిగత వాలెట్",
+      "ప్రారంభించడానికి సిద్ధం"
+    ],
+    "agent": {
+      "badge": "ఏజెంట్",
+      "status": "యాక్టివ్ & సిద్ధంగా ఉంది",
+      "heading": "ఈ విధంగా ప్రశ్నలు అడగండి:",
+      "queries": [
+        "నా డబ్బులో ఎక్కువ భాగం ఎక్కడికి వెళుతోంది?",
+        "ఈ నెలలో నేను ఎంత ఖర్చు చేశాను?",
+        "నేను మరింత డబ్బును ఎలా ఆదా చేయగలను?",
+        "నా ఆదాయం మరియు ఖర్చులను పోల్చండి.",
+        "ఏ వర్గంలో అత్యధిక ఖర్చు ఉంది?"
+      ],
+      "note": "సహజమైన భాషలో అడగండి. ఏజెంట్ వెబ్‌సైట్ భాషను అనుసరిస్తుంది మరియు డేటా భద్రతను కాపాడుతుంది.",
+      "action": "ఏజెంట్‌ని తెరవండి"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" శోధించండి…",
+      "heading": "160+ కరెన్సీలలో శోధించి ఎంచుకోండి:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "రూపాయి (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "డాలర్ (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "దీనార్ (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "మొత్తాలు అన్ని పేజీలలో స్వయంచాలకంగా అప్‌డేట్ అవుతాయి. పోలికల కోసం ధృవీకరించిన మార్పిడి రేట్లు ఉపయోగించబడతాయి.",
+      "action": "కరెన్సీ ఎంపికను ప్రయత్నించండి"
+    },
+    "next": "తదుపరి",
+    "back": "వెనుకకు",
+    "skip": "టూర్‌ను దాటవేయండి",
+    "finish": "ప్రారంభించండి",
+    "step": "దశ {current} / {total}",
+    "replay": "టూర్ చూడండి"
+  },
+  "ta": {
+    "titles": [
+      "FINOVA-விற்கு வரவேற்கிறோம்!",
+      "உங்கள் நிதி கண்ணோட்டம்",
+      "பரிவர்த்தனை சேர்க்கவும்",
+      "பரிவர்த்தனை வரலாறு",
+      "உங்கள் நிதியை ஒப்பிடுக",
+      "உங்கள் தனிப்பட்ட நிதி ஏஜென்ட்டை சந்தியுங்கள்",
+      "உங்கள் நாணயத்தை எளிதாக நிர்வகிக்கவும்",
+      "உங்கள் பணப்பை இருப்பு",
+      "அனைத்தும் தயார்!"
+    ],
+    "messages": [
+      "உங்கள் தனிப்பட்ட நிதி டாஷ்போர்டிற்கு வரவேற்கிறோம்! FINOVA உங்கள் பணத்தை நிர்வகிக்க எவ்வாறு உதவுகிறது என்பதைப் பாருங்கள்.",
+      "இது உங்கள் நிதி கண்ணோட்டம். மொத்த இருப்பு, வருமானம், செலவுகள் மற்றும் சமீபத்திய செயல்பாடுகளை இங்கே காண்க.",
+      "உங்கள் வருமானம் மற்றும் செலவுகளை இங்கே பதிவு செய்யுங்கள். விவரங்களை உள்ளிட்டு பதிவுகளை புதுப்பித்த நிலையில் வைத்திருங்கள்.",
+      "உங்கள் பரிவர்த்தனை வரலாற்றை இங்கே காண்க. தேவையான போது தேடலாம், வடிகட்டலாம் அல்லது திருத்தலாம்.",
+      "விளக்கப்படங்கள் மூலம் உங்கள் செலவுப் பழக்கங்களைப் புரிந்து கொள்ளுங்கள். வருமானம் மற்றும் செலவை ஒப்பிட்டுப் பாருங்கள்.",
+      "ஏஜென்ட் உங்கள் தனிப்பட்ட நிதி உதவியாளர். இது உங்கள் பதிவுகளை பகுப்பாய்வு செய்து சிறந்த நிதி பரிந்துரைகளை வழங்குகிறது.",
+      "FINOVA 160 க்கும் மேற்பட்ட உலக நாணயங்களை ஆதரிக்கிறது. நாணயத்தைத் தேர்ந்தெடுக்க அல்லது தேட மேல் பட்டியைப் பயன்படுத்தவும்.",
+      "உங்கள் பணப்பை இருப்பு கிடைக்கும் பணத்தைக் கண்காணிக்கிறது. பணத்தைச் சேர்க்கவும்; பரிவர்த்தனைகளுடன் இருப்பு தானாக மாறும்.",
+      "FINOVA இப்படித்தான் செயல்படுகிறது! உங்கள் நிதியைக் கட்டுப்படுத்த நீங்கள் தயாராக உள்ளீர்கள்."
+    ],
+    "eyebrows": [
+      "FINOVA · உங்கள் பணம், கவனத்தில்",
+      "டாஷ்போர்டு கண்ணோட்டம்",
+      "நிதிப் பதிவு",
+      "பரிவர்த்தனை லெட்ஜர்",
+      "நிதி பகுப்பாய்வு",
+      "ஏஐ-இயங்கும் நிதி உதவியாளர்",
+      "உலகளாவிய நாணய ஆதரவு",
+      "தனிப்பட்ட பணப்பை",
+      "தொடங்க தயார்"
+    ],
+    "agent": {
+      "badge": "ஏஜென்ட்",
+      "status": "செயலில் & தயார்",
+      "heading": "இதுபோன்ற கேள்விகளைக் கேளுங்கள்:",
+      "queries": [
+        "என் பணம் எங்கு அதிகம் செலவாகிறது?",
+        "இந்த மாதம் நான் எவ்வளவு செலவு செய்தேன்?",
+        "நான் எப்படி அதிக பணத்தை சேமிப்பது?",
+        "என் வருமானத்தையும் செலவையும் ஒப்பிடுக.",
+        "எந்த பிரிவில் அதிக செலவு உள்ளது?"
+      ],
+      "note": "இயற்கையான மொழியில் கேளுங்கள். ஏஜென்ட் தளத்தின் மொழியைப் பின்பற்றி உங்கள் தரவை பாதுகாப்பாக வைத்திருக்கும்.",
+      "action": "ஏஜென்ட்டைத் திறக்கவும்"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" எனத் தேடுங்கள்…",
+      "heading": "160+ நாணயங்களில் தேடி தேர்ந்தெடுக்கவும்:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "ரூபாய் (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "டாலர் (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "தினார் (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "தொகைகள் அனைத்து பக்கங்களிலும் தானாகவே புதுப்பிக்கப்படும். ஒப்பீட்டிற்கு சரிபார்க்கப்பட்ட மாற்று விகிதங்கள் பயன்படுத்தப்படுகின்றன.",
+      "action": "நாணய தேர்வியைப் பயன்படுத்தவும்"
+    },
+    "next": "அடுத்து",
+    "back": "பின்னால்",
+    "skip": "சுற்றுப்பயணத்தைத் தவிர்",
+    "finish": "தொடங்கவும்",
+    "step": "படி {current} / {total}",
+    "replay": "சுற்றுப்பயணம் செய்க"
+  },
+  "ml": {
+    "titles": [
+      "FINOVA-ലേക്ക് സ്വാഗതം!",
+      "നിങ്ങളുടെ സാമ്പത്തിക അവലോകനം",
+      "ഇടപാട് ചേർക്കുക",
+      "നിങ്ങളുടെ ഇടപാട് ചരിത്രം",
+      "ധനകാര്യങ്ങൾ താരതമ്യം ചെയ്യുക",
+      "നിങ്ങളുടെ വ്യക്തിഗത ഫിനാൻസ് ഏജന്റിനെ പരിചയപ്പെടൂ",
+      "കറൻസി എളുപ്പത്തിൽ കൈകാര്യം ചെയ്യുക",
+      "നിങ്ങളുടെ വാലറ്റ് ബാലൻസ്",
+      "എല്ലാം സജ്ജമായി!"
+    ],
+    "messages": [
+      "നിങ്ങളുടെ പേഴ്സണൽ ഫിനാൻസ് ഡാഷ്‌ബോർഡിലേക്ക് സ്വാഗതം! FINOVA നിങ്ങളുടെ പണം കൈകാര്യം ചെയ്യാൻ എങ്ങനെ സഹായിക്കുന്നുവെന്ന് കാണുക.",
+      "ഇത് നിങ്ങളുടെ സാമ്പത്തിക അവലോകനമാണ്. ആകെ ബാലൻസ്, വരുമാനം, ചെലവ് എന്നിവ ഇവിടെ കാണാം.",
+      "നിങ്ങളുടെ വരുമാനവും ചെലവും ഇവിടെ രേഖപ്പെടുത്തുക. കൃത്യമായ റെക്കോർഡുകൾക്കായി വിശദാംശങ്ങൾ നൽകുക.",
+      "ഇവിടെ നിങ്ങളുടെ ഇടപാട് ചരിത്രം പരിശോധിക്കാം. പഴയ ഇടപാടുകൾ തിരയാനും തിരുത്താനും സാധിക്കും.",
+      "ചാർട്ടുകളിലൂടെ നിങ്ങളുടെ ചെലവഴിക്കൽ രീതികൾ മനസ്സിലാക്കുക. വരുമാനവും ചെലവും താരതമ്യം ചെയ്യുക.",
+      "ഏജന്റ് നിങ്ങളുടെ വ്യക്തിഗത സാമ്പത്തിക സഹായിയാണ്. നിങ്ങളുടെ രേഖകൾ പരിശോധിച്ച് ചോദ്യങ്ങൾക്ക് ഉത്തരങ്ങളും ശുപാർശകളും നൽകുന്നു.",
+      "FINOVA 160 ലധികം ആഗോള കറൻസികളെ പിന്തുണയ്ക്കുന്നു. മാറ്റാൻ മുകളിലെ കറൻസി സെലക്ടർ ഉപയോഗിക്കുക.",
+      "നിങ്ങളുടെ വാലറ്റ് ലഭ്യമായ പണം ട്രാക്ക് ചെയ്യുന്നു. പണം ചേർക്കുക; ഇടപാടുകൾ നടത്തുമ്പോൾ ബാലൻസ് മാറും.",
+      "FINOVA ഇങ്ങനെയാണ് പ്രവർത്തിക്കുന്നത്! നിങ്ങളുടെ ധനകാര്യം നിയന്ത്രിക്കാൻ നിങ്ങൾ തയ്യാറാണ്."
+    ],
+    "eyebrows": [
+      "FINOVA · നിങ്ങളുടെ പണം, പൂർണ്ണ ശ്രദ്ധയിൽ",
+      "ഡാഷ്‌ബോർഡ് അവലോകനം",
+      "ധനകാര്യ റെക്കോർഡ്",
+      "ഇടപാട് ലെഡ്ജർ",
+      "സാമ്പത്തിക വിശകലനം",
+      "എഐ സാമ്പത്തിക സഹായി",
+      "ആഗോള കറൻസി പിന്തുണ",
+      "വ്യക്തിഗത വാലറ്റ്",
+      "തുടങ്ങാൻ തയ്യാറാണ്"
+    ],
+    "agent": {
+      "badge": "ഏജന്റ്",
+      "status": "സജീവമാണ്",
+      "heading": "ഇത്തരം ചോദ്യങ്ങൾ ചോദിക്കുക:",
+      "queries": [
+        "എന്റെ പണം കൂടുതലും എങ്ങോട്ടാണ് പോകുന്നത്?",
+        "ഈ മാസം ഞാൻ എത്ര ചെലവഴിച്ചു?",
+        "എനിക്ക് എങ്ങനെ കൂടുതൽ പണം ലാഭിക്കാം?",
+        "എന്റെ വരുമാനവും ചെലവും താരതമ്യം ചെയ്യുക.",
+        "ഏത് വിഭാഗത്തിലാണ് ഏറ്റവും കൂടുതൽ ചെലവ്?"
+      ],
+      "note": "ലളിതമായ ഭാഷയിൽ ചോദിക്കൂ. ഏജന്റ് തിരഞ്ഞെടുത്ത ഭാഷയിൽ പ്രതികരിക്കുകയും സ്വകാര്യത പാലിക്കുകയും ചെയ്യുന്നു.",
+      "action": "ഏജന്റ് തുറക്കുക"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" തിരയുക…",
+      "heading": "160+ കറൻസികളിൽ തിരഞ്ഞ് തിരഞ്ഞെടുക്കുക:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "രൂപ (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ഡോളർ (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "ദിനാർ (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "തുകകൾ എല്ലാ പേജുകളിലും സ്വയമേവ മാറുന്നു. താരതമ്യങ്ങൾക്കായി പരിശോധിച്ച വിനിമയ നിരക്കുകൾ ഉപയോഗിക്കുന്നു.",
+      "action": "കറൻസി തിരഞ്ഞെടുക്കുക"
+    },
+    "next": "അടുത്തത്",
+    "back": "പിന്നോട്ട്",
+    "skip": "ടൂർ ഒഴിവാക്കുക",
+    "finish": "ആരംഭിക്കുക",
+    "step": "ഘട്ടം {current} / {total}",
+    "replay": "ടൂർ കാണുക"
+  },
+  "mr": {
+    "titles": [
+      "FINOVA मध्ये आपले स्वागत आहे!",
+      "तुमचे आर्थिक अवलोकन",
+      "व्यवहार जोडा",
+      "तुमचा व्यवहार इतिहास",
+      "तुमच्या वित्ताची तुलना करा",
+      "तुमच्या वैयक्तिक वित्त एजंटला भेटा",
+      "तुमचे चलन सहजपणे व्यवस्थापित करा",
+      "तुमची वॉलेट शिल्लक",
+      "सर्व काही तयार आहे!"
+    ],
+    "messages": [
+      "तुमच्या वैयक्तिक वित्त डॅशबोर्डवर स्वागत आहे! FINOVA तुमचे पैसे व्यवस्थापित करण्यात कशी मदत करते ते पहा.",
+      "हे तुमचे आर्थिक अवलोकन आहे. येथे तुमची एकूण शिल्लक, उत्पन्न, खर्च आणि अलीकडील क्रियाकलाप पहा.",
+      "तुमचे उत्पन्न आणि खर्च येथे नोंदवा. अचूक नोंदी ठेवण्यासाठी तपशील प्रविष्ट करा.",
+      "येथे तुमचा व्यवहार इतिहास तपासा. आवश्यकतेनुसार जुने व्यवहार शोधा, क्रमवारी लावा किंवा संपादित करा.",
+      "तक्त्यांच्या मदतीने तुमच्या खर्चाच्या सवयी समजून घ्या. उत्पन्न आणि खर्चाची तुलना करा.",
+      "एजंट हा तुमचा वैयक्तिक आर्थिक सहाय्यक आहे. तो तुमच्या नोंदींचे विश्लेषण करून उत्तरे आणि सल्ले देतो.",
+      "FINOVA 160 पेक्षा जास्त जागतिक चलनांना समर्थन देते. चलन निवडण्यासाठी शीर्ष बार वापरा.",
+      "तुमचे वॉलेट उपलब्ध पैसे ट्रॅक करण्यास मदत करते. पैसे जोडा; व्यवहारानुसार शिल्लक आपोआप बदलते.",
+      "FINOVA अशा प्रकारे कार्य करते! आता तुम्ही तुमच्या वित्तावर नियंत्रण ठेवण्यास सज्ज आहात."
+    ],
+    "eyebrows": [
+      "FINOVA · तुमचे पैसे, केंद्रस्थानी",
+      "डॅशबोर्ड अवलोकन",
+      "वित्त नोंदवा",
+      "व्यवहार नोंदवही",
+      "आर्थिक विश्लेषण",
+      "एआय-शक्तीवर चालणारा वित्त सहाय्यक",
+      "जागतिक चलन समर्थन",
+      "वैयक्तिक वॉलेट",
+      "सुरू करण्यास तयार"
+    ],
+    "agent": {
+      "badge": "एजंट",
+      "status": "सक्रिय आणि तयार",
+      "heading": "अशा प्रकारचे प्रश्न विचारा:",
+      "queries": [
+        "माझे बहुतेक पैसे कुठे खर्च होतात?",
+        "मी या महिन्यात किती खर्च केला?",
+        "मी अधिक पैसे कसे वाचवू शकतो?",
+        "माझ्या उत्पन्नाची आणि खर्चाची तुलना करा.",
+        "कोणत्या श्रेणीत सर्वाधिक खर्च झाला आहे?"
+      ],
+      "note": "सोप्या भाषेत विचारा. एजंट वेबसाइटच्या भाषेचे पालन करतो आणि तुमच्या डेटाची गोपनीयता राखतो.",
+      "action": "एजंट उघडा"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" शोधा…",
+      "heading": "160+ चलनांमध्ये शोधा आणि निवडा:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "रुपया (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "डॉलर (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "दिनार (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "रक्कम सर्व पृष्ठांवर स्वयंचलितपणे अद्यतनित होते. तुलनेसाठी सत्यापित विनिमय दर वापरले जातात.",
+      "action": "चलन निवडक वापरा"
+    },
+    "next": "पुढे",
+    "back": "मागे",
+    "skip": "टूर वगळा",
+    "finish": "सुरू करा",
+    "step": "टप्पा {current} / {total}",
+    "replay": "टूर पहा"
+  },
+  "bn": {
+    "titles": [
+      "FINOVA-তে স্বাগতম!",
+      "আপনার আর্থিক সারসংক্ষেপ",
+      "লেনদেন যুক্ত করুন",
+      "লেনদেনের ইতিহাস",
+      "আর্থিক তুলনা করুন",
+      "আপনার ব্যক্তিগত আর্থিক এজেন্টের সাথে পরিচিত হন",
+      "সহজেই মুদ্রা পরিচালনা করুন",
+      "ওয়ালেট ব্যালেন্স",
+      "সব প্রস্তুত!"
+    ],
+    "messages": [
+      "আপনার ব্যক্তিগত আর্থিক ড্যাশবোর্ডে স্বাগতম! FINOVA কীভাবে আপনার অর্থ পরিচালনা করতে সাহায্য করে তা দেখুন।",
+      "এটি আপনার আর্থিক সারসংক্ষেপ। এখানে মোট ব্যালেন্স, আয়, ব্যয় এবং সাম্প্রতিক কার্যকলাপ দেখতে পাবেন।",
+      "আপনার আয় ও ব্যয় এখানে লিপিবদ্ধ করুন। রেকর্ড হালনাগাদ রাখতে বিবরণ পূরণ করুন।",
+      "এখানে আপনার লেনদেনের ইতিহাস দেখুন। প্রয়োজনে লেনদেন অনুসন্ধান, ফিল্টার বা সম্পাদনা করুন।",
+      "চার্ট ও প্রতিবেদনের মাধ্যমে ব্যয়ের অভ্যাস বুঝুন। আয় ও ব্যয়ের তুলনা করুন।",
+      "এজেন্ট আপনার ব্যক্তিগত আর্থিক সহায়ক। এটি আপনার রেকর্ড বিশ্লেষণ করে প্রশ্নের উত্তর ও পরামর্শ দেয়।",
+      "FINOVA ১৬০টিরও বেশি বিশ্ব মুদ্রা সমর্থন করে। আপনার মুদ্রা বেছে নিতে ওপরের বার ব্যবহার করুন।",
+      "আপনার ওয়ালেট উপলব্ধ অর্থ ট্র্যাক করে। অর্থ যোগ করুন; লেনদেনের সাথে ব্যালেন্স স্বয়ংক্রিয়ভাবে আপডেট হবে।",
+      "এভাবেই FINOVA কাজ করে! আপনি এখন আপনার আর্থিক নিয়ন্ত্রণ নিতে পুরোপুরি প্রস্তুত।"
+    ],
+    "eyebrows": [
+      "FINOVA · আপনার অর্থ, নজরে",
+      "ড্যাশবোর্ড পর্যবেক্ষণ",
+      "অর্থ লিপিবদ্ধকরণ",
+      "লেনদেন লেজার",
+      "আর্থিক বিশ্লেষণ",
+      "এআই আর্থিক সহায়ক",
+      "বৈশ্বিক মুদ্রা সহায়তা",
+      "ব্যক্তিগত ওয়ালেট",
+      "শুরু করতে প্রস্তুত"
+    ],
+    "agent": {
+      "badge": "এজেন্ট",
+      "status": "সক্রিয় ও প্রস্তুত",
+      "heading": "এই ধরণের প্রশ্ন জিজ্ঞাসা করুন:",
+      "queries": [
+        "আমার বেশিরভাগ টাকা কোথায় খরচ হয়?",
+        "এই মাসে আমি কত খরচ করেছি?",
+        "আমি কীভাবে আরও টাকা বাঁচাতে পারি?",
+        "আমার আয় ও ব্যয়ের তুলনা করুন।",
+        "কোন বিভাগে সবচেয়ে বেশি খরচ হয়েছে?"
+      ],
+      "note": "সহজ ভাষায় প্রশ্ন করুন। এজেন্ট নির্বাচিত ভাষা অনুসরণ করে এবং ডেটার গোপনীয়তা রক্ষা করে।",
+      "action": "এজেন্ট খুলুন"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" অনুসন্ধান করুন…",
+      "heading": "১৬০+ মুদ্রা থেকে অনুসন্ধান করে বেছে নিন:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "রুপি (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ডলার (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "দিনার (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "সব পাতায় পরিমাণ স্বয়ংক্রিয়ভাবে পরিবর্তিত হয়। তুলনার জন্য যাচাইকৃত বিনিময় হার ব্যবহৃত হয়।",
+      "action": "মুদ্রা নির্বাচক ব্যবহার করুন"
+    },
+    "next": "পরবর্তী",
+    "back": "পূর্ববর্তী",
+    "skip": "ট্যুর এড়িয়ে যান",
+    "finish": "শুরু করুন",
+    "step": "ধাপ {current} / {total}",
+    "replay": "ট্যুর দেখুন"
+  },
+  "gu": {
+    "titles": [
+      "FINOVA માં આપનું સ્વાગત છે!",
+      "તમારી નાણાકીય ઝાંખી",
+      "વ્યવહાર ઉમેરો",
+      "વ્યવહાર ઇતિહાસ",
+      "તમારા નાણાંની સરખામણી કરો",
+      "તમારા વ્યક્તિગત નાણાકીય એજન્ટને મળો",
+      "તમારું ચલણ સરળતાથી સંચાલિત કરો",
+      "વૉલેટ સિલક",
+      "બધું તૈયાર છે!"
+    ],
+    "messages": [
+      "તમારા વ્યક્તિગત ફાઇનાન્સ ડેશબોર્ડમાં સ્વાગત છે! FINOVA તમારા પૈસાનું સંચાલન કરવામાં કેવી રીતે મદદ કરે છે તે જુઓ.",
+      "આ તમારી નાણાકીય ઝાંખી છે. અહીં તમારું કુલ બેલેન્સ, આવક, ખર્ચ અને તાજેતરની પ્રવૃત્તિ જુઓ.",
+      "તમારી આવક અને ખર્ચ અહીં નોંધો. સચોટ રેકોર્ડ રાખવા માટે વિગતો દાખલ કરો.",
+      "અહીં તમારો વ્યવહાર ઇતિહાસ તપાસો. જૂના વ્યવહારો શોધો, સૉર્ટ કરો અથવા સંપાદિત કરો.",
+      "ચાર્ટ અને અહેવાલો દ્વારા તમારી ખર્ચની ટેવો સમજો. આવક અને ખર્ચની સરખામણી કરો.",
+      "એજન્ટ તમારો અંગત નાણાકીય સહાયક છે. તે તમારા રેકોર્ડ્સનું વિશ્લેષણ કરીને ઉપયોગી સૂચનો આપે છે.",
+      "FINOVA 160 થી વધુ વૈશ્વિક ચલણોને સપોર્ટ કરે છે. ચલણ પસંદ કરવા માટે ટોચની પટ્ટી પર ક્લિક કરો.",
+      "તમારું વૉલેટ ઉપલબ્ધ રકમ ટ્રૅક કરે છે. નાણાં ઉમેરો; વ્યવહાર મુજબ બેલેન્સ આપમેળે અપડેટ થશે.",
+      "આ રીતે FINOVA કાર્ય કરે છે! હવે તમે તમારા નાણાં પર નિયંત્રણ મેળવવા માટે તૈયાર છો."
+    ],
+    "eyebrows": [
+      "FINOVA · તમારા નાણાં, કેન્દ્રમાં",
+      "ડેશબોર્ડ ઝાંખી",
+      "નાણાં નોંધણી",
+      "વ્યવહાર ખાતાવહી",
+      "નાણાકીય વિશ્લેષણ",
+      "એઆઈ-સંચાલિત નાણાકીય સહાયક",
+      "વૈશ્વિક ચલણ સપોર્ટ",
+      "વ્યક્તિગત વૉલેટ",
+      "શરૂ કરવા માટે તૈયાર"
+    ],
+    "agent": {
+      "badge": "એજન્ટ",
+      "status": "સક્રિય અને તૈયાર",
+      "heading": "આવા પ્રશ્નો પૂછી જુઓ:",
+      "queries": [
+        "મારા મોટાભાગના પૈસા ક્યાં વપરાય છે?",
+        "મેં આ મહિને કેટલો ખર્ચ કર્યો?",
+        "હું વધુ પૈસા કેવી રીતે બચાવી શકું?",
+        "મારી આવક અને ખર્ચની સરખામણી કરો.",
+        "કઈ કેટેગરીમાં સૌથી વધુ ખર્ચ થયો છે?"
+      ],
+      "note": "સામાન્ય ભાષામાં પ્રશ્ન પૂછો. એજન્ટ વેબસાઇટની ભાષાને અનુસરે છે અને ડેટા ગોપનીયતા જાળવે છે.",
+      "action": "એજન્ટ ખોલો"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" શોધો…",
+      "heading": "160+ ચલણોમાં શોધો અને પસંદ કરો:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "રૂપિયો (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ડૉલર (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "દીનાર (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "રકમ બધા પૃષ્ઠો પર આપમેળે અપડેટ થાય છે. સરખામણી માટે ચકાસાયેલ વિનિમય દરો વપરાય છે.",
+      "action": "ચલણ પસંદગીકાર વાપરો"
+    },
+    "next": "આગળ",
+    "back": "પાછળ",
+    "skip": "ટૂર છોડો",
+    "finish": "શરૂ કરો",
+    "step": "પગલું {current} / {total}",
+    "replay": "ટૂર જુઓ"
+  },
+  "pa": {
+    "titles": [
+      "FINOVA ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ!",
+      "ਤੁਹਾਡਾ ਵਿੱਤੀ ਜਾਇਜ਼ਾ",
+      "ਲੈਣ-ਦੇਣ ਸ਼ਾਮਲ ਕਰੋ",
+      "ਲੈਣ-ਦੇਣ ਦਾ ਇਤਿਹਾਸ",
+      "ਆਪਣੇ ਵਿੱਤ ਦੀ ਤੁਲਨਾ ਕਰੋ",
+      "ਆਪਣੇ ਨਿੱਜੀ ਵਿੱਤ ਏਜੰਟ ਨੂੰ ਮਿਲੋ",
+      "ਆਪਣੀ ਕਰੰਸੀ ਨੂੰ ਆਸਾਨੀ ਨਾਲ ਸੰਭਾਲੋ",
+      "ਤੁਹਾਡਾ ਵਾਲਿਟ ਬੈਲੇਂਸ",
+      "ਸਭ ਤਿਆਰ ਹੈ!"
+    ],
+    "messages": [
+      "ਤੁਹਾਡੇ ਨਿੱਜੀ ਵਿੱਤ ਡੈਸ਼ਬੋਰਡ ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ! ਵੇਖੋ ਕਿ FINOVA ਤੁਹਾਡੇ ਪੈਸੇ ਦਾ ਪ੍ਰਬੰਧ ਕਰਨ ਵਿੱਚ ਕਿਵੇਂ ਮਦਦ ਕਰਦਾ ਹੈ।",
+      "ਇਹ ਤੁਹਾਡਾ ਵਿੱਤੀ ਜਾਇਜ਼ਾ ਹੈ। ਇੱਥੇ ਕੁੱਲ ਬਕਾਇਆ, ਆਮਦਨ, ਖਰਚੇ ਅਤੇ ਤਾਜ਼ਾ ਗਤੀਵਿਧੀਆਂ ਵੇਖੋ।",
+      "ਆਪਣੀ ਆਮਦਨ ਅਤੇ ਖਰਚੇ ਇੱਥੇ ਦਰਜ ਕਰੋ। ਰਿਕਾਰਡ ਅੱਪਡੇਟ ਰੱਖਣ ਲਈ ਵੇਰਵੇ ਭਰੋ।",
+      "ਇੱਥੇ ਆਪਣਾ ਲੈਣ-ਦੇਣ ਇਤਿਹਾਸ ਦੇਖੋ। ਪੁਰਾਣੇ ਲੈਣ-ਦੇਣ ਖੋਜੋ, ਲੜੀਬੱਧ ਕਰੋ ਜਾਂ ਸੋਧੋ।",
+      "ਚਾਰਟਾਂ ਨਾਲ ਆਪਣੀਆਂ ਖਰਚ ਆਦਤਾਂ ਨੂੰ ਸਮਝੋ। ਆਮਦਨ ਅਤੇ ਖਰਚਿਆਂ ਦੀ ਤੁਲਨਾ ਕਰੋ।",
+      "ਏਜੰਟ ਤੁਹਾਡਾ ਨਿੱਜੀ ਵਿੱਤੀ ਸਹਾਇਕ ਹੈ। ਇਹ ਤੁਹਾਡੇ ਰਿਕਾਰਡਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ ਕਰਕੇ ਉੱਤਰ ਅਤੇ ਸੁਝਾਅ ਦਿੰਦਾ ਹੈ।",
+      "FINOVA 160 ਤੋਂ ਵੱਧ ਵਿਸ਼ਵ ਕਰੰਸੀਆਂ ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ। ਕਰੰਸੀ ਚੁਣਨ ਲਈ ਉੱਪਰਲੇ ਬਾਰ 'ਤੇ ਕਲਿੱਕ ਕਰੋ।",
+      "ਤੁਹਾਡਾ ਵਾਲਿਟ ਉਪਲਬਧ ਪੈਸੇ ਨੂੰ ਟਰੈਕ ਕਰਦਾ ਹੈ। ਪੈਸੇ ਸ਼ਾਮਲ ਕਰੋ; ਲੈਣ-ਦੇਣ ਨਾਲ ਬੈਲੇਂਸ ਆਪੇ ਅੱਪਡੇਟ ਹੋਵੇਗਾ।",
+      "FINOVA ਇਸ ਤਰ੍ਹਾਂ ਕੰਮ ਕਰਦਾ ਹੈ! ਹੁਣ ਤੁਸੀਂ ਆਪਣੇ ਵਿੱਤ 'ਤੇ ਕਾਬੂ ਪਾਉਣ ਲਈ ਪੂਰੀ ਤਰ੍ਹਾਂ ਤਿਆਰ ਹੋ।"
+    ],
+    "eyebrows": [
+      "FINOVA · ਤੁਹਾਡਾ ਪੈਸਾ, ਧਿਆਨ ਵਿੱਚ",
+      "ਡੈਸ਼ਬੋਰਡ ਜਾਇਜ਼ਾ",
+      "ਵਿੱਤ ਦਰਜ ਕਰੋ",
+      "ਲੈਣ-ਦੇਣ ਬਹੀ-ਖਾਤਾ",
+      "ਵਿੱਤੀ ਵਿਸ਼ਲੇਸ਼ਣ",
+      "ਏਆਈ ਵਿੱਤੀ ਸਹਾਇਕ",
+      "ਗਲੋਬਲ ਕਰੰਸੀ ਸਹਾਇਤਾ",
+      "ਨਿੱਜੀ ਵਾਲਿਟ",
+      "ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਤਿਆਰ"
+    ],
+    "agent": {
+      "badge": "ਏਜੰਟ",
+      "status": "ਕਿਰਿਆਸ਼ੀਲ ਤੇ ਤਿਆਰ",
+      "heading": "ਇਸ ਤਰ੍ਹਾਂ ਦੇ ਸਵਾਲ ਪੁੱਛੋ:",
+      "queries": [
+        "ਮੇਰਾ ਜ਼ਿਆਦਾਤਰ ਪੈਸਾ ਕਿੱਥੇ ਜਾਂਦਾ ਹੈ?",
+        "ਮੈਂ ਇਸ ਮਹੀਨੇ ਕਿੰਨਾ ਖਰਚ ਕੀਤਾ?",
+        "ਮੈਂ ਹੋਰ ਪੈਸੇ ਕਿਵੇਂ ਬਚਾ ਸਕਦਾ ਹਾਂ?",
+        "ਮੇਰੀ ਆਮਦਨ ਅਤੇ ਖਰਚਿਆਂ ਦੀ ਤੁਲਨਾ ਕਰੋ।",
+        "ਕਿਸ ਸ਼੍ਰੇਣੀ ਵਿੱਚ ਸਭ ਤੋਂ ਵੱਧ ਖਰਚ ਹੁੰਦਾ ਹੈ?"
+      ],
+      "note": "ਆਮ ਬੋਲਚਾਲ ਵਿੱਚ ਪੁੱਛੋ। ਏਜੰਟ ਚੁਣੀ ਹੋਈ ਭਾਸ਼ਾ ਵਿੱਚ ਜਵਾਬ ਦਿੰਦਾ ਹੈ ਅਤੇ ਡਾਟਾ ਸੁਰੱਖਿਆ ਰੱਖਦਾ ਹੈ।",
+      "action": "ਏਜੰਟ ਖੋਲ੍ਹੋ"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" ਖੋਜੋ…",
+      "heading": "160+ ਕਰੰਸੀਆਂ ਵਿੱਚੋਂ ਖੋਜੋ ਅਤੇ ਚੁਣੋ:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "ਰੁਪਿਆ (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ਡਾਲਰ (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "ਦੀਨਾਰ (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "ਸਾਰੇ ਪੰਨਿਆਂ 'ਤੇ ਰਕਮਾਂ ਆਪਣੇ-ਆਪ ਅੱਪਡੇਟ ਹੁੰਦੀਆਂ ਹਨ। ਤੁਲਨਾ ਲਈ ਪ੍ਰਮਾਣਿਤ ਦਰਾਂ ਵਰਤੀਆਂ ਜਾਂਦੀਆਂ ਹਨ।",
+      "action": "ਕਰੰਸੀ ਚੋਣਕਾਰ ਅਜ਼ਮਾਓ"
+    },
+    "next": "ਅੱਗੇ",
+    "back": "ਪਿੱਛੇ",
+    "skip": "ਟੂਰ ਛੱਡੋ",
+    "finish": "ਸ਼ੁਰੂ ਕਰੋ",
+    "step": "ਕਦਮ {current} / {total}",
+    "replay": "ਟੂਰ ਦੇਖੋ"
+  },
+  "ur": {
+    "titles": [
+      "FINOVA میں خوش آمدید!",
+      "آپ کا مالیاتی جائزہ",
+      "لین دین شامل کریں",
+      "لین دین کی تاریخ",
+      "اپنے مالیات کا موازنہ کریں",
+      "اپنے ذاتی مالیاتی ایجنٹ سے ملیں",
+      "اپنی کرنسی آسانی سے منظم کریں",
+      "آپ کا والیٹ بیلنس",
+      "سب کچھ تیار ہے!"
+    ],
+    "messages": [
+      "آپ کے ذاتی مالیاتی ڈیش بورڈ میں خوش آمدید! FINOVA آپ کے پیسوں کے انتظام میں کس طرح مدد کرتا ہے دیکھیں۔",
+      "یہ آپ کا مالیاتی جائزہ ہے۔ یہاں کل بیلنس، آمدنی، اخراجات اور حالیہ سرگرمیاں دیکھیں۔",
+      "اپنی آمدنی اور اخراجات کا اندراج کریں۔ ریکارڈ کو اپ ڈیٹ رکھنے کے لیے تفصیلات درج کریں۔",
+      "یہاں اپنی لین دین کی تاریخ دیکھیں۔ ضرورت پڑنے پر پرانے ریکارڈ تلاش کریں، فلٹر کریں یا تبدیل کریں۔",
+      "چارٹس کے ذریعے اپنے اخراجات کی عادات سمجھیں۔ آمدنی اور اخراجات کا موازنہ کریں۔",
+      "ایجنٹ آپ کا ذاتی مالیاتی معاون ہے۔ یہ آپ کے ریکارڈ کا تجزیہ کر کے تجاویز اور جوابات دیتا ہے۔",
+      "FINOVA 160 سے زائد بین الاقوامی کرنسیوں کی حمایت کرتا ہے۔ کرنسی تبدیل کرنے کے لیے اوپر بار پر کلک کریں۔",
+      "والیٹ دستیاب رقم کو ٹریک کرتا ہے۔ رقم شامل کریں؛ لین دین کے ساتھ بیلنس خود بخود اپ ڈیٹ ہو جائے گا۔",
+      "FINOVA اسی طرح کام کرتا ہے! اب آپ اپنے مالیات پر مکمل کنٹرول حاصل کرنے کے لیے تیار ہیں۔"
+    ],
+    "eyebrows": [
+      "FINOVA · آپ کا پیسہ، مرکز میں",
+      "ڈیش بورڈ کا جائزہ",
+      "مالیات کا اندراج",
+      "لین دین کا ریکارڈ",
+      "مالیاتی تجزیہ",
+      "اے آئی مالیاتی معاون",
+      "عالمی کرنسی کی معاونت",
+      "ذاتی والیٹ",
+      "شروع کرنے کے لیے تیار"
+    ],
+    "agent": {
+      "badge": "ایجنٹ",
+      "status": "فعال اور تیار",
+      "heading": "اس طرح کے سوالات پوچھیں:",
+      "queries": [
+        "میرا زیادہ تر پیسہ کہاں جاتا ہے؟",
+        "اس مہینے میں نے کتنا خرچ کیا؟",
+        "میں زیادہ پیسے کیسے بچا سکتا ہوں؟",
+        "میری آمدنی اور اخراجات کا موازنہ کریں۔",
+        "کس زمرے میں سب سے زیادہ خرچ ہوا؟"
+      ],
+      "note": "آسان زبان میں سوال کریں۔ ایجنٹ منتخب زبان کی پیروی کرتا ہے اور آپ کا ڈیٹا محفوظ رکھتا ہے۔",
+      "action": "ایجنٹ کھولیں"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\"، \"Dollar\"، \"Dinar\" تلاش کریں…",
+      "heading": "160 سے زائد کرنسیوں میں تلاش کریں اور منتخب کریں:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "روپیہ (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ڈالر (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "دینار (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "رقم تمام صفحات پر خود بخود اپ ڈیٹ ہو جاتی ہے۔ موازنے کے لیے تصدیق شدہ شرحوں کا استعمال کیا جاتا ہے۔",
+      "action": "کرنسی منتخب کریں"
+    },
+    "next": "آگے",
+    "back": "پیچھے",
+    "skip": "ٹور چھوڑیں",
+    "finish": "شروع کریں",
+    "step": "مرحلہ {current} / {total}",
+    "replay": "ٹور دیکھیں"
+  },
+  "ar": {
+    "titles": [
+      "مرحبًا بك في FINOVA!",
+      "نظرة عامة على أموالك",
+      "إضافة معاملة",
+      "سجل معاملاتك",
+      "قارن أموالك",
+      "تعرّف على وكيلك المالي الشخصي",
+      "أدر عملتك بكل سهولة",
+      "رصيد محفظتك",
+      "أنت جاهز تمامًا!"
+    ],
+    "messages": [
+      "مرحبًا بك في لوحة معلوماتك المالية الشخصية! تعرّف بسرعة على كيفية مساعدة FINOVA لك في إدارة أموالك وفهمها.",
+      "هذه نظرة عامة على أموالك. يمكنك هنا رؤية الرصيد الإجمالي والدخل والنفقات وعدد المعاملات والنشاط الأخير.",
+      "سجّل دخلك ونفقاتك هنا. أدخل المبلغ والفئة والتاريخ والتفاصيل لتحديث سجلاتك المالية.",
+      "يمكنك هنا مراجعة سجل معاملاتك والبحث فيها وتصفيتها وتعديلها أو حذفها متى احتجت.",
+      "افهم عادات الإنفاق من خلال الرسوم والتقارير. قارن الدخل والنفقات واكتشف أين تذهب أموالك.",
+      "الوكيل هو مساعدك المالي الشخصي. يحلل دخلك ونفقاتك ومدخراتك من سجلاتك ليجيب عن أسئلتك ويقدم نصائح مخصصة.",
+      "يدعم FINOVA أكثر من 160 عملة عالمية. انقر فوق محدد العملة في الشريط العلوي لاختيار عملتك أو البحث عنها.",
+      "تساعدك المحفظة على تتبع الأموال المتاحة. أضف المال وسيُحدّث الرصيد تلقائيًا عند تسجيل الدخل أو النفقات.",
+      "هكذا يعمل FINOVA! أنت مستعد الآن للتحكم الكامل في أموالك. اجعل لكل معاملة قيمة."
+    ],
+    "eyebrows": [
+      "FINOVA · أموالك في بؤرة الاهتمام",
+      "نظرة عامة على لوحة التحكم",
+      "تسجيل المعاملات المالية",
+      "سجل المعاملات",
+      "التحليلات المالية",
+      "مساعد مالي ذكي",
+      "دعم العملات العالمية",
+      "المحفظة الشخصية",
+      "جاهز للاستكشاف"
+    ],
+    "agent": {
+      "badge": "الوكيل",
+      "status": "نشط وجاهز",
+      "heading": "جرّب طرح أسئلة مثل:",
+      "queries": [
+        "أين يذهب معظم مالي؟",
+        "كم أنفقت هذا الشهر؟",
+        "كيف يمكنني توفير المزيد من المال؟",
+        "قارن بين دخلي ومصروفاتي.",
+        "ما هي الفئة الأكثر إنفاقًا؟"
+      ],
+      "note": "اكتب أسئلتك بلغة طبيعية. يتبع الوكيل لغة الموقع المحددة ويحافظ على خصوصية بياناتك.",
+      "action": "فتح الوكيل"
+    },
+    "currency": {
+      "searchPlaceholder": "ابحث عن \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "ابحث واختر من بين أكثر من 160 عملة:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "روبية (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "دولار (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "دينار (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "تُحدّث المبالغ تلقائيًا في كل الصفحات. تُستخدم أسعار صرف موثوقة في مقارنات العملات.",
+      "action": "تجربة محدد العملات"
+    },
+    "next": "التالي",
+    "back": "السابق",
+    "skip": "تخطي الجولة",
+    "finish": "ابدأ الاستكشاف",
+    "step": "الخطوة {current} من {total}",
+    "replay": "جولة تعريفية"
+  },
+  "es": {
+    "titles": [
+      "¡Te damos la bienvenida a FINOVA!",
+      "Tu resumen financiero",
+      "Añadir transacción",
+      "Tu historial de transacciones",
+      "Compara tus finanzas",
+      "Conoce a tu Agente Financiero Personal",
+      "Gestiona tu moneda fácilmente",
+      "El saldo de tu cartera",
+      "¡Todo listo!"
+    ],
+    "messages": [
+      "¡Te damos la bienvenida a tu panel financiero personal! Descubre cómo FINOVA te ayuda a gestionar, entender y hacer crecer tu dinero.",
+      "Este es tu resumen financiero. Aquí puedes ver tu saldo total, ingresos, gastos, número de transacciones y actividad reciente.",
+      "Registra aquí tus ingresos y gastos. Añade el importe, la categoría, la fecha y otros detalles para mantener tus datos al día.",
+      "Consulta tu historial de transacciones. Busca, filtra, ordena, edita o elimina transacciones anteriores cuando lo necesites.",
+      "Entiende tus hábitos de gasto con gráficos e informes. Compara ingresos y gastos y descubre adónde va tu dinero.",
+      "Agente es tu asistente financiero inteligente. Analiza tus ingresos, gastos y ahorros para responder preguntas y darte consejos útiles.",
+      "FINOVA admite más de 160 monedas del mundo. Haz clic en el selector superior para elegir tu moneda o buscarla por nombre, código o símbolo.",
+      "Tu cartera te ayuda a controlar el dinero disponible. Añade dinero y el saldo se actualizará automáticamente con cada transacción.",
+      "¡Así funciona FINOVA! Ya puedes tomar el control total de tus finanzas. Haz que cada transacción cuente."
+    ],
+    "eyebrows": [
+      "FINOVA · TU DINERO, EN PRIMER PLANO",
+      "RESUMEN DEL PANEL",
+      "REGISTRO DE FINANZAS",
+      "HISTORIAL DE MOVIMIENTOS",
+      "ANÁLISIS FINANCIERO",
+      "ASISTENTE FINANCIERO CON IA",
+      "SOPORTE MULTIDIVISA GLOBAL",
+      "CARTERA PERSONAL",
+      "LISTO PARA EMPEZAR"
+    ],
+    "agent": {
+      "badge": "Agente",
+      "status": "Activo y disponible",
+      "heading": "Prueba preguntando algo como:",
+      "queries": [
+        "¿En qué gasto la mayor parte de mi dinero?",
+        "¿Cuánto he gastado este mes?",
+        "¿Cómo puedo ahorrar más dinero?",
+        "Compara mis ingresos y mis gastos.",
+        "¿Cuál es mi categoría con mayor gasto?"
+      ],
+      "note": "Pregunta con lenguaje natural. Agente sigue el idioma de la web y protege tu privacidad en todo momento.",
+      "action": "Abrir Agente"
+    },
+    "currency": {
+      "searchPlaceholder": "Busca \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Busca y elige entre más de 160 monedas:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupia (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dólar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Los importes se actualizan automáticamente en todas las pantallas. Se usan tipos de cambio verificados.",
+      "action": "Probar selector de moneda"
+    },
+    "next": "Siguiente",
+    "back": "Atrás",
+    "skip": "Saltar recorrido",
+    "finish": "Empezar",
+    "step": "Paso {current} de {total}",
+    "replay": "Ver recorrido"
+  },
+  "fr": {
+    "titles": [
+      "Bienvenue sur FINOVA !",
+      "Votre aperçu financier",
+      "Ajouter une transaction",
+      "Votre historique des transactions",
+      "Comparez vos finances",
+      "Découvrez votre Agent Financier Personnel",
+      "Gérez votre devise en toute simplicité",
+      "Le solde de votre portefeuille",
+      "Vous êtes prêt !"
+    ],
+    "messages": [
+      "Bienvenue sur votre tableau de bord financier personnel ! Découvrez comment FINOVA vous aide à gérer, comprendre et optimiser votre argent.",
+      "Voici votre aperçu financier. Consultez votre solde total, vos revenus, vos dépenses, le nombre de transactions et l’activité récente.",
+      "Enregistrez vos revenus et dépenses ici. Saisissez le montant, la catégorie, la date et les détails utiles pour garder vos comptes à jour.",
+      "Consultez l’historique complet de vos transactions. Recherchez, filtrez, triez, modifiez ou supprimez vos anciennes transactions.",
+      "Comprenez vos habitudes grâce aux graphiques et rapports. Comparez revenus et dépenses et découvrez où va votre argent.",
+      "Agent est votre assistant financier personnel. Il analyse vos enregistrements pour répondre à vos questions et vous offrir des conseils sur mesure.",
+      "FINOVA prend en charge plus de 160 devises mondiales. Cliquez sur le sélecteur en haut pour choisir votre devise ou rechercher par nom ou symbole.",
+      "Votre portefeuille suit votre argent disponible. Ajoutez des fonds ; le solde s’actualise automatiquement avec chaque mouvement.",
+      "Voilà comment fonctionne FINOVA ! Vous êtes prêt à reprendre le contrôle de vos finances. Chaque transaction compte."
+    ],
+    "eyebrows": [
+      "FINOVA · VOTRE ARGENT, SOUS CONTRÔLE",
+      "APERÇU DU TABLEAU DE BORD",
+      "ENREGISTRER DES OPÉRATIONS",
+      "JOURNAL DES TRANSACTIONS",
+      "ANALYSE FINANCIÈRE",
+      "ASSISTANT FINANCIER INTELLIGENT",
+      "DEVISES DU MONDE ENTIER",
+      "PORTEFEUILLE PERSONNEL",
+      "PRÊT À EXPLORER"
+    ],
+    "agent": {
+      "badge": "Agent",
+      "status": "Actif et disponible",
+      "heading": "Essayez de poser des questions comme :",
+      "queries": [
+        "Où va la majorité de mon argent ?",
+        "Combien ai-je dépensé ce mois-ci ?",
+        "Comment puis-je économiser davantage ?",
+        "Compare mes revenus et mes dépenses.",
+        "Quelle catégorie concentre le plus de dépenses ?"
+      ],
+      "note": "Posez vos questions naturellement. Agent respecte votre langue sélectionnée et garantit la confidentialité de vos données.",
+      "action": "Ouvrir Agent"
+    },
+    "currency": {
+      "searchPlaceholder": "Recherchez \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Recherchez parmi plus de 160 devises :",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Roupie (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dollar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Les montants se mettent à jour sur toutes les pages. Des taux de change vérifiés sont utilisés pour les comparaisons.",
+      "action": "Tester le sélecteur de devise"
+    },
+    "next": "Suivant",
+    "back": "Retour",
+    "skip": "Ignorer la visite",
+    "finish": "Commencer",
+    "step": "Étape {current} sur {total}",
+    "replay": "Faire une visite"
+  },
+  "de": {
+    "titles": [
+      "Willkommen bei FINOVA!",
+      "Dein Finanzüberblick",
+      "Transaktion hinzufügen",
+      "Dein Transaktionsverlauf",
+      "Vergleiche deine Finanzen",
+      "Lerne deinen persönlichen Finanz-Agenten kennen",
+      "Währungen mühelos verwalten",
+      "Dein Wallet-Guthaben",
+      "Alles bereit!"
+    ],
+    "messages": [
+      "Willkommen in deinem persönlichen Finanz-Dashboard! Entdecke, wie FINOVA dir hilft, dein Geld zu verwalten, zu verstehen und zu vermehren.",
+      "Hier ist dein Finanzüberblick. Sieh dir Gesamtsaldo, Einnahmen, Ausgaben, Transaktionsanzahl und aktuelle Aktivitäten an einem Ort an.",
+      "Erfasse hier deine Einnahmen und Ausgaben. Gib Betrag, Kategorie, Datum und Details ein, um deine Aufzeichnungen aktuell zu halten.",
+      "Hier findest du deinen Transaktionsverlauf. Suche, filtere, sortiere, bearbeite oder lösche frühere Transaktionen nach Bedarf.",
+      "Verstehe dein Ausgabeverhalten mit Diagrammen und Berichten. Vergleiche Einnahmen und Ausgaben und sieh, wohin dein Geld fließt.",
+      "Agent ist dein persönlicher Finanzassistent. Er analysiert Einnahmen, Ausgaben und Ersparnisse, beantwortet Fragen und gibt smarte Tipps.",
+      "FINOVA unterstützt über 160 Währungen. Klicke auf die Währungsauswahl in der oberen Leiste, um deine Anzeigewährung zu wählen oder zu suchen.",
+      "Dein Wallet hilft dir, dein verfügbares Geld im Blick zu behalten. Füge Geld hinzu; der Saldo passt sich bei Transaktionen automatisch an.",
+      "So funktioniert FINOVA! Du bist jetzt bereit, die volle Kontrolle über deine Finanzen zu übernehmen. Jede Transaktion zählt."
+    ],
+    "eyebrows": [
+      "FINOVA · DEIN GELD, IM FOKUS",
+      "DASHBOARD-ÜBERBLICK",
+      "FINANZEN ERFASSEN",
+      "TRANSAKTIONSBUCH",
+      "FINANZANALYSEN",
+      "KI-GESTÜTZTER FINANZASSISTENT",
+      "WELTWEITE WÄHRUNGEN",
+      "PERSÖNLICHES WALLET",
+      "BEREIT ZUM START"
+    ],
+    "agent": {
+      "badge": "Agent",
+      "status": "Aktiv & bereit",
+      "heading": "Probiere Fragen wie diese aus:",
+      "queries": [
+        "Wofür gebe ich das meiste Geld aus?",
+        "Wie viel habe ich diesen Monat ausgegeben?",
+        "Wie kann ich mehr Geld sparen?",
+        "Vergleiche meine Einnahmen und Ausgaben.",
+        "Welche Kategorie hat die höchsten Ausgaben?"
+      ],
+      "note": "Formuliere Fragen ganz natürlich. Agent folgt deiner eingestellten Sprache und wahrt deine lokale Datensicherheit.",
+      "action": "Agent öffnen"
+    },
+    "currency": {
+      "searchPlaceholder": "Suche \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Suche und wähle aus über 160 Währungen:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupie (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dollar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Beträge werden auf allen Seiten automatisch angepasst. Für Vergleiche werden verifizierte Wechselkurse genutzt.",
+      "action": "Währungsauswahl testen"
+    },
+    "next": "Weiter",
+    "back": "Zurück",
+    "skip": "Tour überspringen",
+    "finish": "Los geht's",
+    "step": "Schritt {current} von {total}",
+    "replay": "Tour ansehen"
+  },
+  "pt": {
+    "titles": [
+      "Boas-vindas ao FINOVA!",
+      "Sua visão financeira",
+      "Adicionar transação",
+      "Seu histórico de transações",
+      "Compare suas finanças",
+      "Conheça seu Agente de Finanças Pessoais",
+      "Gerencie sua moeda com facilidade",
+      "Saldo da sua carteira",
+      "Tudo pronto!"
+    ],
+    "messages": [
+      "Boas-vindas ao seu painel financeiro pessoal! Veja como o FINOVA ajuda você a administrar, entender e multiplicar seu dinheiro.",
+      "Esta é sua visão financeira. Veja seu saldo total, receitas, despesas, número de transações e atividades recentes em um só lugar.",
+      "Registre suas receitas e despesas aqui. Informe o valor, categoria, data e detalhes para manter seus registros atualizados.",
+      "Consulte seu histórico de transações. Pesquise, filtre, ordene, edite ou exclua transações anteriores quando precisar.",
+      "Entenda seus hábitos com gráficos e relatórios. Compare receitas e despesas e descubra exatamente para onde seu dinheiro vai.",
+      "O Agente é seu assistente financeiro inteligente. Ele analisa seus dados para responder a dúvidas e oferecer sugestões sob medida.",
+      "O FINOVA suporta mais de 160 moedas globais. Clique no seletor na barra superior para escolher sua moeda ou pesquisar por nome ou código.",
+      "Sua carteira ajuda a acompanhar o dinheiro disponível. Adicione saldo; ele se atualiza automaticamente ao registrar receitas e despesas.",
+      "É assim que o FINOVA funciona! Você está pronto para cuidar das suas finanças com confiança. Faça cada transação valer."
+    ],
+    "eyebrows": [
+      "FINOVA · SEU DINHEIRO, EM FOCO",
+      "VISÃO GERAL DO PAINEL",
+      "REGISTRO FINANCEIRO",
+      "LIVRO DE TRANSAÇÕES",
+      "ANÁLISE FINANCEIRA",
+      "ASSISTENTE FINANCEIRO INTELIGENTE",
+      "SUPORTE A MOEDAS GLOBAIS",
+      "CARTEIRA PESSOAL",
+      "PRONTO PARA EXPLORAR"
+    ],
+    "agent": {
+      "badge": "Agente",
+      "status": "Ativo e pronto",
+      "heading": "Experimente fazer perguntas como:",
+      "queries": [
+        "Para onde vai a maior parte do meu dinheiro?",
+        "Quanto gastei este mês?",
+        "Como posso economizar mais dinheiro?",
+        "Compare minhas receitas e despesas.",
+        "Qual categoria tem os maiores gastos?"
+      ],
+      "note": "Digite em linguagem natural. O Agente segue o idioma do site e protege totalmente a privacidade dos seus dados.",
+      "action": "Abrir Agente"
+    },
+    "currency": {
+      "searchPlaceholder": "Pesquise \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Pesquise e selecione entre 160+ moedas:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rúpia (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dólar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Os valores são atualizados automaticamente em todas as páginas. Usamos taxas de câmbio verificadas para conversões.",
+      "action": "Testar seletor de moedas"
+    },
+    "next": "Avançar",
+    "back": "Voltar",
+    "skip": "Pular visita",
+    "finish": "Começar",
+    "step": "Etapa {current} de {total}",
+    "replay": "Fazer tour"
+  },
+  "it": {
+    "titles": [
+      "Benvenuto in FINOVA!",
+      "La tua panoramica finanziaria",
+      "Aggiungi una transazione",
+      "La cronologia delle transazioni",
+      "Confronta le tue finanze",
+      "Incontra il tuo Agente Finanziario Personale",
+      "Gestisci la tua valuta con facilità",
+      "Il saldo del tuo portafoglio",
+      "È tutto pronto!"
+    ],
+    "messages": [
+      "Benvenuto nella tua dashboard finanziaria personale! Scopri come FINOVA ti aiuta a gestire, comprendere e far crescere il tuo denaro.",
+      "Questa è la tua panoramica finanziaria. Qui trovi saldo totale, entrate, uscite, numero di transazioni e attività recenti.",
+      "Registra qui entrate e uscite. Inserisci importo, categoria, data e dettagli per tenere aggiornati i tuoi dati contabili.",
+      "Qui trovi la cronologia delle transazioni. Cerca, filtra, ordina, modifica o elimina le transazioni passate quando serve.",
+      "Comprendi le tue abitudini con grafici e report. Confronta entrate e uscite e scopri dove finisce il tuo denaro.",
+      "L'Agente è il tuo assistente finanziario intelligente. Analizza le tue registrazioni per rispondere a domande e darti consigli personalizzati.",
+      "FINOVA supporta oltre 160 valute mondiali. Fai clic sul selettore in alto per impostare la tua valuta preferita o cercarla.",
+      "Il portafoglio tiene traccia del denaro disponibile. Aggiungi denaro; il saldo si aggiorna automaticamente ad ogni operazione.",
+      "Ecco come funziona FINOVA! Ora sei pronto a prendere il pieno controllo delle tue finanze. Ogni transazione ha valore."
+    ],
+    "eyebrows": [
+      "FINOVA · IL TUO DENARO, SOTTO CONTROLLO",
+      "PANORAMICA DELLA DASHBOARD",
+      "REGISTRAZIONE FINANZE",
+      "REGISTRO DELLE TRANSAZIONI",
+      "ANALISI FINANZIARIA",
+      "ASSISTENTE FINANZIARIO AI",
+      "SUPPORTO VALUTARIO GLOBALE",
+      "PORTAFOGLIO PERSONALE",
+      "PRONTO A INIZIARE"
+    ],
+    "agent": {
+      "badge": "Agente",
+      "status": "Attivo e pronto",
+      "heading": "Prova a chiedere cose come:",
+      "queries": [
+        "Dove va la maggior parte dei miei soldi?",
+        "Quanto ho speso questo mese?",
+        "Come posso risparmiare di più?",
+        "Confronta le mie entrate con le mie uscite.",
+        "Quale categoria ha le spese più elevate?"
+      ],
+      "note": "Scrivi in modo naturale. L'Agente adotta la lingua del sito e garantisce la riservatezza assoluta dei tuoi dati.",
+      "action": "Apri Agente"
+    },
+    "currency": {
+      "searchPlaceholder": "Cerca \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Cerca e scegli tra oltre 160 valute:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupia (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dollaro (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Gli importi si aggiornano automaticamente su tutte le pagine. Nei confronti vengono usati tassi di cambio verificati.",
+      "action": "Prova il selettore valuta"
+    },
+    "next": "Avanti",
+    "back": "Indietro",
+    "skip": "Salta il tour",
+    "finish": "Inizia",
+    "step": "Passaggio {current} di {total}",
+    "replay": "Fai un tour"
+  },
+  "ru": {
+    "titles": [
+      "Добро пожаловать в FINOVA!",
+      "Обзор ваших финансов",
+      "Добавление операции",
+      "История операций",
+      "Сравнение финансов",
+      "Познакомьтесь с личным финансовым Агентом",
+      "Удобное управление валютой",
+      "Баланс кошелька",
+      "Всё готово!"
+    ],
+    "messages": [
+      "Добро пожаловать в личную финансовую панель! Узнайте, как FINOVA помогает управлять деньгами, понимать расходы и копить.",
+      "Это обзор ваших финансов. Здесь доступны общий баланс, доходы, расходы, число операций и недавняя активность в одном месте.",
+      "Записывайте здесь доходы и расходы. Укажите сумму, категорию, дату и детали для точности финансового учёта.",
+      "Здесь находится история операций. Ищите, фильтруйте, сортируйте, редактируйте или удаляйте прошлые операции в любое время.",
+      "Изучайте привычки с помощью графиков и отчётов. Сравнивайте доходы и расходы и смотрите, куда уходят деньги.",
+      "Агент — ваш личный финансовый помощник. Он анализирует записи о доходах и расходах, отвечает на вопросы и даёт полезные советы.",
+      "FINOVA поддерживает более 160 мировых валют. Нажмите на переключатель валют в верхней панели для выбора или поиска по названию и коду.",
+      "Кошелёк помогает отслеживать доступные средства. Пополняйте баланс; он автоматически меняется при учёте доходов и расходов.",
+      "Вот так работает FINOVA! Вы готовы взять финансы под полный контроль. Каждая операция имеет значение."
+    ],
+    "eyebrows": [
+      "FINOVA · ВАШИ ДЕНЬГИ ПОД КОНТРОЛЕМ",
+      "ОБЗОР ПАНЕЛИ",
+      "УЧЁТ ФИНАНСОВ",
+      "ЖУРНАЛ ОПЕРАЦИЙ",
+      "ФИНАНСОВАЯ АНАЛИТИКА",
+      "ИИ-ФИНАНСОВЫЙ АССИСТЕНТ",
+      "ПОДДЕРЖКА МИРОВЫХ ВАЛЮТ",
+      "ЛИЧНЫЙ КОШЕЛЁК",
+      "ГОТОВЫ К РАБОТЕ"
+    ],
+    "agent": {
+      "badge": "Агент",
+      "status": "Активен и готов",
+      "heading": "Попробуйте задать такие вопросы:",
+      "queries": [
+        "Куда уходит большая часть моих денег?",
+        "Сколько я потратил в этом месяце?",
+        "Как я могу сэкономить больше денег?",
+        "Сравни мои доходы и расходы.",
+        "В какой категории самые высокие траты?"
+      ],
+      "note": "Пишите простыми словами. Агент отвечает на выбранном языке сайта и бережно защищает вашу конфиденциальность.",
+      "action": "Открыть Агента"
+    },
+    "currency": {
+      "searchPlaceholder": "Поиск: \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Ищите и выбирайте из более чем 160 валют:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Рупия (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Доллар (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Динар (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Суммы автоматически обновляются на всех страницах. Для сравнения используются проверенные курсы валют.",
+      "action": "Попробовать выбор валюты"
+    },
+    "next": "Далее",
+    "back": "Назад",
+    "skip": "Пропустить тур",
+    "finish": "Начать",
+    "step": "Шаг {current} из {total}",
+    "replay": "Пройти тур"
+  },
+  "zh-Hans": {
+    "titles": [
+      "欢迎使用 FINOVA！",
+      "财务概览",
+      "添加交易",
+      "交易记录",
+      "比较财务状况",
+      "认识您的专属财务智能助理",
+      "轻松管理您的货币",
+      "钱包余额",
+      "一切就绪！"
+    ],
+    "messages": [
+      "欢迎来到您的个人财务仪表板！快速了解 FINOVA 如何帮助您管理、了解和增加您的财富。",
+      "这里是您的财务概览。您可以在此一站式查看总余额、收入、支出、交易笔数及近期动态。",
+      "在此记录您的收入与支出。填写金额、类别、日期等详细信息，保持账目准确完整。",
+      "在此查看完整的交易历史记录。随时搜索、筛选、排序、修改或删除历史账目。",
+      "通过清晰的图表和报告了解消费习惯。比较收入与支出，掌握每月趋势与资金去向。",
+      "智能助理是您的专属金融助手。它根据您的真实账目深度分析收支与结余，解答疑问并提供实用建议。",
+      "FINOVA 支持全球 160 多种货币。点击顶栏货币选择器即可快速切换或按名称、代码和符号搜索。",
+      "钱包可帮助您追踪当前可用资金。存入资金后，记录收入或支出时余额将自动同步更新。",
+      "这就是 FINOVA 的使用方式！您已做好全面掌控个人财务的准备。让每笔交易都有价值。"
+    ],
+    "eyebrows": [
+      "FINOVA · 资金动向，尽在掌握",
+      "仪表板概览",
+      "账目记录",
+      "交易明细账本",
+      "财务智能分析",
+      "AI 驱动的财务助理",
+      "全球多币种支持",
+      "个人专属钱包",
+      "准备开启探索"
+    ],
+    "agent": {
+      "badge": "智能助理",
+      "status": "在线并就绪",
+      "heading": "您可以尝试这样提问：",
+      "queries": [
+        "我的钱大部分花在哪里了？",
+        "我这个月总共花了多少钱？",
+        "我该如何省下更多资金？",
+        "对比一下我的收入与支出。",
+        "哪个消费类别的开支最高？"
+      ],
+      "note": "支持自然语言交流。智能助理跟随网站语言偏好，并严格保障您的本地数据隐私。",
+      "action": "前往智能助理"
+    },
+    "currency": {
+      "searchPlaceholder": "搜索 \"Rupee\"、\"Dollar\"、\"Dinar\"…",
+      "heading": "从 160+ 种全球货币中搜索与切换：",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "卢比 (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "美元/各种元 (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "第纳尔 (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "全站所有金额将自动转换为当前选中货币。图表对比基于经过核实的可靠汇率计算。",
+      "action": "体验货币选择器"
+    },
+    "next": "下一步",
+    "back": "上一步",
+    "skip": "跳过导览",
+    "finish": "开始使用",
+    "step": "第 {current} 步，共 {total} 步",
+    "replay": "浏览导览"
+  },
+  "zh-Hant": {
+    "titles": [
+      "歡迎使用 FINOVA！",
+      "財務概覽",
+      "新增交易",
+      "交易紀錄",
+      "比較財務狀況",
+      "認識您的專屬智慧助理",
+      "輕鬆管理您的貨幣",
+      "錢包餘額",
+      "一切就緒！"
+    ],
+    "messages": [
+      "歡迎來到您的個人財務儀表板！快速了解 FINOVA 如何協助您管理、掌握並累積您的資產。",
+      "這裡是您的財務概覽。您可以在此一處掌握總餘額、收入、支出、交易筆數與近期活動。",
+      "在此記錄收入與支出。填寫金額、類別、日期與備註，保持個人帳目清晰完整。",
+      "在此檢視完整的交易歷史紀錄。隨時搜尋、篩選、排序、編輯或刪除歷史紀錄。",
+      "透過圖表與報表深入了解消費習慣。比較收支變化，掌握每月資金流向趨勢。",
+      "智慧助理是您的專屬財務顧問。它透過分析真實帳目解答您的財務疑問，並提供實用建議。",
+      "FINOVA 支援全球 160 多種主要貨幣。點選頂部工具列即可快速切換或依代碼搜尋。",
+      "錢包協助您追蹤當前可支配資金。存入金額後，記帳時餘額會自動連動更新。",
+      "這就是 FINOVA 的核心功能！現在就開始主導您的財務人生，讓每一筆消費都更有價值。"
+    ],
+    "eyebrows": [
+      "FINOVA · 資產動態，清晰掌握",
+      "儀表板總覽",
+      "日常記帳",
+      "交易明細總帳",
+      "財務分析圖表",
+      "AI 智慧財務顧問",
+      "全球貨幣支援",
+      "個人數位錢包",
+      "準備就緒"
+    ],
+    "agent": {
+      "badge": "智慧助理",
+      "status": "連線並就緒",
+      "heading": "您可以嘗試詢問：",
+      "queries": [
+        "我的錢大部分都花在哪裡？",
+        "我這個月總共支出了多少？",
+        "我有什麼好方法可以多存點錢？",
+        "幫我比較這陣子的收入與支出。",
+        "支出金額最高的是哪一個類別？"
+      ],
+      "note": "使用日常語言即可自然溝通。智慧助理依照網站語言設定回應，並恪守您的隱私保護。",
+      "action": "開啟智慧助理"
+    },
+    "currency": {
+      "searchPlaceholder": "搜尋 \"Rupee\"、\"Dollar\"、\"Dinar\"…",
+      "heading": "搜尋並從 160+ 種世界貨幣中選取：",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "盧比 (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "美元及各國元 (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "第納爾 (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "所有頁面的金額會即時套用選定貨幣。跨幣別比較圖表採用經驗證的真實匯率折算。",
+      "action": "體驗貨幣選單"
+    },
+    "next": "下一步",
+    "back": "上一步",
+    "skip": "略過導覽",
+    "finish": "開始探索",
+    "step": "第 {current} 步，共 {total} 步",
+    "replay": "瀏覽導覽"
+  },
+  "ja": {
+    "titles": [
+      "FINOVAへようこそ！",
+      "財務の概要",
+      "取引を追加",
+      "取引履歴",
+      "財務を比較する",
+      "専属のファイナンス・エージェントをご紹介",
+      "通貨をかんたんに管理",
+      "ウォレット残高",
+      "準備完了です！"
+    ],
+    "messages": [
+      "個人向け財務ダッシュボードへようこそ！FINOVAでお金を賢く管理し、現状を把握する方法をご紹介します。",
+      "ここでは合計残高、収入、支出、取引数、最近のアクティビティをまとめてひと目で確認できます。",
+      "ここで収入と支出を記録します。金額、カテゴリ、日付を入力して記録を常に最新に保ちましょう。",
+      "取引履歴をいつでも確認できます。必要に応じて検索、絞り込み、並べ替え、編集、削除が可能です。",
+      "グラフやレポートでお金の使い道や傾向を可視化します。収入と支出を比較し月別トレンドを把握できます。",
+      "エージェントはあなたの専属ファイナンシャルアシスタントです。実際の取引データをもとに質問に答え、役立つアドバイスを提供します。",
+      "FINOVAは世界160以上の通貨に対応しています。ヘッダーの通貨セレクターからいつでも変更や検索ができます。",
+      "ウォレットで利用可能なお金を管理できます。残高を追加すると、日々の収支に合わせて自動更新されます。",
+      "FINOVAの使い方は以上です！お金の管理をしっかりコントロールする準備が整いました。1つ1つの取引を大切に。"
+    ],
+    "eyebrows": [
+      "FINOVA · 資産の動きをクリアに",
+      "ダッシュボード概要",
+      "収支を記録",
+      "取引台帳",
+      "財務アナリティクス",
+      "AI搭載ファイナンスアシスタント",
+      "世界160以上の通貨対応",
+      "パーソナルウォレット",
+      "準備完了"
+    ],
+    "agent": {
+      "badge": "エージェント",
+      "status": "待機中・応答可能",
+      "heading": "こんな質問を試してみてください：",
+      "queries": [
+        "私のお金は主に何に使われていますか？",
+        "今月はいくら支出しましたか？",
+        "もっとお金を節約するにはどうすればいい？",
+        "収入と支出のバランスを比較して。",
+        "最も支出が多いカテゴリはどれですか？"
+      ],
+      "note": "普段の自然な日本語で話しかけてください。選択中の言語に対応し、プライベートなデータは安全に保護されます。",
+      "action": "エージェントを開く"
+    },
+    "currency": {
+      "searchPlaceholder": "「Rupee」「Dollar」「Dinar」を検索…",
+      "heading": "160以上の通貨から検索して選択：",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "ルピー (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ドル (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "ディナール (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "選択した通貨ですべての画面の金額が自動換算されます。比較チャートには信頼性の高い検証済みレートが使われます。",
+      "action": "通貨セレクターを試す"
+    },
+    "next": "次へ",
+    "back": "戻る",
+    "skip": "ツアーをスキップ",
+    "finish": "使ってみる",
+    "step": "{total} ステップ中 {current}",
+    "replay": "ツアーを見る"
+  },
+  "ko": {
+    "titles": [
+      "FINOVA에 오신 것을 환영합니다!",
+      "재정 현황 대시보드",
+      "거래 추가하기",
+      "거래 내역 확인",
+      "재정 상태 비교 분석",
+      "개인 금융 에이전트를 만나보세요",
+      "간편한 통화 관리",
+      "지갑 잔액",
+      "모든 준비가 끝났습니다!"
+    ],
+    "messages": [
+      "개인 맞춤형 금융 대시보드에 오신 것을 환영합니다! FINOVA가 자산을 효율적으로 관리하고 증식하도록 돕는 방법을 확인해 보세요.",
+      "이곳은 재정 개요 화면입니다. 총 잔액, 수입, 지출, 거래 건수 및 최근 활동을 한눈에 확인할 수 있습니다.",
+      "이곳에서 수입과 지출을 기록하세요. 금액, 카테고리, 날짜를 입력하여 정확한 재정 기록을 유지할 수 있습니다.",
+      "전체 거래 내역을 언제든 확인하세요. 필요에 따라 검색, 필터링, 정렬, 수정 및 삭제가 가능합니다.",
+      "차트와 보고서를 통해 지출 습관을 파악하세요. 수입과 지출을 비교하고 월별 추세를 확인해 보세요.",
+      "에이전트는 고객님의 스마트한 금융 비서입니다. 실제 기록된 수입과 지출 데이터를 분석하여 맞춤형 질문 답변과 조언을 제공합니다.",
+      "FINOVA는 전 세계 160개 이상의 통화를 지원합니다. 상단 바의 통화 선택기를 눌러 표시 통화를 손쉽게 변경하거나 검색할 수 있습니다.",
+      "지갑 기능을 통해 가용 자금을 명확히 추적하세요. 잔액을 충전하면 거래 발생 시 자동으로 동기화됩니다.",
+      "이것으로 FINOVA의 기본 안내가 완료되었습니다! 이제 스마트하게 자산을 관리해 보세요. 모든 거래에 가치를 더하세요."
+    ],
+    "eyebrows": [
+      "FINOVA · 내 손안의 똑똑한 금융",
+      "대시보드 개요",
+      "수입 및 지출 기록",
+      "거래 내역 원장",
+      "금융 비교 분석",
+      "AI 기반 금융 비서",
+      "전 세계 통화 지원",
+      "개인 맞춤 지갑",
+      "시작할 준비 완료"
+    ],
+    "agent": {
+      "badge": "에이전트",
+      "status": "활성화 및 대기 중",
+      "heading": "이런 질문을 물어보세요:",
+      "queries": [
+        "제 돈이 주로 어디에 가장 많이 쓰이나요?",
+        "이번 달 총 지출액은 얼마인가요?",
+        "어떻게 하면 돈을 더 절약할 수 있을까요?",
+        "제 수입과 지출을 비교해 주세요.",
+        "가장 지출이 큰 카테고리는 무엇인가요?"
+      ],
+      "note": "일상적인 자연어로 편하게 질문하세요. 에이전트는 선택한 웹사이트 언어로 대화하며 로컬 데이터 보안을 철저히 유지합니다.",
+      "action": "에이전트 열기"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" 검색…",
+      "heading": "160개 이상의 전 세계 통화 검색 및 선택:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "루피 (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "달러 (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "디나르 (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "선택한 통화로 모든 페이지의 금액이 즉시 반영됩니다. 통화 비교 차트에는 검증된 실시간 환율이 적용됩니다.",
+      "action": "통화 선택기 사용해보기"
+    },
+    "next": "다음",
+    "back": "이전",
+    "skip": "투어 건너뛰기",
+    "finish": "시작하기",
+    "step": "{total}단계 중 {current}단계",
+    "replay": "투어 시작"
+  },
+  "id": {
+    "titles": [
+      "Selamat Datang di FINOVA!",
+      "Ringkasan Keuangan Anda",
+      "Tambah Transaksi",
+      "Riwayat Transaksi",
+      "Bandingkan Keuangan Anda",
+      "Kenalkan Agen Keuangan Pribadi Anda",
+      "Kelola Mata Uang dengan Mudah",
+      "Saldo Dompet Anda",
+      "Semua Siap!"
+    ],
+    "messages": [
+      "Selamat datang di dasbor keuangan pribadi Anda! Mari lihat bagaimana FINOVA membantu mengelola, memahami, dan mengembangkan uang Anda.",
+      "Ini adalah ringkasan keuangan Anda. Lihat total saldo, pemasukan, pengeluaran, jumlah transaksi, dan aktivitas terbaru di satu tempat.",
+      "Catat pemasukan dan pengeluaran Anda di sini. Masukkan jumlah, kategori, tanggal, dan detail lain agar pembukuan tetap rapi.",
+      "Periksa riwayat transaksi Anda kapan saja. Cari, saring, urutkan, ubah, atau hapus catatan transaksi dengan sangat mudah.",
+      "Pahami kebiasaan belanja Anda dengan grafik dan laporan. Bandingkan pemasukan dan pengeluaran serta amati tren bulanan.",
+      "Agen adalah asisten keuangan pribadi cerdas Anda. Agen menganalisis data riil Anda untuk menjawab pertanyaan dan memberikan kiat finansial.",
+      "FINOVA mendukung lebih dari 160 mata uang dunia. Klik pemilih mata uang di bilah atas untuk memilih mata uang tampilan atau mencari berdasarkan kode.",
+      "Dompet Anda melacak uang yang tersedia. Tambahkan dana; saldo akan diperbarui secara otomatis saat ada transaksi baru.",
+      "Begitulah cara kerja FINOVA! Anda kini siap memegang kendali penuh atas keuangan Anda. Buat setiap transaksi lebih berarti."
+    ],
+    "eyebrows": [
+      "FINOVA · KEUANGAN ANDA, LEBIH FOKUS",
+      "RINGKASAN DASBOR",
+      "CATAT KEUANGAN",
+      "BUKU TRANSAKSI",
+      "ANALISIS KEUANGAN",
+      "ASISTEN FINANSIAL AI",
+      "DUKUNGAN MATA UANG GLOBAL",
+      "DOMPET PRIBADI",
+      "SIAP MENJELAJAH"
+    ],
+    "agent": {
+      "badge": "Agen",
+      "status": "Aktif & Siap Membantu",
+      "heading": "Coba ajukan pertanyaan seperti ini:",
+      "queries": [
+        "Ke mana sebagian besar uang saya dialokasikan?",
+        "Berapa total pengeluaran saya bulan ini?",
+        "Bagaimana cara menghemat lebih banyak uang?",
+        "Bandingkan pemasukan dan pengeluaran saya.",
+        "Kategori mana yang memiliki pengeluaran tertinggi?"
+      ],
+      "note": "Ketik dalam bahasa sehari-hari. Agen merespons sesuai bahasa pilihan Anda dan menjaga keamanan privasi data lokal.",
+      "action": "Buka Agen"
+    },
+    "currency": {
+      "searchPlaceholder": "Cari \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Cari & pilih dari 160+ mata uang dunia:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupee (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dolar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Jumlah uang di seluruh halaman otomatis diperbarui. Nilai tukar yang terverifikasi digunakan untuk perbandingan grafik.",
+      "action": "Coba Pemilih Mata Uang"
+    },
+    "next": "Berikutnya",
+    "back": "Kembali",
+    "skip": "Lewati Tur",
+    "finish": "Mulai Jelajahi",
+    "step": "Langkah {current} dari {total}",
+    "replay": "Ikuti Tur"
+  },
+  "th": {
+    "titles": [
+      "ยินดีต้อนรับสู่ FINOVA!",
+      "ภาพรวมทางการเงินของคุณ",
+      "บันทึกรายการธุรกรรม",
+      "ประวัติรายการธุรกรรม",
+      "เปรียบเทียบการเงินของคุณ",
+      "พบกับเอเจนต์การเงินส่วนบุคคลของคุณ",
+      "จัดการสกุลเงินได้อย่างง่ายดาย",
+      "ยอดคงเหลือในกระเป๋าเงิน",
+      "ทุกอย่างพร้อมแล้ว!"
+    ],
+    "messages": [
+      "ยินดีต้อนรับสู่แดชบอร์ดการเงินส่วนบุคคลของคุณ! ดูว่า FINOVA ช่วยคุณจัดการ ทำความเข้าใจ และต่อยอดเงินของคุณได้อย่างไร",
+      "นี่คือภาพรวมทางการเงิน คุณสามารถดูยอดเงินรวม รายรับ รายจ่าย จำนวนธุรกรรม และกิจกรรมล่าสุดได้ในที่เดียว",
+      "บันทึกรายรับและรายจ่ายของคุณที่นี่ กรอกจำนวนเงิน หมวดหมู่ วันที่ และรายละเอียดเพื่อรักษาความถูกต้องของข้อมูล",
+      "ดูประวัติรายการธุรกรรมทั้งหมดของคุณได้ที่นี่ ค้นหา กรอง จัดเรียง แก้ไข หรือลบรายการในอดีตได้ตลอดเวลา",
+      "ทำความเข้าใจพฤติกรรมการใช้จ่ายด้วยแผนภูมิและรายงาน เปรียบเทียบรายรับและรายจ่าย และดูแนวโน้มในแต่ละเดือน",
+      "เอเจนต์คือผู้ช่วยทางการเงินส่วนบุคคลของคุณ ซึ่งจะวิเคราะห์บันทึกจริงเพื่อตอบคำถามและให้คำแนะนำทางการเงินที่ตรงจุด",
+      "FINOVA รองรับสกุลเงินมากกว่า 160 สกุลทั่วโลก คลิกตัวเลือกสกุลเงินที่แถบด้านบนเพื่อเลือกหรือค้นหาตามชื่อหรือรหัส",
+      "กระเป๋าเงินช่วยคุณติดตามเงินสดที่พร้อมใช้ เติมเงินเข้ากระเป๋า แล้วยอดคงเหลือจะอัปเดตโดยอัตโนมัติเมื่อมีธุรกรรม",
+      "และนี่คือการทำงานของ FINOVA! ตอนนี้คุณพร้อมที่จะควบคุมการเงินของตัวเองแล้ว ทำให้ทุกธุรกรรมมีความหมาย"
+    ],
+    "eyebrows": [
+      "FINOVA · เงินของคุณ ในการควบคุมของคุณ",
+      "ภาพรวมแดชบอร์ด",
+      "บันทึกการเงิน",
+      "สมุดบัญชีธุรกรรม",
+      "การวิเคราะห์การเงิน",
+      "ผู้ช่วยการเงินพลัง AI",
+      "รองรับสกุลเงินทั่วโลก",
+      "กระเป๋าเงินส่วนตัว",
+      "พร้อมเริ่มต้นใช้งาน"
+    ],
+    "agent": {
+      "badge": "เอเจนต์",
+      "status": "พร้อมให้บริการ",
+      "heading": "ลองถามคำถามเหล่านี้ดู:",
+      "queries": [
+        "เงินส่วนใหญ่ของฉันหมดไปกับอะไร?",
+        "เดือนนี้ฉันใช้จ่ายไปเท่าไหร่แล้ว?",
+        "ฉันจะประหยัดเงินได้มากขึ้นได้อย่างไร?",
+        "เปรียบเทียบรายรับกับรายจ่ายของฉัน",
+        "หมวดหมู่ใดมีค่าใช้จ่ายสูงที่สุด?"
+      ],
+      "note": "พิมพ์ถามเป็นภาษาธรรมชาติได้ทันที เอเจนต์จะตอบกลับตามภาษาที่คุณเลือกและรักษาความเป็นส่วนตัวของข้อมูลเสมอ",
+      "action": "เปิดเอเจนต์"
+    },
+    "currency": {
+      "searchPlaceholder": "ค้นหา \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "ค้นหาและเลือกจากสกุลเงินกว่า 160+ สกุล:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "รูปี (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "ดอลลาร์ (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "ดีนาร์ (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "ยอดเงินทั้งหมดจะอัปเดตเป็นสกุลเงินที่เลือกโดยอัตโนมัติ มีการใช้อัตราแลกเปลี่ยนที่ตรวจสอบแล้วในการเปรียบเทียบ",
+      "action": "ลองใช้ตัวเลือกสกุลเงิน"
+    },
+    "next": "ถัดไป",
+    "back": "ย้อนกลับ",
+    "skip": "ข้ามการแนะนำ",
+    "finish": "เริ่มต้นใช้งาน",
+    "step": "ขั้นตอนที่ {current} จาก {total}",
+    "replay": "ชมการแนะนำ"
+  },
+  "vi": {
+    "titles": [
+      "Chào mừng bạn đến với FINOVA!",
+      "Tổng quan tài chính của bạn",
+      "Thêm giao dịch mới",
+      "Lịch sử giao dịch",
+      "So sánh tài chính của bạn",
+      "Gặp gỡ Agent Tài chính Cá nhân của bạn",
+      "Quản lý tiền tệ dễ dàng",
+      "Số dư ví của bạn",
+      "Tất cả đã sẵn sàng!"
+    ],
+    "messages": [
+      "Chào mừng bạn đến với bảng điều khiển tài chính cá nhân! Hãy cùng tìm hiểu cách FINOVA giúp bạn quản lý và phát triển dòng tiền.",
+      "Đây là bức tranh tổng quan tài chính. Bạn có thể theo dõi tổng số dư, thu nhập, chi tiêu, số giao dịch và hoạt động gần đây tại một nơi.",
+      "Ghi chép thu nhập và chi tiêu của bạn tại đây. Nhập số tiền, danh mục, ngày tháng để sổ sách luôn chính xác và đầy đủ.",
+      "Xem lại toàn bộ lịch sử thu chi của bạn. Dễ dàng tìm kiếm, lọc theo danh mục, sắp xếp, chỉnh sửa hoặc xóa giao dịch.",
+      "Hiểu rõ thói quen chi tiêu thông qua biểu đồ và báo cáo trực quan. So sánh thu chi và nắm bắt xu hướng biến động hàng tháng.",
+      "Agent là trợ lý tài chính thông minh của bạn. Agent phân tích dữ liệu thực tế để giải đáp câu hỏi và đưa ra gợi ý hữu ích.",
+      "FINOVA hỗ trợ hơn 160 loại tiền tệ trên toàn cầu. Nhấp vào bộ chọn ở thanh trên cùng để đổi đơn vị tiền tệ hoặc tìm kiếm nhanh.",
+      "Ví tiền giúp bạn theo dõi khoản tiền khả dụng tức thì. Nạp thêm tiền; số dư sẽ tự động cập nhật khi bạn ghi nhận thu chi.",
+      "Đó là toàn bộ cách FINOVA vận hành! Bạn đã sẵn sàng làm chủ tài chính cá nhân. Hãy biến mọi khoản chi tiêu trở nên ý nghĩa."
+    ],
+    "eyebrows": [
+      "FINOVA · TIỀN BẠC DƯỚI TẦM TAY",
+      "TỔNG QUAN BẢNG ĐIỀU KHIỂN",
+      "GHI CHÉP TÀI CHÍNH",
+      "SỔ CÁI GIAO DỊCH",
+      "PHÂN TÍCH TÀI CHÍNH",
+      "TRỢ LÝ TÀI CHÍNH AI",
+      "HỖ TRỢ ĐA TIỀN TỆ TOÀN CẦU",
+      "VÍ CÁ NHÂN",
+      "SẴN SÀNG KHÁM PHÁ"
+    ],
+    "agent": {
+      "badge": "Agent",
+      "status": "Đang hoạt động & Sẵn sàng",
+      "heading": "Hãy thử đặt các câu hỏi như:",
+      "queries": [
+        "Hầu hết tiền của tôi được chi vào đâu?",
+        "Tháng này tôi đã tiêu hết bao nhiêu tiền?",
+        "Làm thế nào để tôi có thể tiết kiệm được nhiều hơn?",
+        "So sánh thu nhập và chi tiêu của tôi.",
+        "Danh mục nào đang chiếm chi tiêu cao nhất?"
+      ],
+      "note": "Đặt câu hỏi bằng ngôn ngữ tự nhiên thường ngày. Agent tương tác bằng ngôn ngữ bạn đã chọn và bảo mật tuyệt đối dữ liệu.",
+      "action": "Mở Agent"
+    },
+    "currency": {
+      "searchPlaceholder": "Tìm kiếm \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Tìm kiếm & chọn từ hơn 160 đơn vị tiền tệ:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupee (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Đô la (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Số tiền trên mọi trang sẽ tự động quy đổi. Các biểu đồ so sánh sử dụng tỷ giá hối đoái đã được xác thực.",
+      "action": "Thử bộ chọn tiền tệ"
+    },
+    "next": "Tiếp theo",
+    "back": "Quay lại",
+    "skip": "Bỏ qua hướng dẫn",
+    "finish": "Bắt đầu ngay",
+    "step": "Bước {current} / {total}",
+    "replay": "Xem hướng dẫn"
+  },
+  "tr": {
+    "titles": [
+      "FINOVA'ya Hoş Geldiniz!",
+      "Finansal Genel Bakışınız",
+      "İşlem Ekle",
+      "İşlem Geçmişiniz",
+      "Finansmanınızı Karşılaştırın",
+      "Kişisel Finans Agent'ınızla Tanışın",
+      "Para Biriminizi Kolayca Yönetin",
+      "Cüzdan Bakiyeniz",
+      "Her Şey Hazır!"
+    ],
+    "messages": [
+      "Kişisel finans panonuza hoş geldiniz! FINOVA'nın paranızı yönetmenize, anlamanıza ve büyütmenize nasıl yardımcı olduğunu keşfedin.",
+      "Bu sizin finansal genel bakışınızdır. Toplam bakiyenizi, gelirinizi, giderinizi ve son hareketlerinizi tek bir yerden görebilirsiniz.",
+      "Gelir ve giderlerinizi buraya kaydedin. Kayıtlarınızın güncel kalması için tutar, kategori, tarih ve detayları girin.",
+      "İşlem geçmişinizi buradan inceleyin. İhtiyaç duyduğunuzda eski işlemleri arayın, filtreleyin, düzenleyin veya silin.",
+      "Grafikler ve raporlarla harcama alışkanlıklarınızı anlayın. Gelir ve giderleri karşılaştırın ve paranızın nereye gittiğini görün.",
+      "Agent sizin akıllı kişisel finans danışmanınızdır. Gerçek kayıtlarınızı inceleyerek sorularınızı yanıtlar ve kişisel öneriler sunar.",
+      "FINOVA, 160'tan fazla dünya para birimini destekler. Para biriminizi seçmek veya aramak için üst çubuktaki seçiciye tıklayın.",
+      "Cüzdanınız kullanılabilir nakit paranızı takip eder. Cüzdana para ekleyin; gelir veya gider kaydettikçe bakiye otomatik güncellenir.",
+      "FINOVA işte bu kadar kolay! Artık mali durumunuzu tam kontrol altına almaya hazırsınız. Her harcamanın değerini bilin."
+    ],
+    "eyebrows": [
+      "FINOVA · PARANIZ, KONTROLÜNÜZDE",
+      "GÖSTERGE PANELİ",
+      "FİNANS KAYDI",
+      "İŞLEM DEFTERİ",
+      "FİNANSAL ANALİZLER",
+      "YAPAY ZEKA FİNANS DESTEĞİ",
+      "KÜRESEL PARA BİRİMİ DESTEĞİ",
+      "KİŞİSEL CÜZDAN",
+      "KEŞFETMEYE HAZIR"
+    ],
+    "agent": {
+      "badge": "Agent",
+      "status": "Aktif ve Hazır",
+      "heading": "Şunun gibi sorular sormayı deneyin:",
+      "queries": [
+        "Paramın çoğu nereye gidiyor?",
+        "Bu ay toplam ne kadar harcadım?",
+        "Nasıl daha fazla para biriktirebilirim?",
+        "Gelir ve giderlerimi karşılaştır.",
+        "En çok harcama yaptığım kategori hangisi?"
+      ],
+      "note": "Doğal bir dille dilediğinizi sorun. Agent seçtiğiniz web sitesi dilinde yanıt verir ve veri gizliliğinizi titizlikle korur.",
+      "action": "Agent'ı Aç"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" ara…",
+      "heading": "160+ para birimi arasından arayın ve seçin:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupi (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dolar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Tüm sayfalardaki tutarlar otomatik güncellenir. Karşılaştırma grafiklerinde doğrulanmış döviz kurları kullanılır.",
+      "action": "Para Birimi Seçicisini Dene"
+    },
+    "next": "İleri",
+    "back": "Geri",
+    "skip": "Turu Atla",
+    "finish": "Başlayın",
+    "step": "Adım {current} / {total}",
+    "replay": "Tura Başla"
+  },
+  "nl": {
+    "titles": [
+      "Welkom bij FINOVA!",
+      "Uw financieel overzicht",
+      "Transactie toevoegen",
+      "Uw transactiegeschiedenis",
+      "Vergelijk uw financiën",
+      "Maak kennis met uw Persoonlijke Financiële Agent",
+      "Beheer eenvoudig uw valuta",
+      "Uw portemonneesaldo",
+      "Alles staat klaar!"
+    ],
+    "messages": [
+      "Welkom op uw persoonlijke financiële dashboard! Ontdek hoe FINOVA u helpt uw geld te beheren, begrijpen en laten groeien.",
+      "Dit is uw financieel overzicht. Bekijk hier uw totaalsaldo, inkomsten, uitgaven, transactieaantallen en recente activiteiten op één plek.",
+      "Registreer hier uw inkomsten en uitgaven. Vul bedrag, categorie, datum en toelichting in om uw administratie compleet te houden.",
+      "Bekijk hier uw transactiegeschiedenis. Zoek, filter, sorteer, bewerk of verwijder eerdere transacties wanneer u maar wilt.",
+      "Krijg inzicht in uw uitgavenpatroon met grafieken en rapporten. Vergelijk inkomsten en uitgaven en zie waar uw geld naartoe gaat.",
+      "Agent is uw slimme persoonlijke financiële assistent. Hij analyseert uw administratie om vragen te beantwoorden en gerichte tips te geven.",
+      "FINOVA ondersteunt meer dan 160 valuta's wereldwijd. Klik op de valutaknop in de bovenbalk om uw valuta te kiezen of op te zoeken.",
+      "Uw portemonnee helpt u beschikbaar geld bij te houden. Voeg geld toe; het saldo werkt automatisch bij met uw geregistreerde boekingen.",
+      "Zo werkt FINOVA! U bent nu klaar om de regie over uw financiën te nemen. Zorg dat elke transactie telt."
+    ],
+    "eyebrows": [
+      "FINOVA · UW GELD, IN BEELD",
+      "DASHBOARDOVERZICHT",
+      "FINANCIËN VASTLEGGEN",
+      "TRANSACTIELOGBOEK",
+      "FINANCIËLE ANALYSE",
+      "AI FINANCIËLE ASSISTENT",
+      "WERELDWIJDE VALUTA'S",
+      "PERSOONLIJKE PORTEMONNEE",
+      "KLAAR VOOR GEBRUIK"
+    ],
+    "agent": {
+      "badge": "Agent",
+      "status": "Actief en paraat",
+      "heading": "Probeer vragen te stellen zoals:",
+      "queries": [
+        "Waar gaat het meeste van mijn geld naartoe?",
+        "Hoeveel heb ik deze maand uitgegeven?",
+        "Hoe kan ik meer geld besparen?",
+        "Vergelijk mijn inkomsten en uitgaven.",
+        "Welke categorie heeft de hoogste uitgaven?"
+      ],
+      "note": "Typ vragen in natuurlijke taal. Agent volgt de taal van de website en respecteert strikt uw privacy.",
+      "action": "Agent openen"
+    },
+    "currency": {
+      "searchPlaceholder": "Zoek \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Zoek en kies uit 160+ wereldvaluta's:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Roepie (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dollar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Bedragen worden op alle pagina's automatisch herberekend. Betrouwbare wisselkoersen worden gebruikt voor vergelijkingen.",
+      "action": "Valutakiezer testen"
+    },
+    "next": "Volgende",
+    "back": "Terug",
+    "skip": "Rondleiding overslaan",
+    "finish": "Aan de slag",
+    "step": "Stap {current} van {total}",
+    "replay": "Rondleiding volgen"
+  },
+  "pl": {
+    "titles": [
+      "Witaj w FINOVA!",
+      "Twój przegląd finansowy",
+      "Dodaj transakcję",
+      "Historia transakcji",
+      "Porównaj swoje finanse",
+      "Poznaj swojego Osobistego Agenta Finansowego",
+      "Zarządzaj walutami z łatwością",
+      "Saldo Twojego portfela",
+      "Wszystko gotowe!"
+    ],
+    "messages": [
+      "Witaj w osobistym panelu finansowym! Zobacz, jak FINOVA pomaga zarządzać pieniędzmi, rozumieć wydatki i budować oszczędności.",
+      "Oto Twój przegląd finansowy. Sprawdzaj łączne saldo, przychody, wydatki, liczbę transakcji i ostatnią aktywność w jednym miejscu.",
+      "Rejestruj tutaj swoje przychody i wydatki. Wprowadź kwotę, kategorię, datę i szczegóły, aby zachować porządek w zapisach.",
+      "Przeglądaj pełną historię transakcji. Wyszukuj, filtruj, sortuj, edytuj lub usuwaj minione wpisy w dowolnej chwili.",
+      "Poznaj swoje nawyki dzięki wykresom i raportom. Porównuj przychody z wydatkami i śledź miesięczne trendy.",
+      "Agent to Twój inteligentny doradca finansowy. Analizuje Twoje rzeczywiste dane, odpowiada na pytania i podpowiada sprytne oszczędności.",
+      "FINOVA obsługuje ponad 160 walut z całego świata. Kliknij selektor walut na górnym pasku, aby wybrać lub wyszukać walutę.",
+      "Portfel pomaga kontrolować dostępne środki. Zasilaj portfel; saldo aktualizuje się automatycznie przy każdym wpisie.",
+      "Tak właśnie działa FINOVA! Możesz już w pełni kontrolować swoje finanse. Spraw, aby każda transakcja miała znaczenie."
+    ],
+    "eyebrows": [
+      "FINOVA · TWOJE FINANSE, W CENTRUM UWAGI",
+      "PRZEGLĄD PANELU",
+      "REJESTRACJA WYDATKÓW",
+      "DZIENNIK TRANSAKCJI",
+      "ANALIZA FINANSOWA",
+      "ASYSTENT FINANSOWY AI",
+      "GLOBALNE WSPARCIE WALUTOWE",
+      "PORTFEL OSOBISTY",
+      "GOTOWY DO STARTU"
+    ],
+    "agent": {
+      "badge": "Agent",
+      "status": "Aktywny i gotowy",
+      "heading": "Wypróbuj pytania takie jak:",
+      "queries": [
+        "Na co idzie większość moich pieniędzy?",
+        "Ile wydałem w tym miesiącu?",
+        "Jak mogę zaoszczędzić więcej pieniędzy?",
+        "Porównaj moje przychody i wydatki.",
+        "Która kategoria generuje największe koszty?"
+      ],
+      "note": "Zadawaj pytania naturalnym językiem. Agent dostosowuje się do języka strony i bezwzględnie chroni Twoje prywatne dane.",
+      "action": "Otwórz Agenta"
+    },
+    "currency": {
+      "searchPlaceholder": "Szukaj \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Wyszukuj i wybieraj spośród ponad 160 walut:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupia (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dolar (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinar (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Kwoty na wszystkich podstronach przeliczają się automatycznie. Do porównań używane są zweryfikowane kursy walut.",
+      "action": "Przetestuj wybór waluty"
+    },
+    "next": "Dalej",
+    "back": "Wstecz",
+    "skip": "Pomiń przewodnik",
+    "finish": "Rozpocznij",
+    "step": "Krok {current} z {total}",
+    "replay": "Zobacz przewodnik"
+  },
+  "sw": {
+    "titles": [
+      "Karibu kwenye FINOVA!",
+      "Muhtasari wa Fedha Zako",
+      "Ongeza Muamala",
+      "Historia ya Miamala Yako",
+      "Linganisha Fedha Zako",
+      "Kutana na Wakala Wako Binafsi wa Fedha",
+      "Simamia Sarafu Yako kwa Urahisi",
+      "Salio la Mkoba Wako",
+      "Kila Kitu Kiko Tayari!"
+    ],
+    "messages": [
+      "Karibu kwenye dashibodi yako binafsi ya fedha! Gundua jinsi FINOVA inavyokusaidia kusimamia, kuelewa, na kukuza fedha zako.",
+      "Huu ni muhtasari wako wa kifedha. Tazama salio kamili, mapato, matumizi, idadi ya miamala, na shughuli za hivi karibuni hapa.",
+      "Rekodi mapato na matumizi yako hapa. Weka kiasi, kitengo, tarehe na maelezo ili kuweka kumbukumbu zako sahihi.",
+      "Kagua historia yako ya miamala wakati wowote. Tafuta, chuja, panga, hariri au futa miamala ya zamani.",
+      "Elewa mwenendo wako wa matumizi kupitia chati na ripoti. Linganisha mapato na matumizi na ujue fedha zako zinakokwenda.",
+      "Wakala ni msaidizi wako mahiri wa kifedha. Anachanganua rekodi zako halisi ili kujibu maswali na kutoa ushauri muhimu wa kifedha.",
+      "FINOVA inasaidia sarafu zaidi ya 160 duniani kote. Bofya kichaguzi cha sarafu kwenye upau wa juu kubadili au kutafuta sarafu.",
+      "Mkoba wako unakusaidia kufuatilia fedha zilizopo. Ongeza fedha; salio litasasishwa kiotomatiki unapoweka rekodi za miamala.",
+      "Hivi ndivyo FINOVA inavyofanya kazi! Sasa uko tayari kusimamia fedha zako kikamilifu. Fanya kila muamala uwe na maana."
+    ],
+    "eyebrows": [
+      "FINOVA · FEDHA ZAKO, CHINI YA UDHIBITI",
+      "MUHTASARI WA DASHIBODI",
+      "REKODI ZA FEDHA",
+      "DAFTARI LA MIAMALA",
+      "UCHAMBUZI WA KIFEDHA",
+      "MSAIDIZI WA KIFEDHA WA AI",
+      "SARAFU ZA DUNIA NZIMA",
+      "MKOBA BINAFSI",
+      "TAYARI KUANZA"
+    ],
+    "agent": {
+      "badge": "Wakala",
+      "status": "Yuko Tayari Kukusaidia",
+      "heading": "Jaribu kuuliza maswali kama:",
+      "queries": [
+        "Pesa zangu nyingi huenda wapi?",
+        "Nimetumia kiasi gani mwezi huu?",
+        "Ninawezaje kuweka akiba ya fedha zaidi?",
+        "Linganisha mapato yangu na matumizi yangu.",
+        "Kitengo gani kinatumia fedha nyingi zaidi?"
+      ],
+      "note": "Andika kwa lugha ya kawaida. Wakala anafuata lugha ya tovuti uliyochagua na kulinda faragha ya data yako kikamilifu.",
+      "action": "Fungua Wakala"
+    },
+    "currency": {
+      "searchPlaceholder": "Tafuta \"Rupee\", \"Dollar\", \"Dinar\"…",
+      "heading": "Tafuta na uchague kati ya sarafu 160+:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "Rupia (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "Dola (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "Dinari (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "Kiasi kinabadilika kiotomatiki kwenye kurasa zote. Viwango vilivyothibitishwa hutumika kwa ulinganisho wa grafu.",
+      "action": "Jaribu Kichaguzi cha Sarafu"
+    },
+    "next": "Mbele",
+    "back": "Nyuma",
+    "skip": "Ruka Ziara",
+    "finish": "Anza Sasa",
+    "step": "Hatua {current} ya {total}",
+    "replay": "Anza Ziara"
+  },
+  "ne": {
+    "titles": [
+      "FINOVA मा स्वागत छ!",
+      "तपाईंको वित्तीय अवलोकन",
+      "कारोबार थप्नुहोस्",
+      "कारोबार इतिहास",
+      "आफ्नो वित्त तुलना गर्नुहोस्",
+      "आफ्नो व्यक्तिगत वित्त एजेन्टलाई भेट्नुहोस्",
+      "आफ्नो मुद्रा सजिलै व्यवस्थापन गर्नुहोस्",
+      "तपाईंको वालेट ब्यालेन्स",
+      "सबै तयार छ!"
+    ],
+    "messages": [
+      "तपाईंको व्यक्तिगत वित्त ड्यासबோர्डमा स्वागत छ! FINOVA ले तपाईंको पैसा व्यवस्थापन गर्न र बुझ्न कसरी मद्दत गर्छ हेर्नुहोस्।",
+      "यो तपाईंको वित्तीय अवलोकन हो। यहाँ कुल ब्यालेन्स, आम्दानी, खर्च र हालैका गतिविधिहरू एकै ठाउँमा हेर्न सक्नुहुन्छ।",
+      "आफ्नो आम्दानी र खर्च यहाँ दर्ता गर्नुहोस्। रेकर्ड अद्यावधिक राख्न रकम, वर्ग, मिति र विवरण भर्नुहोस्।",
+      "यहाँ आफ्नो कारोबार इतिहास हेर्नुहोस्। आवश्यकता अनुसार पुराना कारोबारहरू खोज्नुहोस्, क्रमबद्ध गर्नुहोस् वा सम्पादन गर्नुहोस्।",
+      "चार्ट र रिपोर्टहरूको मद्दतले आफ्नो खर्च गर्ने बानी बुझ्नुहोस्। आम्दानी र खर्चको तुलना गर्नुहोस्।",
+      "एजेन्ट तपाईंको व्यक्तिगत वित्तीय सहायक हो। यसले तपाईंको रेकर्डहरू विश्लेषण गरेर प्रश्नहरूको जवाफ र वित्तीय सुझाव दिन्छ।",
+      "FINOVA ले १६० भन्दा बढी विश्व मुद्राहरूलाई समर्थन गर्दछ। मुद्रा छान्न शीर्ष पट्टीमा रहेको मुद्रा चयनकर्तामा क्लिक गर्नुहोस्।",
+      "तपाईंको वालेटले उपलब्ध रकम ट्र्याक गर्दछ। पैसा थप्नुहोस्; कारोबार गर्दा ब्यालेन्स स्वतः अद्यावधिक हुन्छ।",
+      "यसरी FINOVA ले काम गर्छ! अब तपाईं आफ्नो वित्त नियन्त्रण गर्न पूर्ण रूपमा तयार हुनुहुन्छ।"
+    ],
+    "eyebrows": [
+      "FINOVA · तपाईंको पैसा, तपाईंको नियन्त्रणमा",
+      "ड्यासबோர्ड अवलोकन",
+      "वित्त रेकर्ड",
+      "कारोबार खाता",
+      "वित्तीय विश्लेषण",
+      "एआई वित्तीय सहायक",
+      "विश्वव्यापी मुद्रा समर्थन",
+      "व्यक्तिगत वालेट",
+      "सुरु गर्न तयार"
+    ],
+    "agent": {
+      "badge": "एजेन्ट",
+      "status": "सक्रिय र तयार",
+      "heading": "यस्ता प्रश्नहरू सोधेर हेर्नुहोस्:",
+      "queries": [
+        "मेरो धेरैजसो पैसा कहाँ जान्छ?",
+        "मैले यो महिना कति खर्च गरें?",
+        "म कसरी धेरै पैसा बचत गर्न सक्छु?",
+        "मेरो आम्दानी र खर्चको तुलना गर्नुहोस्।",
+        "कुन वर्गमा सबैभन्दा धेरै खर्च भएको छ?"
+      ],
+      "note": "सजिलो भाषामा प्रश्न सोध्नुहोस्। एजेन्टले वेबसाइटको भाषा पछ्याउँछ र डाटाको पूर्ण गोपनीयता राख्छ।",
+      "action": "एजेन्ट खोल्नुहोस्"
+    },
+    "currency": {
+      "searchPlaceholder": "\"Rupee\", \"Dollar\", \"Dinar\" खोज्नुहोस्…",
+      "heading": "१६०+ मुद्राहरूमा खोज्नुहोस् र चयन गर्नुहोस्:",
+      "examples": [
+        {
+          "query": "Rupee",
+          "label": "रुपैयाँ (INR, PKR, LKR, NPR)"
+        },
+        {
+          "query": "Dollar",
+          "label": "डलर (USD, CAD, AUD, SGD)"
+        },
+        {
+          "query": "Dinar",
+          "label": "दिनार (KWD, BHD, IQD, JOD)"
+        }
+      ],
+      "note": "सबै पृष्ठहरूमा रकमहरू स्वतः परिवर्तन हुन्छन्। तुलनाका लागि प्रमाणित विनिमय दरहरू प्रयोग गरिन्छ।",
+      "action": "मुद्रा चयनकर्ता चलाउनुहोस्"
+    },
+    "next": "अगाडि",
+    "back": "पछाडि",
+    "skip": "टूर छोड्नुहोस्",
+    "finish": "सुरु गर्नुहोस्",
+    "step": "चरण {current} / {total}",
+    "replay": "टूर हेर्नुहोस्"
+  }
+};
 
   let state;
   let overlay;
@@ -181,7 +2326,7 @@
   let activeTargets = [];
 
   function accountKey(key) {
-    const user = Finova.getCurrentUsername() || "default";
+    const user = (window.Finova && typeof Finova.getCurrentUsername === "function" ? Finova.getCurrentUsername() : null) || "default";
     return `${key}.${encodeURIComponent(user)}`;
   }
 
@@ -190,13 +2335,13 @@
       const saved = sessionStorage.getItem(STATE_KEY);
       if (!saved) return null;
       const parsed = JSON.parse(saved);
-      const username = Finova.getCurrentUsername() || "default";
+      const username = (window.Finova && typeof Finova.getCurrentUsername === "function" ? Finova.getCurrentUsername() : null) || "default";
       return parsed && (!parsed.username || parsed.username === username) &&
         Number.isInteger(parsed.step) && parsed.step >= 0 && parsed.step < STEPS.length
         ? parsed
         : null;
     } catch (error) {
-      console.error("Money Management could not restore the active product tour.", error);
+      console.error("FINOVA could not restore the active product tour.", error);
       return null;
     }
   }
@@ -205,29 +2350,37 @@
     try {
       sessionStorage.setItem(STATE_KEY, JSON.stringify(state));
     } catch (error) {
-      console.error("Money Management could not save the active product tour.", error);
-      Finova.notify("The tour cannot continue across pages because browser session storage is unavailable.", "error");
+      console.error("FINOVA could not save the active product tour.", error);
+      if (window.Finova && typeof Finova.notify === "function") {
+        Finova.notify("The tour cannot continue across pages because browser session storage is unavailable.", "error");
+      }
     }
   }
 
   function copyForLanguage() {
-    const language = Finova.getLanguage();
-    return COPY[language] || COPY[language.split("-")[0]] || null;
+    const language = (window.Finova && typeof Finova.getLanguage === "function")
+      ? Finova.getLanguage()
+      : (localStorage.getItem("finova.preferences.v1") ? JSON.parse(localStorage.getItem("finova.preferences.v1")).language : "en") || "en";
+    return COPY[language] || COPY[language.split("-")[0]] || COPY["en"];
   }
 
   function translated(step, key) {
     if (key === "replay") {
       return (window.Finova && typeof Finova.translate === "function")
         ? (Finova.translate("Take a Tour") || Finova.translate("takeTour"))
-        : "Take a Tour";
+        : (copyForLanguage()?.replay || "Take a Tour");
     }
     const localized = copyForLanguage();
     if (localized) {
-      if (key === "title") return localized.titles[state.step];
-      if (key === "message") return localized.messages[state.step];
-      if (key === "step") return localized.step
-        .replace("{current}", String(state.step + 1))
-        .replace("{total}", String(STEPS.length));
+      if (key === "title") return localized.titles[state.step] || step.title;
+      if (key === "message") return localized.messages[state.step] || step.message;
+      if (key === "eyebrow") return localized.eyebrows?.[state.step] || "FINOVA · YOUR MONEY, IN FOCUS";
+      if (key === "step") {
+        const pattern = localized.step || "Step {current} of {total}";
+        return pattern
+          .replace("{current}", String(state.step + 1))
+          .replace("{total}", String(STEPS.length));
+      }
       if (localized[key]) return localized[key];
     }
     const source = key === "title" ? step.title : key === "message" ? step.message : ({
@@ -242,9 +2395,7 @@
   }
 
   function updateReplayLabels() {
-    const replayText = (window.Finova && typeof Finova.translate === "function")
-      ? (Finova.translate("Take a Tour") || Finova.translate("takeTour"))
-      : translated(STEPS[0], "replay");
+    const replayText = translated(STEPS[0], "replay");
     document.querySelectorAll("[data-start-tour]").forEach((button) => {
       const label = button.querySelector("[data-tour-replay-label]");
       if (label) label.textContent = replayText;
@@ -337,8 +2488,7 @@
       sessionStorage.removeItem(STATE_KEY);
       if (markCompleted) localStorage.setItem(accountKey(COMPLETED_KEY), "true");
     } catch (error) {
-      console.error("Money Management could not save product tour completion.", error);
-      Finova.notify("Your tour status could not be saved in browser storage.", "error");
+      console.error("FINOVA could not save product tour completion.", error);
     }
   }
 
@@ -366,11 +2516,179 @@
     renderStep();
   }
 
+  function renderAgentPreview(container, copy) {
+    const preview = document.createElement("div");
+    preview.className = "tour-preview-card";
+
+    const header = document.createElement("div");
+    header.className = "tour-preview-header";
+
+    const badge = document.createElement("div");
+    badge.className = "tour-preview-badge";
+    const badgeIcon = document.createElement("span");
+    badgeIcon.className = "tour-preview-badge-icon";
+    badgeIcon.textContent = "✦";
+    const badgeText = document.createElement("span");
+    badgeText.textContent = copy.agent?.badge || "Agent";
+    badge.append(badgeIcon, badgeText);
+
+    const status = document.createElement("span");
+    status.className = "tour-preview-status";
+    status.textContent = copy.agent?.status || "Active & Ready";
+
+    header.append(badge, status);
+
+    const sub = document.createElement("div");
+    sub.className = "tour-preview-subheading";
+    sub.textContent = copy.agent?.heading || "Try asking questions like:";
+
+    const chips = document.createElement("div");
+    chips.className = "tour-chips";
+
+    const queries = copy.agent?.queries || [
+      "Where does most of my money go?",
+      "How much did I spend this month?",
+      "How can I save more money?",
+      "Compare my income and expenses.",
+      "Which category has the highest spending?"
+    ];
+
+    queries.forEach((q) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "tour-chip";
+      const icon = document.createElement("span");
+      icon.className = "tour-chip-icon";
+      icon.textContent = "💬";
+      const text = document.createElement("span");
+      text.textContent = q;
+      chip.append(icon, text);
+
+      chip.addEventListener("click", () => {
+        try {
+          sessionStorage.setItem("finova.agent.pending_query", q);
+        } catch {}
+        const isAgentPage = window.location.pathname.endsWith("agent.html");
+        if (isAgentPage) {
+          const input = document.getElementById("agent-user-input");
+          if (input) {
+            input.value = q;
+            input.focus();
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+        } else {
+          window.location.href = "agent.html";
+        }
+      });
+      chips.appendChild(chip);
+    });
+
+    const note = document.createElement("p");
+    note.className = "tour-preview-note";
+    const noteIcon = document.createElement("span");
+    noteIcon.className = "tour-preview-note-icon";
+    noteIcon.textContent = "🔒";
+    const noteText = document.createElement("span");
+    noteText.textContent = copy.agent?.note || "Type questions naturally. Agent follows your website language and strictly respects your local data privacy.";
+    note.append(noteIcon, noteText);
+
+    const action = document.createElement("a");
+    action.className = "tour-preview-action-btn";
+    action.href = "agent.html";
+    action.textContent = `${copy.agent?.action || "Open Agent"} →`;
+    action.addEventListener("click", (e) => {
+      if (window.location.pathname.endsWith("agent.html")) {
+        e.preventDefault();
+        const input = document.getElementById("agent-user-input");
+        if (input) input.focus();
+      }
+    });
+
+    preview.append(header, sub, chips, note, action);
+    container.appendChild(preview);
+  }
+
+  function renderCurrencyPreview(container, copy) {
+    const preview = document.createElement("div");
+    preview.className = "tour-preview-card";
+
+    const searchWrap = document.createElement("div");
+    searchWrap.className = "tour-search-preview";
+    const searchIcon = document.createElement("span");
+    searchIcon.className = "tour-search-icon";
+    searchIcon.textContent = "⌕";
+    const searchText = document.createElement("span");
+    searchText.textContent = copy.currency?.searchPlaceholder || 'Search "Rupee", "Dollar", "Dinar"…';
+    searchWrap.append(searchIcon, searchText);
+
+    const sub = document.createElement("div");
+    sub.className = "tour-preview-subheading";
+    sub.textContent = copy.currency?.heading || "Search & select from 160+ currencies:";
+
+    const badges = document.createElement("div");
+    badges.className = "tour-currency-badges";
+
+    const examples = copy.currency?.examples || [
+      { query: "Rupee", label: "Rupee (INR, PKR, LKR, NPR)" },
+      { query: "Dollar", label: "Dollar (USD, CAD, AUD, SGD)" },
+      { query: "Dinar", label: "Dinar (KWD, BHD, IQD, JOD)" }
+    ];
+
+    examples.forEach((ex) => {
+      const badge = document.createElement("button");
+      badge.type = "button";
+      badge.className = "tour-currency-badge";
+      badge.textContent = ex.label;
+
+      badge.addEventListener("click", () => {
+        const trigger = document.querySelector("[data-currency-trigger]");
+        const menu = document.querySelector(".currency-menu");
+        const searchInput = document.querySelector(".currency-search");
+        if (trigger && menu) {
+          if (menu.hidden) trigger.click();
+          if (searchInput) {
+            searchInput.value = ex.query;
+            searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+            searchInput.focus();
+          }
+        }
+      });
+      badges.appendChild(badge);
+    });
+
+    const note = document.createElement("p");
+    note.className = "tour-preview-note";
+    const noteIcon = document.createElement("span");
+    noteIcon.className = "tour-preview-note-icon";
+    noteIcon.textContent = "ℹ";
+    const noteText = document.createElement("span");
+    noteText.textContent = copy.currency?.note || "Amounts update automatically across all pages. Verified exchange rates are used for currency comparisons.";
+    note.append(noteIcon, noteText);
+
+    const action = document.createElement("button");
+    action.type = "button";
+    action.className = "tour-preview-action-btn";
+    action.textContent = `${copy.currency?.action || "Try Currency Selector"} ▾`;
+    action.addEventListener("click", () => {
+      const trigger = document.querySelector("[data-currency-trigger]");
+      const menu = document.querySelector(".currency-menu");
+      if (trigger) {
+        if (menu && menu.hidden) trigger.click();
+        trigger.scrollIntoView({ behavior: "smooth", block: "center" });
+        const searchInput = document.querySelector(".currency-search");
+        if (searchInput) searchInput.focus();
+      }
+    });
+
+    preview.append(searchWrap, sub, badges, note, action);
+    container.appendChild(preview);
+  }
+
   function renderStep() {
     if (!state) return;
     const step = STEPS[state.step];
     const targets = targetsFor(step);
-    if (step.targets && targets.length === 0) {
+    if (step.targets && step.targets.length > 0 && targets.length === 0) {
       goToStep(state.step + 1);
       return;
     }
@@ -385,7 +2703,7 @@
     orb.setAttribute("aria-hidden", "true");
     const eyebrow = document.createElement("span");
     eyebrow.className = "tour-eyebrow";
-    eyebrow.textContent = "Money Management · YOUR MONEY, IN FOCUS";
+    eyebrow.textContent = translated(step, "eyebrow");
     const heading = document.createElement("h2");
     heading.className = "tour-title";
     heading.id = "tour-title";
@@ -394,6 +2712,17 @@
     message.className = "tour-message";
     message.id = "tour-message";
     message.textContent = translated(step, "message");
+
+    const copy = copyForLanguage();
+
+    card.append(orb, eyebrow, heading, message);
+
+    if (step.type === "agent") {
+      renderAgentPreview(card, copy);
+    } else if (step.type === "currency") {
+      renderCurrencyPreview(card, copy);
+    }
+
     const footer = document.createElement("div");
     footer.className = "tour-footer";
     const progress = document.createElement("span");
@@ -424,7 +2753,7 @@
     next.addEventListener("click", () => goToStep(state.step + 1));
     actions.append(skip, next);
     footer.append(progress, actions);
-    card.append(orb, eyebrow, heading, message, footer);
+    card.appendChild(footer);
     next.focus({ preventScroll: true });
 
     if (targets.length) {
@@ -441,7 +2770,7 @@
 
   function startTour() {
     if (overlay) return;
-    const username = Finova.getCurrentUsername() || "default";
+    const username = (window.Finova && typeof Finova.getCurrentUsername === "function" ? Finova.getCurrentUsername() : null) || "default";
     state = { username, step: 0 };
     saveState();
     goToStep(0);
@@ -460,13 +2789,13 @@
   function initialize() {
     bindTourTriggers();
     window.addEventListener("finova:language-changed", handleLanguageChange);
-    const username = Finova.getCurrentUsername() || "default";
+    const username = (window.Finova && typeof Finova.getCurrentUsername === "function" ? Finova.getCurrentUsername() : null) || "default";
     state = readState();
     if (!state) {
       try {
         if (localStorage.getItem(accountKey(COMPLETED_KEY)) === "true") return;
       } catch (error) {
-        console.error("Money Management could not check product tour completion.", error);
+        console.error("FINOVA could not check product tour completion.", error);
       }
       state = { username, step: 0 };
       saveState();
@@ -482,8 +2811,12 @@
   document.addEventListener("DOMContentLoaded", async () => {
     bindTourTriggers();
     try {
-      if (await Finova.ready) initialize();
-      else bindTourTriggers();
+      if (window.Finova && Finova.ready) {
+        if (await Finova.ready) initialize();
+        else bindTourTriggers();
+      } else {
+        initialize();
+      }
     } catch {
       bindTourTriggers();
     }

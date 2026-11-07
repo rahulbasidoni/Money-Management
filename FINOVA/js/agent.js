@@ -1271,6 +1271,15 @@
 
   function updateLocalizedUI() {
     updateAgentUiLanguage();
+    try {
+      const pending = sessionStorage.getItem("finova.agent.pending_query");
+      if (pending && userInput) {
+        userInput.value = pending;
+        userInput.focus();
+        userInput.dispatchEvent(new Event("input", { bubbles: true }));
+        sessionStorage.removeItem("finova.agent.pending_query");
+      }
+    } catch {}
     const trans = Finova.getTransactions ? Finova.getTransactions() : [];
     if (recordsCountEl) {
       recordsCountEl.textContent = t("connected_badge", { count: trans.length });
@@ -1369,5 +1378,14 @@
     loadHistory();
     initEvents();
     updateAgentUiLanguage();
+    try {
+      const pending = sessionStorage.getItem("finova.agent.pending_query");
+      if (pending && userInput) {
+        userInput.value = pending;
+        userInput.focus();
+        userInput.dispatchEvent(new Event("input", { bubbles: true }));
+        sessionStorage.removeItem("finova.agent.pending_query");
+      }
+    } catch {}
   });
 })();
