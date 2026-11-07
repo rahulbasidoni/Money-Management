@@ -20,7 +20,7 @@
 
   function getFilteredTransactions() {
     const query = search.value.trim().toLocaleLowerCase();
-    const filtered = Finova.getTransactions().filter((transaction) => {
+    return Finova.getTransactions().filter((transaction) => {
       const searchable = [transaction.title, transaction.place, transaction.description, transaction.category, transaction.paymentMethod].join(" ").toLocaleLowerCase();
       return (!query || searchable.includes(query))
         && (typeFilter.value === "all" || transaction.type === typeFilter.value)
@@ -28,21 +28,43 @@
         && (!fromFilter.value || transaction.date >= fromFilter.value)
         && (!toFilter.value || transaction.date <= toFilter.value);
     });
+  }
+
+  async function render() {
+    populateCategories();
+    const all = Finova.getTransactions();
+    const filtered = getFilteredTransactions();
+    const preferred = Finova.getPreferredCurrency();
+
+    // Cache exchange rates for displayed currencies
+    const currencies = [...new Set(filtered.map((t) => t.currency).filter(Boolean))];
+    const rates = new Map();
+    await Promise.all(currencies.map(async (c) => {
+      try {
+        const r = await Finova.getExchangeRate(c, preferred);
+        rates.set(c, Number(r?.rate) || 1);
+      } catch (err) {
+        rates.set(c, 1);
+      }
+    }));
+
     const sort = sortFilter.value;
     filtered.sort((a, b) => {
       if (sort === "newest") return b.date.localeCompare(a.date);
       if (sort === "oldest") return a.date.localeCompare(b.date);
-      if (sort === "amount-high") return a.currency.localeCompare(b.currency) || Number(b.amount) - Number(a.amount);
-      if (sort === "amount-low") return a.currency.localeCompare(b.currency) || Number(a.amount) - Number(b.amount);
+      if (sort === "amount-high") {
+        const aVal = (Number(a.amount) || 0) * (rates.get(a.currency) || 1);
+        const bVal = (Number(b.amount) || 0) * (rates.get(b.currency) || 1);
+        return bVal - aVal;
+      }
+      if (sort === "amount-low") {
+        const aVal = (Number(a.amount) || 0) * (rates.get(a.currency) || 1);
+        const bVal = (Number(b.amount) || 0) * (rates.get(b.currency) || 1);
+        return aVal - bVal;
+      }
       return 0;
     });
-    return filtered;
-  }
 
-  function render() {
-    populateCategories();
-    const all = Finova.getTransactions();
-    const filtered = getFilteredTransactions();
     function animateBadge(el, target) {
       if (!el) return;
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -64,16 +86,24 @@
     animateBadge(document.getElementById("income-count"), all.filter((item) => item.type === "income").length);
     animateBadge(document.getElementById("expense-count"), all.filter((item) => item.type === "expense").length);
     document.getElementById("result-count").textContent = `(${filtered.length})`;
+
     tableBody.innerHTML = filtered.map((transaction) => {
       const income = transaction.type === "income";
       const details = [transaction.place, transaction.description].filter(Boolean).join(" · ");
       const editURL = `add.html?id=${encodeURIComponent(transaction.id)}`;
+      const isDiff = transaction.currency && transaction.currency !== preferred;
+      let convertedHint = "";
+      if (isDiff) {
+        const rate = rates.get(transaction.currency) || 1;
+        const convVal = (Number(transaction.amount) || 0) * rate;
+        convertedHint = `<small class="amount-converted" title="Estimated in ${preferred}">≈ ${Finova.formatCurrency(convVal, preferred)}</small>`;
+      }
       return `<tr>
         <td><div class="table-transaction"><span class="transaction-symbol${income ? " income" : ""}">${income ? "↙" : "↗"}</span><span><strong>${Finova.escapeHTML(transaction.title)}</strong><small title="${Finova.escapeHTML(details)}">${Finova.escapeHTML(details || transaction.type)}</small></span></div></td>
         <td>${Finova.escapeHTML(transaction.category || "Other")}</td>
         <td>${Finova.dateFromISO(transaction.date, { month: "short", day: "numeric", year: "numeric" })}</td>
         <td>${Finova.escapeHTML(transaction.paymentMethod || "—")}</td>
-        <td class="table-amount ${income ? "income" : "expense"}">${income ? "+" : "−"}${Finova.formatCurrency(transaction.amount, transaction.currency)}</td>
+        <td class="table-amount ${income ? "income" : "expense"}">${income ? "+" : "−"}${Finova.formatCurrency(transaction.amount, transaction.currency)}${convertedHint}</td>
         <td><div class="table-actions"><a class="table-action" href="${editURL}" aria-label="Edit ${Finova.escapeHTML(transaction.title)}" title="Edit">✎</a><button type="button" class="table-action delete" data-delete="${Finova.escapeHTML(transaction.id)}" aria-label="Delete ${Finova.escapeHTML(transaction.title)}" title="Delete">×</button></div></td>
       </tr>`;
     }).join("");

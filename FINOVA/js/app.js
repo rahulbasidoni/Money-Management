@@ -497,16 +497,35 @@
     for (const transaction of transactions) {
       const previous = previousById.get(transaction.id);
       if (!previous) {
-        const { error } = await supabase.from("transactions").insert(transactionToRow(transaction));
+        let row = transactionToRow(transaction);
+        let { error } = await supabase.from("transactions").insert(row);
+        if (error && (error.code === "42703" || String(error.message || "").toLowerCase().includes("place"))) {
+          console.warn("Money Management: 'place' column is missing in Supabase transactions table. Inserting without place column. Run supabase/setup.sql to add it.");
+          const { place, ...rowWithoutPlace } = row;
+          const retry = await supabase.from("transactions").insert(rowWithoutPlace);
+          error = retry.error;
+        }
         if (error) throw error;
       } else if (JSON.stringify(previous) !== JSON.stringify(transaction)) {
-        const { data, error } = await supabase.from("transactions")
-          .update(transactionToRow(transaction))
+        let row = transactionToRow(transaction);
+        let { data, error } = await supabase.from("transactions")
+          .update(row)
           .eq("user_id", currentUser.id)
           .eq("id", transaction.id)
           .select("id");
+        if (error && (error.code === "42703" || String(error.message || "").toLowerCase().includes("place"))) {
+          console.warn("Money Management: 'place' column is missing in Supabase transactions table. Updating without place column. Run supabase/setup.sql to add it.");
+          const { place, ...rowWithoutPlace } = row;
+          const retry = await supabase.from("transactions")
+            .update(rowWithoutPlace)
+            .eq("user_id", currentUser.id)
+            .eq("id", transaction.id)
+            .select("id");
+          data = retry.data;
+          error = retry.error;
+        }
         if (error) throw error;
-        if (data.length !== 1) throw new Error("A transaction could not be found in your account.");
+        if (!data || data.length !== 1) throw new Error("A transaction could not be found in your account.");
       }
     }
     if (removedIds.length) {
@@ -524,22 +543,14 @@
     const previousTransactions = getTransactions();
     createAutomaticBackup();
     const cleanTransactions = transactions.map(({ accountId, ...transaction }) => transaction);
-    if (!writeJSON(scopedKey(TRANSACTIONS_KEY), cleanTransactions)) return false;
     try {
       await persistTransactions(cleanTransactions, previousTransactions);
-      window.dispatchEvent(new CustomEvent("finova:data-changed"));
+      writeJSON(scopedKey(TRANSACTIONS_KEY), cleanTransactions);
+      window.dispatchEvent(typeof CustomEvent !== "undefined" ? new CustomEvent("finova:data-changed") : (window.CustomEvent ? new window.CustomEvent("finova:data-changed") : { type: "finova:data-changed" }));
       return true;
     } catch (error) {
-      let rollbackFailed = false;
-      try {
-        await persistTransactions(previousTransactions, cleanTransactions);
-      } catch (rollbackError) {
-        rollbackFailed = true;
-        console.error("Money Management could not roll back a failed Supabase transaction save.", rollbackError);
-      }
-      writeJSON(scopedKey(TRANSACTIONS_KEY), previousTransactions);
       console.error("Money Management could not save transactions to Supabase.", error);
-      notify(`${error.message || "Transactions could not be saved to your account."}${rollbackFailed ? " The rollback also failed; check your account data before retrying." : ""}`, "error");
+      notify(error.message || "Transactions could not be saved to your account.", "error");
       return false;
     }
   }
@@ -563,8 +574,18 @@
 
   async function loadCloudData() {
     if (!currentUser) throw new Error("A signed-in Supabase user is required to load finance data.");
-    const [transactionsResult, walletsResult, topUpsResult] = await Promise.all([
-      supabase.from("transactions").select("id,user_id,type,title,amount,currency,category,transaction_date,payment_method,description,place").eq("user_id", currentUser.id).order("transaction_date", { ascending: false }),
+    let transactionsResult;
+    try {
+      transactionsResult = await supabase.from("transactions").select("id,user_id,type,title,amount,currency,category,transaction_date,payment_method,description,place").eq("user_id", currentUser.id).order("transaction_date", { ascending: false });
+      if (transactionsResult.error && (transactionsResult.error.code === "42703" || String(transactionsResult.error.message || "").toLowerCase().includes("place"))) {
+        console.warn("Money Management: 'place' column is missing in Supabase transactions table. Retrying query without place. Run supabase/setup.sql.");
+        transactionsResult = await supabase.from("transactions").select("id,user_id,type,title,amount,currency,category,transaction_date,payment_method,description").eq("user_id", currentUser.id).order("transaction_date", { ascending: false });
+      }
+    } catch (err) {
+      console.warn("Money Management could not query transactions from Supabase.", err);
+      throw err;
+    }
+    const [walletsResult, topUpsResult] = await Promise.all([
       supabase.from("wallets").select("id,currency,starting_balance").eq("user_id", currentUser.id),
       supabase.from("wallet_topups").select("id,amount,currency,note,created_at").eq("user_id", currentUser.id).order("created_at", { ascending: true })
     ]);

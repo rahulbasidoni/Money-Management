@@ -68,6 +68,21 @@
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
+    const saveButton = document.getElementById("save-button");
+    if (saveButton && saveButton.disabled) return;
+    const originalButtonHtml = saveButton ? saveButton.innerHTML : "";
+    if (saveButton) {
+      saveButton.disabled = true;
+      saveButton.innerHTML = "<span>⏳</span> Saving…";
+    }
+
+    const restoreButton = () => {
+      if (saveButton) {
+        saveButton.disabled = false;
+        saveButton.innerHTML = originalButtonHtml;
+      }
+    };
+
     const amount = Number(amountInput.value);
     const rawCurrency = currencyInput.value.trim();
     const matchedCurrency = Finova.currencies.find((c) =>
@@ -80,14 +95,17 @@
       amountInput.setCustomValidity("Enter an amount greater than zero.");
       amountInput.reportValidity();
       amountInput.setCustomValidity("");
+      restoreButton();
       return;
     }
     if (!Finova.currencies.some((item) => item.code === currency)) {
       currencyInput.setCustomValidity("Choose a supported currency from the suggestions.");
       currencyInput.reportValidity();
       currencyInput.setCustomValidity("");
+      restoreButton();
       return;
     }
+    const placeVal = document.getElementById("place").value.trim();
     const transaction = {
       id: editingTransaction ? editingTransaction.id : (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`),
       type: typeInput.value,
@@ -95,22 +113,33 @@
       amount,
       currency,
       category: categorySelect.value,
-      place: document.getElementById("place").value.trim(),
+      place: placeVal,
       date: document.getElementById("date").value,
       paymentMethod: document.getElementById("payment-method").value,
       description: document.getElementById("description").value.trim()
     };
     if (transaction.type === "expense" && !Finova.canSpend(amount, currency, editingTransaction?.id)) {
       Finova.notify(`This expense is more than your available ${currency} wallet balance. Add money or reduce the amount.`, "error");
+      restoreButton();
       return;
     }
-    const transactions = Finova.getTransactions();
-    const updated = editingTransaction
-      ? transactions.map((item) => item.id === editingTransaction.id ? transaction : item)
-      : [transaction, ...transactions];
-    if (!await Finova.saveTransactions(updated)) return;
-    Finova.notify(editingTransaction ? "Transaction changes saved." : "Transaction saved.");
-    showSuccess();
+    try {
+      const transactions = Finova.getTransactions();
+      const updated = editingTransaction
+        ? transactions.map((item) => item.id === editingTransaction.id ? transaction : item)
+        : [transaction, ...transactions];
+      const saved = await Finova.saveTransactions(updated);
+      if (!saved) {
+        restoreButton();
+        return;
+      }
+      Finova.notify(editingTransaction ? "Transaction changes saved." : "Transaction saved.");
+      showSuccess();
+    } catch (err) {
+      console.error("Money Management error saving transaction:", err);
+      Finova.notify(err.message || "Failed to save transaction.", "error");
+      restoreButton();
+    }
   });
 
   document.addEventListener("DOMContentLoaded", async () => {

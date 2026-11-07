@@ -803,10 +803,10 @@
     } else {
       changeNode.textContent = "—";
       changeNode.className = "";
-      caption.textContent = comparable ? "No previous-month baseline" : "Currencies shown separately";
+      caption.textContent = comparable ? "No previous month data available to compare against" : "Currencies shown separately";
       document.getElementById("month-progress").style.width = "0";
       detail.textContent = comparable
-        ? `${Finova.formatCurrency(currentTotal, preferred)} · No previous-month expenses`
+        ? `${Finova.formatCurrency(currentTotal, preferred)} · No previous-month records to compare against`
         : `${monthLabel(selectedMonth)}: ${Finova.groupedText(currentSum, false)} · ${monthLabel(previousMonth)}: ${Finova.groupedText(previousSum, false)}`;
     }
 

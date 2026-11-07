@@ -1836,3 +1836,15 @@ body.light-theme .agent-chip:hover {
   background: rgba(124, 101, 246, 0.18);
   color: #4338ca;
 }
+
+/* Converted amount secondary caption in ledger */
+.amount-converted {
+  display: block;
+  font-size: 0.72rem;
+  color: #8492aa;
+  font-weight: 500;
+  margin-top: 2px;
+}
+body.light-theme .amount-converted {
+  color: #64748b;
+}

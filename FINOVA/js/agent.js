@@ -6,6 +6,7 @@
 (function () {
   "use strict";
 
+  const Finova = window.Finova || {};
   const STORAGE_KEY_PREFIX = "finova.agent.history.v1.";
   const messagesContainer = document.getElementById("agent-messages");
   const chatForm = document.getElementById("agent-chat-form");
@@ -89,15 +90,15 @@
   }
 
   function t(key, vars = {}) {
-    if (window.FinovaAgentI18n && typeof FinovaAgentI18n.t === "function") {
-      return FinovaAgentI18n.t(key, vars, getCurrentLang());
+    if (window.FinovaAgentI18n && typeof window.FinovaAgentI18n.t === "function") {
+      return window.FinovaAgentI18n.t(key, vars, getCurrentLang());
     }
     return key;
   }
 
   function getPrompt(promptKey, vars = {}) {
-    if (window.FinovaAgentI18n && typeof FinovaAgentI18n.getPrompt === "function") {
-      return FinovaAgentI18n.getPrompt(promptKey, vars, getCurrentLang());
+    if (window.FinovaAgentI18n && typeof window.FinovaAgentI18n.getPrompt === "function") {
+      return window.FinovaAgentI18n.getPrompt(promptKey, vars, getCurrentLang());
     }
     return promptKey;
   }
@@ -163,7 +164,7 @@
   }
 
   // --- Financial Calculation Helpers (CALLED STRICTLY ON FINANCIAL INTENTS ONLY) ---
-  function getFinancialSummary() {
+  async function getFinancialSummary() {
     const transactions = Finova.getTransactions ? Finova.getTransactions() : [];
     const preferredCurrency = Finova.getPreferredCurrency ? Finova.getPreferredCurrency() : "INR";
     const now = new Date();
@@ -180,34 +181,63 @@
     const prevMonthExpenses = expensesAll.filter((t) => t.date && t.date.slice(0, 7) === prevMonthKey);
     const prevMonthIncome = incomeAll.filter((t) => t.date && t.date.slice(0, 7) === prevMonthKey);
 
-    const sum = (arr) => arr.reduce((acc, t) => acc + (Number(t.amount) || 0), 0);
+    // Convert transactions into preferred display currency
+    const [
+      allIncomeConv,
+      allExpensesConv,
+      curMonthIncomeConv,
+      curMonthExpensesConv,
+      prevMonthIncomeConv,
+      prevMonthExpensesConv
+    ] = await Promise.all([
+      Finova.convertTransactions ? Finova.convertTransactions(incomeAll, preferredCurrency) : { value: 0 },
+      Finova.convertTransactions ? Finova.convertTransactions(expensesAll, preferredCurrency) : { value: 0 },
+      Finova.convertTransactions ? Finova.convertTransactions(currentMonthIncome, preferredCurrency) : { value: 0 },
+      Finova.convertTransactions ? Finova.convertTransactions(currentMonthExpenses, preferredCurrency) : { value: 0 },
+      Finova.convertTransactions ? Finova.convertTransactions(prevMonthIncome, preferredCurrency) : { value: 0 },
+      Finova.convertTransactions ? Finova.convertTransactions(prevMonthExpenses, preferredCurrency) : { value: 0 }
+    ]);
 
-    const categoryTotals = {};
+    const totalIncomeAmount = Number(allIncomeConv?.value) || 0;
+    const totalExpenseAmount = Number(allExpensesConv?.value) || 0;
+    const curMonthIncomeTotal = Number(curMonthIncomeConv?.value) || 0;
+    const curMonthExpenseTotal = Number(curMonthExpensesConv?.value) || 0;
+    const prevMonthIncomeTotal = Number(prevMonthIncomeConv?.value) || 0;
+    const prevMonthExpenseTotal = Number(prevMonthExpensesConv?.value) || 0;
+
+    // Converted categories
     const relevantExpenses = currentMonthExpenses.length > 0 ? currentMonthExpenses : expensesAll;
-    relevantExpenses.forEach((t) => {
-      const cat = t.category || "Other";
-      categoryTotals[cat] = (categoryTotals[cat] || 0) + (Number(t.amount) || 0);
-    });
-
+    const categoryTotals = {};
+    for (const cat of [...new Set(relevantExpenses.map((t) => t.category || "Other"))]) {
+      const catItems = relevantExpenses.filter((t) => (t.category || "Other") === cat);
+      const conv = Finova.convertTransactions ? await Finova.convertTransactions(catItems, preferredCurrency) : { value: 0 };
+      categoryTotals[cat] = Number(conv?.value) || 0;
+    }
     const sortedCategories = Object.entries(categoryTotals)
       .map(([category, amount]) => ({ category, amount }))
       .sort((a, b) => b.amount - a.amount);
-
-    const totalExpenseAmount = sum(relevantExpenses);
     const topCategory = sortedCategories[0] || null;
 
-    const incomeTotals = {};
     const relevantIncome = currentMonthIncome.length > 0 ? currentMonthIncome : incomeAll;
-    relevantIncome.forEach((t) => {
-      const cat = t.category || "Other";
-      incomeTotals[cat] = (incomeTotals[cat] || 0) + (Number(t.amount) || 0);
-    });
+    const incomeTotals = {};
+    for (const cat of [...new Set(relevantIncome.map((t) => t.category || "Other"))]) {
+      const catItems = relevantIncome.filter((t) => (t.category || "Other") === cat);
+      const conv = Finova.convertTransactions ? await Finova.convertTransactions(catItems, preferredCurrency) : { value: 0 };
+      incomeTotals[cat] = Number(conv?.value) || 0;
+    }
     const sortedIncomeCategories = Object.entries(incomeTotals)
       .map(([category, amount]) => ({ category, amount }))
       .sort((a, b) => b.amount - a.amount);
 
-    const totalIncomeAmount = sum(relevantIncome);
     const walletBalances = Finova.getWalletBalances ? Finova.getWalletBalances(transactions) : {};
+    const walletRows = Object.entries(walletBalances).map(([currency, amount]) => ({ currency, amount }));
+    const walletConv = Finova.convertTransactions ? await Finova.convertTransactions(walletRows, preferredCurrency, (row) => row.amount) : { value: 0 };
+    const totalWalletBalance = Number(walletConv?.value) || 0;
+
+    const daysElapsed = Math.max(now.getDate(), 1);
+    const averageDailySpending = curMonthExpenseTotal / daysElapsed;
+    const netCashFlow = curMonthIncomeTotal - curMonthExpenseTotal;
+    const totalNetCashFlow = totalIncomeAmount - totalExpenseAmount;
 
     return {
       transactions,
@@ -221,16 +251,21 @@
       currentMonthIncome,
       prevMonthExpenses,
       prevMonthIncome,
-      curMonthExpenseTotal: sum(currentMonthExpenses),
-      curMonthIncomeTotal: sum(currentMonthIncome),
-      prevMonthExpenseTotal: sum(prevMonthExpenses),
-      prevMonthIncomeTotal: sum(prevMonthIncome),
+      curMonthExpenseTotal,
+      curMonthIncomeTotal,
+      prevMonthExpenseTotal,
+      prevMonthIncomeTotal,
       totalExpenseAmount,
       totalIncomeAmount,
       sortedCategories,
       topCategory,
       sortedIncomeCategories,
       walletBalances,
+      totalWalletBalance,
+      averageDailySpending,
+      netCashFlow,
+      totalNetCashFlow,
+      daysElapsed,
       isCurrentMonthSample: currentMonthExpenses.length > 0
     };
   }
@@ -482,7 +517,7 @@
     // ========================================================
     // D. FINANCIAL QUESTIONS & CONTEXTUAL FOLLOW-UPS (FETCH DATA)
     // ========================================================
-    const data = getFinancialSummary();
+    const data = await getFinancialSummary();
     const cur = data.preferredCurrency;
     const fmt = (amt, c = cur) => Finova.formatCurrency(amt, c);
 
@@ -852,6 +887,11 @@
       /analyze\s*my\s*income/i.test(clean) ||
       /analyse\s*my\s*income/i.test(clean) ||
       /income\s*breakdown/i.test(clean) ||
+      /total\s*income/i.test(clean) ||
+      /what\s*(?:is|was)\s*my\s*(?:total\s*)?income/i.test(clean) ||
+      /how\s*much\s*(?:is\s*my\s*)?income/i.test(clean) ||
+      clean === "income" ||
+      clean === "total income" ||
       /आय\s*का\s*विश्लेषण|ಆದಾಯವನ್ನು\s*ವಿಶ್ಲೇಷಿಸಿ|ఆదాయాన్ని\s*విశ్లేషించండి|வருமான\s*பகுப்பாய்வு/i.test(clean)
     ) {
       if (data.totalIncomeAmount === 0) {
@@ -957,6 +997,33 @@
       };
     }
 
+    // 10b. Average daily spending
+    if (
+      /average\s*daily\s*spending/i.test(clean) ||
+      /daily\s*(?:average|spending)/i.test(clean) ||
+      /spend\s*per\s*day/i.test(clean) ||
+      /दैनिक\s*औसत|ದೈನಂದಿನ\s*ಸರಾಸರಿ|రోజువారీ\s*సగటు|தினசரி\s*சராசரி/i.test(clean)
+    ) {
+      const daily = data.averageDailySpending;
+      return {
+        text: `Your average daily spending this month is **${fmt(daily)}** (calculated over ${data.daysElapsed} days elapsed).`,
+        followUps: [getPrompt("spend_month"), getPrompt("where_money"), getPrompt("save_more")]
+      };
+    }
+
+    // 10c. Total Expenses / Overall Spending
+    if (
+      /total\s*(?:expenses?|spending|costs?)/i.test(clean) ||
+      /what\s*(?:are|is)\s*my\s*total\s*(?:expenses?|spending)/i.test(clean) ||
+      /how\s*much\s*(?:did\s*i\s*spend|are\s*my\s*expenses?)\s*in\s*total/i.test(clean) ||
+      /कुल\s*खर्च|ಒಟ್ಟು\s*ಖರ್ಚು|మొత్తం\s*ఖర్చు|மொத்த\s*செலவு/i.test(clean)
+    ) {
+      return {
+        text: `Your total recorded expenses across all transactions are **${fmt(data.totalExpenseAmount)}**.`,
+        followUps: [getPrompt("spend_month"), getPrompt("where_money"), getPrompt("analyze_income")]
+      };
+    }
+
     // 11. Wallet balance query
     if (clean.includes("balance") || clean.includes("wallet") || clean.includes("वॉलेट") || clean.includes("ವಾಲೆಟ್") || clean.includes("వాలెట్") || clean.includes("வாலட்")) {
       const entries = Object.entries(data.walletBalances);
@@ -967,6 +1034,9 @@
         };
       }
       let bMsg = t("wallet_title");
+      if (entries.length > 1 || entries[0]?.[0] !== cur) {
+        bMsg += `• **Total in ${cur}**: ${fmt(data.totalWalletBalance, cur)}\n`;
+      }
       entries.forEach(([c, amt]) => {
         bMsg += `• **${c}**: ${fmt(amt, c)}\n`;
       });
