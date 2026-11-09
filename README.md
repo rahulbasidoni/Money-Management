@@ -69,3 +69,11 @@ Developed by Rahul Basidoni
 Information Science and Engineering
 
 Money Management – Making Personal Finance Management Simpler.
+
+## Collaboration Log
+
+- **Contributor Name:** Rahul Basidoni
+- **GitHub Username:** @rahulbasidoni
+- **What I Built:** Created a JavaScript greet() function and added it to my GitHub repository.
+- **One Thing I Learned:** Learned how to create separate Git commits, push changes to GitHub, and track project history using GitLens.
+- **Work Type:** Completed individually.
